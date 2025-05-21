@@ -8,12 +8,47 @@ import {
   Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigation";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+const blogList = [
+  {
+    title: "Giảm kỳ thị HIV: Hành động nhỏ, ý nghĩa lớn",
+    image:
+      "https://hcdc.vn/public/img/02bf8460bf0d6384849ca010eda38cf8e9dbc4c7/images/mod1/images/tung-buoc-xoa-bo-ky-thi-va-phan-biet-doi-xu-voi-nguoi-nhiem-hiv/images/2012131836.jpg",
+    content:
+      "Kỳ thị HIV là một trong những rào cản lớn nhất đối với việc hỗ trợ và chăm sóc người nhiễm HIV. Bằng những hành động nhỏ như giáo dục cộng đồng, tăng cường hiểu biết và sự cảm thông, chúng ta có thể góp phần tạo nên một xã hội không còn kỳ thị.",
+    date: "20/12/2023",
+    source: "HCDC.vn",
+  },
+  {
+    title: "Hướng dẫn uống ARV đúng giờ",
+    image:
+      "https://suckhoedoisong.qltns.mediacdn.vn/zoom/600_315/324455921873985536/2024/8/12/arv-adherence-100-1024x576-17234498535892078867619-0-82-576-1004-crop-17234498630631528299570.jpeg",
+    content:
+      "Uống thuốc ARV đúng giờ giúp tăng hiệu quả điều trị và giảm nguy cơ kháng thuốc. Hướng dẫn chi tiết cách quản lý thời gian uống thuốc và xử lý khi quên liều sẽ giúp bệnh nhân duy trì sức khỏe tốt hơn.",
+    date: "15/01/2024",
+    source: "VNCDC.gov.vn",
+  },
+  {
+    title: "Các câu hỏi thường gặp về HIV",
+    image:
+      "https://cdn.nhathuoclongchau.com.vn/unsafe/https://cms-prod.s3-sgn09.fptcloud.com/giai_dap_nhung_cau_hoi_thuong_gap_ve_hiv_1_aa83eb996f.png",
+    content:
+      "Tổng hợp các câu hỏi thường gặp về HIV giúp người bệnh và cộng đồng có thêm kiến thức chính xác về căn bệnh này, từ đường lây truyền, triệu chứng đến phương pháp phòng tránh và điều trị hiệu quả.",
+    date: "10/11/2023",
+    source: "Nhà Thuốc Long Châu",
+  },
+];
 
 export default function Home() {
-  const { setUser } = useAuth();
-  const navigation = useNavigation();
+  type HomeScreenNavProp = NativeStackNavigationProp<
+    RootStackParamList,
+    "Home"
+  >;
+
+  const navigation = useNavigation<HomeScreenNavProp>();
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f6fafd" }}>
@@ -68,30 +103,28 @@ export default function Home() {
             color="#00B894"
             label="Đặt lịch khám"
             desc="Đăng ký khám, chọn bác sĩ điều trị"
-            onPress={() => navigation.navigate("BookAppointment" as never)}
+            onPress={() => navigation.navigate("BookAppointment")}
           />
           <HomeQuickButton
             icon="flask"
             color="#0984E3"
             label="Kết quả xét nghiệm"
             desc="Tra cứu chỉ số, lịch sử khám"
-            onPress={() => {}}
+            onPress={() => navigation.navigate("MedicalHistory")}
           />
           <HomeQuickButton
             icon="chatbubbles"
             color="#E17055"
             label="Tư vấn bác sĩ"
             desc="Đặt hẹn tư vấn (có thể ẩn danh)"
-            onPress={() => {}}
+            onPress={() => navigation.navigate("BookSupport")}
           />
           <HomeQuickButton
             icon="person"
             color="#636E72"
             label="Hồ sơ cá nhân"
             desc="Thông tin, lịch sử điều trị"
-            onPress={() => {
-              setUser(null);
-            }}
+            onPress={() => navigation.navigate("UserProfile")}
           />
         </View>
         {/* Lịch nhắc tái khám */}
@@ -132,19 +165,19 @@ export default function Home() {
             icon="information-circle-outline"
             title="Tổng quan về HIV/AIDS"
             desc="Tìm hiểu về căn bệnh, đường lây, dấu hiệu, phòng tránh và điều trị."
-            link="https://hcdc.vn/category/29-hiv-aids"
+            link="https://vaac.gov.vn/hiv-aids-nhung-dieu-can-biet.html"
           />
           <EducationMaterialCard
             icon="medkit-outline"
             title="Hướng dẫn uống thuốc ARV đúng cách"
             desc="Các lưu ý khi sử dụng ARV, cách phòng ngừa quên liều và tác dụng phụ."
-            link="https://vncdc.gov.vn/huong-dan-arv"
+            link="https://hongngochospital.vn/vi/can-chu-y-gi-khi-dieu-tri-bang-thuoc-khang-hiv#:~:text=C%C3%A1c%20thu%E1%BB%91c%20u%E1%BB%91ng%202%20l%E1%BA%A7n,c%C3%A1ch%20nhau%208%20gi%E1%BB%9D%2Fl%E1%BA%A7n.&text=N%E1%BA%BFu%20kh%C3%B4ng%20tu%C3%A2n%20th%E1%BB%A7%20(ngh%C4%A9a,xu%E1%BA%A5t%20hi%E1%BB%87n%20s%E1%BB%B1%20kh%C3%A1ng%20thu%E1%BB%91c."
           />
           <EducationMaterialCard
             icon="happy-outline"
             title="Hỗ trợ tâm lý cho bệnh nhân HIV"
             desc="Kinh nghiệm sống tích cực, vượt qua kỳ thị và lời khuyên từ chuyên gia."
-            link="https://hiv.com.vn/ho-tro-tam-ly"
+            link="https://bvquan5.medinet.gov.vn/chuyen-muc/cai-thien-suc-khoe-tam-than-cho-nguoi-nhiem-hiv-cmobile16896-130303.aspx"
           />
         </View>
         <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10 }}>
@@ -155,18 +188,14 @@ export default function Home() {
           showsHorizontalScrollIndicator={false}
           nestedScrollEnabled={true}
         >
-          <HomeBlogCard
-            title="Giảm kỳ thị HIV: Hành động nhỏ, ý nghĩa lớn"
-            image="https://hcdc.vn/public/img/02bf8460bf0d6384849ca010eda38cf8e9dbc4c7/images/mod1/images/tung-buoc-xoa-bo-ky-thi-va-phan-biet-doi-xu-voi-nguoi-nhiem-hiv/images/2012131836.jpg"
-          />
-          <HomeBlogCard
-            title="Hướng dẫn uống ARV đúng giờ"
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRED4bVlRRRbUCdI4lhdQLgCB7nBHSQATJYSw&s"
-          />
-          <HomeBlogCard
-            title="Các câu hỏi thường gặp về HIV"
-            image="https://cdn.nhathuoclongchau.com.vn/unsafe/https://cms-prod.s3-sgn09.fptcloud.com/giai_dap_nhung_cau_hoi_thuong_gap_ve_hiv_1_aa83eb996f.png"
-          />
+          {blogList.map((blog, index) => (
+            <HomeBlogCard
+              key={index}
+              title={blog.title}
+              image={blog.image}
+              onPress={() => navigation.navigate("BlogDetail", { blog })}
+            />
+          ))}
         </ScrollView>
       </ScrollView>
     </View>
@@ -215,9 +244,10 @@ function HomeQuickButton({ icon, color, label, desc, onPress }) {
   );
 }
 
-function HomeBlogCard({ title, image }) {
+function HomeBlogCard({ title, image, onPress }) {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={{
         width: 170,
         marginRight: 14,
@@ -226,6 +256,7 @@ function HomeBlogCard({ title, image }) {
         borderWidth: 1,
         borderColor: "#e0e0e0",
       }}
+      activeOpacity={0.8}
     >
       <Image
         source={{ uri: image }}
@@ -242,7 +273,7 @@ function HomeBlogCard({ title, image }) {
           {title}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

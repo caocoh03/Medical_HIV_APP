@@ -10,15 +10,30 @@ import {
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
   const { setUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+  // Dummy accounts for demo
+  const demoAccounts = [
+    { email: "user", password: "123", role: "user", name: "Nguyễn Văn Hùng" },
+    {
+      email: "doctor",
+      password: "456",
+      role: "doctor",
+      name: "BS. Lê Quang Liêm",
+    },
+  ];
 
   const handleLogin = () => {
-    if (email === "user" && password === "123") {
-      setUser({ email });
+    const found = demoAccounts.find(
+      (acc) => acc.email === email && acc.password === password
+    );
+    if (found) {
+      setUser(found);
       Toast.show({
         type: "success",
         text1: "Đăng nhập thành công!",
@@ -75,23 +90,12 @@ export default function Login() {
             Đăng nhập
           </Text>
           <TextInput
-            placeholder="Email"
+            placeholder="Tên đăng nhập"
             placeholderTextColor="#888"
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
-            style={{
-              width: "100%",
-              borderWidth: 1,
-              borderColor: "#e0e0e0",
-              backgroundColor: "rgba(255,255,255,0.7)",
-              marginBottom: 14,
-              borderRadius: 14,
-              paddingVertical: 13,
-              paddingHorizontal: 18,
-              fontSize: 16,
-              color: "#1b242b",
-            }}
+            style={styles.input}
           />
           <TextInput
             placeholder="Mật khẩu"
@@ -99,33 +103,11 @@ export default function Login() {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            style={{
-              width: "100%",
-              borderWidth: 1,
-              borderColor: "#e0e0e0",
-              marginBottom: 20,
-              backgroundColor: "rgba(255,255,255,0.7)",
-              borderRadius: 14,
-              paddingVertical: 13,
-              paddingHorizontal: 18,
-              fontSize: 16,
-              color: "#1b242b",
-            }}
+            style={styles.input}
           />
           <TouchableOpacity
             onPress={handleLogin}
-            style={{
-              width: "100%",
-              backgroundColor: "#008001",
-              paddingVertical: 15,
-              borderRadius: 14,
-              alignItems: "center",
-              marginBottom: 10,
-              shadowColor: "#008001",
-              shadowOpacity: 0.13,
-              shadowRadius: 8,
-              elevation: 2,
-            }}
+            style={styles.loginBtn}
             activeOpacity={0.85}
           >
             <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
@@ -133,10 +115,37 @@ export default function Login() {
             </Text>
           </TouchableOpacity>
           <Text style={{ color: "#888", marginTop: 8, fontSize: 13 }}>
-            Demo: user / 123
+            User: user/123 &nbsp;|&nbsp; Bác sĩ: doctor/456
           </Text>
         </View>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    backgroundColor: "rgba(255,255,255,0.7)",
+    marginBottom: 14,
+    borderRadius: 14,
+    paddingVertical: 13,
+    paddingHorizontal: 18,
+    fontSize: 16,
+    color: "#1b242b",
+  },
+  loginBtn: {
+    width: "100%",
+    backgroundColor: "#008001",
+    paddingVertical: 15,
+    borderRadius: 14,
+    alignItems: "center",
+    marginBottom: 10,
+    shadowColor: "#008001",
+    shadowOpacity: 0.13,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+});

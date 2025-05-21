@@ -19,9 +19,31 @@ import { useAuth } from "../context/AuthContext/AuthContext";
 import Settings from "../screens/Setting";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BookAppointment from "../screens/Features/BookAppointment";
+import BookSupport from "../screens/Features/BookSupport";
+import MedicalHistory from "../screens/Features/MedicalHistory";
+import UserProfile from "../screens/Features/UserProfile";
+import BlogDetail from "../components/Blog/BlogDetail";
+import DoctorHome from "../screens/Doctor";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
+
+type BlogType = {
+  title: string;
+  image: string;
+  content: string;
+  date: string;
+  source: string;
+};
+export type RootStackParamList = {
+  Home: undefined;
+  BlogDetail: { blog: BlogType };
+  BookAppointment: undefined;
+  BookSupport: undefined;
+  MedicalHistory: undefined;
+  UserProfile: undefined;
+  Settings: undefined;
+};
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const indicatorAnim = useRef(new Animated.Value(0)).current;
@@ -133,9 +155,14 @@ function MainTabs() {
 export default function Navigation() {
   const { user } = useAuth();
   const Stack = createNativeStackNavigator();
+
   return (
     <NavigationContainer>
-      {user ? (
+      {!user ? (
+        <Login />
+      ) : user.role === "doctor" ? (
+        <DoctorHome />
+      ) : (
         <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
           <Stack.Screen
             name="MainTabs"
@@ -147,15 +174,68 @@ export default function Navigation() {
             component={BookAppointment}
             options={{
               headerShown: true,
-              title: "Đặt lịch khám",
+              title: "",
+              headerStyle: { backgroundColor: "white" },
+              headerTintColor: "#008001",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+          <Stack.Screen
+            name="BookSupport"
+            component={BookSupport}
+            options={{
+              headerShown: true,
+              title: "",
+              headerStyle: { backgroundColor: "white" },
+              headerTintColor: "#008001",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+          <Stack.Screen
+            name="MedicalHistory"
+            component={MedicalHistory}
+            options={{
+              headerShown: true,
+              title: "",
+              headerStyle: { backgroundColor: "white" },
+              headerTintColor: "#008001",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+          <Stack.Screen
+            name="UserProfile"
+            component={UserProfile}
+            options={{
+              headerShown: true,
+              title: "",
+              headerStyle: { backgroundColor: "white" },
+              headerTintColor: "#008001",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+          <Stack.Screen
+            name="BlogDetail"
+            component={BlogDetail}
+            options={{
+              headerShown: true,
+              title: "",
+              headerStyle: { backgroundColor: "white" },
+              headerTintColor: "#008001",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorHome"
+            component={DoctorHome}
+            options={{
+              headerShown: true,
+              title: "",
               headerStyle: { backgroundColor: "white" },
               headerTintColor: "#008001",
               headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
             }}
           />
         </Stack.Navigator>
-      ) : (
-        <Login />
       )}
     </NavigationContainer>
   );
