@@ -1,13 +1,30 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Linking,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Home() {
   const { setUser } = useAuth();
+  const navigation = useNavigation();
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#f6fafd", padding: 12 }}>
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+    <View style={{ flex: 1, backgroundColor: "#f6fafd" }}>
+      <ScrollView
+        contentContainerStyle={{
+          padding: 20,
+          paddingBottom: 110,
+          flexGrow: 1,
+        }}
+        nestedScrollEnabled={true}
+      >
         {/* Greeting */}
         <Text style={{ fontSize: 18, color: "#333", marginBottom: 12 }}>
           👋 Xin chào, Khách!
@@ -37,7 +54,6 @@ export default function Home() {
             tại đây!
           </Text>
         </View>
-
         {/* Các nút chức năng chính cho user */}
         <View
           style={{
@@ -52,7 +68,7 @@ export default function Home() {
             color="#00B894"
             label="Đặt lịch khám"
             desc="Đăng ký khám, chọn bác sĩ điều trị"
-            onPress={() => {}}
+            onPress={() => navigation.navigate("BookAppointment" as never)}
           />
           <HomeQuickButton
             icon="flask"
@@ -78,7 +94,6 @@ export default function Home() {
             }}
           />
         </View>
-
         {/* Lịch nhắc tái khám */}
         <View
           style={{
@@ -108,12 +123,38 @@ export default function Home() {
             </Text>
           </Text>
         </View>
-
         {/* Blog & Tài liệu giáo dục */}
         <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10 }}>
           Tài liệu & Kinh nghiệm
         </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={{ marginBottom: 14 }}>
+          <EducationMaterialCard
+            icon="information-circle-outline"
+            title="Tổng quan về HIV/AIDS"
+            desc="Tìm hiểu về căn bệnh, đường lây, dấu hiệu, phòng tránh và điều trị."
+            link="https://hcdc.vn/category/29-hiv-aids"
+          />
+          <EducationMaterialCard
+            icon="medkit-outline"
+            title="Hướng dẫn uống thuốc ARV đúng cách"
+            desc="Các lưu ý khi sử dụng ARV, cách phòng ngừa quên liều và tác dụng phụ."
+            link="https://vncdc.gov.vn/huong-dan-arv"
+          />
+          <EducationMaterialCard
+            icon="happy-outline"
+            title="Hỗ trợ tâm lý cho bệnh nhân HIV"
+            desc="Kinh nghiệm sống tích cực, vượt qua kỳ thị và lời khuyên từ chuyên gia."
+            link="https://hiv.com.vn/ho-tro-tam-ly"
+          />
+        </View>
+        <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10 }}>
+          Blog chia sẻ
+        </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          nestedScrollEnabled={true}
+        >
           <HomeBlogCard
             title="Giảm kỳ thị HIV: Hành động nhỏ, ý nghĩa lớn"
             image="https://hcdc.vn/public/img/02bf8460bf0d6384849ca010eda38cf8e9dbc4c7/images/mod1/images/tung-buoc-xoa-bo-ky-thi-va-phan-biet-doi-xu-voi-nguoi-nhiem-hiv/images/2012131836.jpg"
@@ -202,5 +243,55 @@ function HomeBlogCard({ title, image }) {
         </Text>
       </View>
     </View>
+  );
+}
+
+function EducationMaterialCard({ icon = "book-outline", title, desc, link }) {
+  return (
+    <TouchableOpacity
+      onPress={() => Linking.openURL(link)}
+      activeOpacity={0.7}
+      style={{
+        backgroundColor: "#F1FAFF",
+        borderRadius: 18,
+        padding: 16,
+        marginBottom: 18,
+        flexDirection: "row",
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 2 },
+        elevation: 2,
+      }}
+    >
+      <View
+        style={{
+          backgroundColor: "#e1f5e7",
+          borderRadius: 50,
+          width: 44,
+          height: 44,
+          justifyContent: "center",
+          alignItems: "center",
+          marginRight: 16,
+        }}
+      >
+        <Ionicons name={icon as any} size={24} color="#008001" />
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 16,
+            color: "#222",
+            marginBottom: 4,
+          }}
+        >
+          {title}
+        </Text>
+        <Text style={{ fontSize: 14, color: "#445" }}>{desc}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={20} color="#008001" />
+    </TouchableOpacity>
   );
 }

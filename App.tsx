@@ -4,6 +4,7 @@ import { config } from "./gluestack-ui.config";
 import Navigation from "./app/navigation";
 import { AuthProvider } from "./app/context/AuthContext/AuthContext";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const toastConfig = {

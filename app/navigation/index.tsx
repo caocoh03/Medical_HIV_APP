@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   createBottomTabNavigator,
   BottomTabBarProps,
@@ -17,9 +17,10 @@ import Home from "../screens/Home";
 import Login from "../screens/Login";
 import { useAuth } from "../context/AuthContext/AuthContext";
 import Settings from "../screens/Setting";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BookAppointment from "../screens/Features/BookAppointment";
 
 const Tab = createBottomTabNavigator();
-
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -31,7 +32,6 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
       useNativeDriver: true,
     }).start();
   }, [state.index]);
-
   return (
     <View style={styles.tabBar}>
       <Animated.View
@@ -84,52 +84,76 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   );
 }
 
+function MainTabs() {
+  return (
+    <Tab.Navigator
+      id={undefined}
+      tabBar={(props) => <CustomTabBar {...props} />}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: "Trang chủ",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "#008001",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+          headerRight: () => (
+            <Ionicons
+              name="home"
+              size={24}
+              color="#008001"
+              style={{ marginRight: 16 }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          title: "Cài đặt",
+          headerStyle: { backgroundColor: "white" },
+          headerTintColor: "#008001",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+          headerRight: () => (
+            <Ionicons
+              name="settings"
+              size={24}
+              color="#008001"
+              style={{ marginRight: 16 }}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
 export default function Navigation() {
   const { user } = useAuth();
+  const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       {user ? (
-        <Tab.Navigator
-          id={undefined}
-          tabBar={(props) => <CustomTabBar {...props} />}
-        >
-          <Tab.Screen
-            name="Home"
-            component={Home}
+        <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="BookAppointment"
+            component={BookAppointment}
             options={{
-              title: "Trang chủ",
+              headerShown: true,
+              title: "Đặt lịch khám",
               headerStyle: { backgroundColor: "white" },
               headerTintColor: "#008001",
               headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
-              headerRight: () => (
-                <Ionicons
-                  name="home"
-                  size={24}
-                  color="#008001"
-                  style={{ marginRight: 16 }}
-                />
-              ),
             }}
           />
-          <Tab.Screen
-            name="Settings"
-            component={Settings}
-            options={{
-              title: "Cài đặt",
-              headerStyle: { backgroundColor: "white" },
-              headerTintColor: "#008001",
-              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
-              headerRight: () => (
-                <Ionicons
-                  name="settings"
-                  size={24}
-                  color="#008001"
-                  style={{ marginRight: 16 }}
-                />
-              ),
-            }}
-          />
-        </Tab.Navigator>
+        </Stack.Navigator>
       ) : (
         <Login />
       )}
