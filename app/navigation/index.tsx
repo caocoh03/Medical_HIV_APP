@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import Home from "../screens/Home";
 import Login from "../screens/Login";
+import Register from "../screens/Register";
 import { useAuth } from "../context/AuthContext/AuthContext";
 import Settings from "../screens/Setting";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -75,7 +76,7 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           label = "Home";
         } else if (route.name === "Settings") {
           iconName = focused ? "settings" : "settings-outline";
-          label = "Cài đặt";
+          label = "Cài đặt"; 
         }
 
         return (
@@ -159,7 +160,11 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       {!user ? (
-        <Login />
+        // 
+        <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+      </Stack.Navigator>
       ) : user.role === "doctor" ? (
         <DoctorHome />
       ) : (

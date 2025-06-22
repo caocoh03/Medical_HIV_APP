@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "startDate": "2024-02-10",
+    "doctor": "BS. Trần Thị Bích",
+    "hospital": "BV Nhiệt đới Trung ương",
+    "regimen": "ARV 1A (Tenofovir + Lamivudine + Efavirenz)",
+    "status": "Đang điều trị",
+    "note": "Bệnh nhân tuân thủ tốt phác đồ."
+  },
+  {
+    "id": "2",
+    "startDate": "2023-11-01",
+    "doctor": "BS. Vũ Văn Minh",
+    "hospital": "BV Bạch Mai",
+    "regimen": "ARV 1B (Tenofovir + Emtricitabine + Dolutegravir)",
+    "status": "Ổn định",
+    "note": "Không phát hiện tác dụng phụ."
+  }
+]

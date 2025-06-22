@@ -108,7 +108,7 @@ export default function BookSupport({ navigation }) {
           <TextInput
             style={inputStyle}
             placeholder="Bí danh / Nickname (có thể bỏ trống)"
-            value={nickname}
+            value={nickname} 
             onChangeText={setNickname}
           />
         </>

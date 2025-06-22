@@ -18,33 +18,47 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   // Dummy accounts for demo
-  const demoAccounts = [
-    { email: "user", password: "123", role: "user", name: "Nguyễn Văn Hùng" },
-    {
-      email: "doctor",
-      password: "456",
-      role: "doctor",
-      name: "BS. Lê Quang Liêm",
-    },
-  ];
+  // const demoAccounts = [
+  //   { email: "user", password: "123", role: "user", name: "Nguyễn Văn Hùng" },
+  //   {
+  //     email: "doctor",
+  //     password: "456",
+  //     role: "doctor",
+  //     name: "BS. Lê Quang Liêm",
+  //   },
+  // ];
 
-  const handleLogin = () => {
-    const found = demoAccounts.find(
-      (acc) => acc.email === email && acc.password === password
-    );
-    if (found) {
-      setUser(found);
-      Toast.show({
-        type: "success",
-        text1: "Đăng nhập thành công!",
-        position: "top",
-      });
-    } else {
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(
+        "https://6857a32321f5d3463e55b485.mockapi.io/users_HIV"
+      );
+      const users = await response.json();
+
+      // const found = demoAccounts.find(
+      const found = users.find(
+        (acc) => acc.email === email && acc.password === password
+      );
+      if (found) {
+        setUser(found);
+        Toast.show({
+          type: "success",
+          text1: "Đăng nhập thành công!",
+          position: "top",
+        });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Sai thông tin đăng nhập",
+          position: "top",
+        });
+      }
+    } catch (error) {
       Toast.show({
         type: "error",
-        text1: "Sai thông tin đăng nhập",
-        position: "top",
+        text1: "Lỗi kết nối server",
       });
+      console.log("Login error:", error);
     }
   };
 
@@ -117,6 +131,14 @@ export default function Login() {
           <Text style={{ color: "#888", marginTop: 8, fontSize: 13 }}>
             User: user/123 &nbsp;|&nbsp; Bác sĩ: doctor/456
           </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Register" as never)}
+          >
+            <Text style={{ color: "#444", marginTop: 6, fontSize: 13 }}>
+              Chưa có tài khoản?{" "}
+              <Text style={{ fontWeight: "bold" }}>Đăng ký</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

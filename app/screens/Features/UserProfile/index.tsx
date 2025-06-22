@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,48 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-
-const userInfo = {
-  avatar:
-    "https://m.yodycdn.com/products/hinhanhdoremon2_m2li5fg6g1b0cmp4zr5.jpg",
-  name: "Lê Quang Liêm",
-  dob: "30/04/1975",
-  gender: "Nam",
-  patientId: "BN20240021",
-  phone: "0983 123 456",
-  email: "lequangliem@vn.com",
-  address: "12A Nguyễn Trãi, Q.1, TP.HCM",
-};
-
-const treatments = [
-  {
-    id: "1",
-    startDate: "2024-02-10",
-    doctor: "BS. Trần Thị Bích",
-    hospital: "BV Nhiệt đới Trung ương",
-    regimen: "ARV 1A (Tenofovir + Lamivudine + Efavirenz)",
-    status: "Đang điều trị",
-    note: "Bệnh nhân tuân thủ tốt phác đồ.",
-  },
-  {
-    id: "2",
-    startDate: "2023-11-01",
-    doctor: "BS. Vũ Văn Minh",
-    hospital: "BV Bạch Mai",
-    regimen: "ARV 1B (Tenofovir + Emtricitabine + Dolutegravir)",
-    status: "Ổn định",
-    note: "Không phát hiện tác dụng phụ.",
-  },
-  {
-    id: "3",
-    startDate: "2023-03-18",
-    doctor: "BS. Lê Thị Hà",
-    hospital: "BV Hữu nghị Việt-Xô",
-    regimen: "Điều trị phổi phối hợp",
-    status: "Kết thúc",
-    note: "Điều trị thành công, phổi ổn định.",
-  },
-];
+import { useAuth } from "../../../../app/context/AuthContext/AuthContext";
 
 const statusColors = {
   "Đang điều trị": "#ffa726",
@@ -58,6 +17,16 @@ const statusColors = {
 };
 
 export default function UserProfile() {
+  const { user: userInfo } = useAuth();
+  const [treatments, setTreatments] = useState([]);
+
+  useEffect(() => {
+    const treat = require("../../../assets/data/treatments.json");
+    setTreatments(treat);
+  }, []);
+
+  if (!userInfo) return <Text>Loading...</Text>;
+
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: "#f8fafc" }}
@@ -75,29 +44,17 @@ export default function UserProfile() {
       </Text>
       {/* Info Card */}
       <View style={styles.profileCard}>
-        <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
+        <Image source={{ uri: userInfo.avatar || "https://i.imgur.com/1XW7QYk.png" }} style={styles.avatar} />
         <View style={{ flex: 1, marginLeft: 14 }}>
           <Text style={styles.name}>{userInfo.name}</Text>
-          <Text style={styles.patientId}>Mã BN: {userInfo.patientId}</Text>
-          <View style={styles.infoRow}>
-            <Ionicons name="calendar" size={17} color="#008001" />
-            <Text style={styles.infoText}>Ngày sinh: {userInfo.dob}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Ionicons name="man" size={17} color="#008001" />
-            <Text style={styles.infoText}>Giới tính: {userInfo.gender}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Ionicons name="call" size={17} color="#008001" />
-            <Text style={styles.infoText}>SĐT: {userInfo.phone}</Text>
-          </View>
+          <Text style={styles.patientId}>Mã BN: {userInfo.id}</Text>
           <View style={styles.infoRow}>
             <Ionicons name="mail" size={17} color="#008001" />
             <Text style={styles.infoText}>Email: {userInfo.email}</Text>
           </View>
           <View style={styles.infoRow}>
-            <Ionicons name="location" size={17} color="#008001" />
-            <Text style={styles.infoText}>Địa chỉ: {userInfo.address}</Text>
+            <Ionicons name="person" size={17} color="#008001" />
+            <Text style={styles.infoText}>Vai trò: {userInfo.role}</Text>
           </View>
         </View>
       </View>

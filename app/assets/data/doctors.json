@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "name": "Dr. Lê Quang",
+    "specialty": "Tim mạch",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/men/11.jpg"
+  },
+  {
+    "id": "2",
+    "name": "Dr. Hồ Minh Châu",
+    "specialty": "Da liễu",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/women/12.jpg"
+  }
+]
