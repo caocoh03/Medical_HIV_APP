@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "icon": "alarm-outline",
+    "text": "Đến giờ uống thuốc ARV liều sáng lúc 7:00.",
+    "createdAt": "2025-06-22T07:00:00Z",
+    "type": "reminder"
+  },
+  {
+    "id": "2",
+    "icon": "calendar-outline",
+    "text": "Bạn có lịch tái khám vào ngày 28/06 tại Trung tâm Y tế Q.5.",
+    "createdAt": "2025-06-21T08:00:00Z",
+    "type": "reminder"
+  },
+  {
+    "id": "3",
+    "icon": "medkit-outline",
+    "text": "Bạn còn 3 ngày thuốc. Hãy đến nhận thuốc sớm nhé!",
+    "createdAt": "2025-06-20T12:30:00Z",
+    "type": "reminder"
+  },
+  {
+    "id": "4",
+    "icon": "stats-chart-outline",
+    "text": "Bạn đã tuân thủ điều trị tốt suốt 30 ngày qua!",
+    "createdAt": "2025-06-19T14:00:00Z",
+    "type": "info"
+  },
+  {
+    "id": "5",
+    "icon": "megaphone-outline",
+    "text": "Hãy luôn sử dụng bao cao su để bảo vệ sức khỏe cả hai!",
+    "createdAt": "2025-06-19T09:15:00Z",
+    "type": "info"
+  },
+  {
+    "id": "6",
+    "icon": "alert-circle-outline",
+    "text": "Bạn chưa uống thuốc ARV liều tối hôm qua. Vui lòng kiểm tra lại.",
+    "createdAt": "2025-06-22T00:10:00Z",
+    "type": "urgent"
+  },
+  {
+    "id": "7",
+    "icon": "information-circle-outline",
+    "text": "Kết quả xét nghiệm tải lượng virus đã sẵn sàng. Vui lòng kiểm tra hồ sơ.",
+    "createdAt": "2025-06-20T16:00:00Z",
+    "type": "info"
+  },
+  {
+    "id": "8",
+    "icon": "gift-outline",
+    "text": "Thưởng điểm tích cực: Bạn đã duy trì điều trị đều đặn suốt tuần!",
+    "createdAt": "2025-06-18T18:30:00Z",
+    "type": "info"
+  },
+  {
+    "id": "9",
+    "icon": "help-buoy-outline",
+    "text": "Nếu bạn gặp khó khăn tâm lý, hãy gọi tổng đài 1900 9090 để được hỗ trợ.",
+    "createdAt": "2025-06-17T10:00:00Z",
+    "type": "info"
+  },
+  {
+    "id": "10",
+    "icon": "cloud-download-outline",
+    "text": "Bản cập nhật ứng dụng đã sẵn sàng. Cập nhật để nhận thêm tính năng mới!",
+    "createdAt": "2025-06-16T13:45:00Z",
+    "type": "info"
+  }
+]

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./gluestack-ui.config";
 import Navigation from "./app/navigation";

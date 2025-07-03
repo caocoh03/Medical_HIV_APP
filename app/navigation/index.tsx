@@ -4,6 +4,7 @@ import {
   BottomTabBarProps,
 } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+
 import { Ionicons } from "@expo/vector-icons";
 import {
   View,
@@ -18,13 +19,15 @@ import Login from "../screens/Login";
 import Register from "../screens/Register";
 import { useAuth } from "../context/AuthContext/AuthContext";
 import Settings from "../screens/Setting";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import BookAppointment from "../screens/Features/BookAppointment";
 import BookSupport from "../screens/Features/BookSupport";
 import MedicalHistory from "../screens/Features/MedicalHistory";
 import UserProfile from "../screens/Features/UserProfile";
 import BlogDetail from "../components/Blog/BlogDetail";
 import DoctorHome from "../screens/Doctor";
+import NotificationsScreen from "../screens/Setting/NotificationsScreen";
+import AppearanceLanguageScreen from "../screens/Setting/AppearanceLanguageScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -76,7 +79,7 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           label = "Home";
         } else if (route.name === "Settings") {
           iconName = focused ? "settings" : "settings-outline";
-          label = "Cài đặt"; 
+          label = "Cài đặt";
         }
 
         return (
@@ -155,20 +158,28 @@ function MainTabs() {
 
 export default function Navigation() {
   const { user } = useAuth();
-  const Stack = createNativeStackNavigator();
+  const Stack = createStackNavigator();
 
   return (
     <NavigationContainer>
       {!user ? (
-        // 
+        //
         <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-      </Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+        </Stack.Navigator>
       ) : user.role === "doctor" ? (
         <DoctorHome />
       ) : (
-        <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          id={undefined}
+          screenOptions={{
+            headerShown: false,
+
+            gestureEnabled: true,
+            animation: "slide_from_right",
+          }}
+        >
           <Stack.Screen
             name="MainTabs"
             component={MainTabs}
@@ -239,6 +250,18 @@ export default function Navigation() {
               headerTintColor: "#008001",
               headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
             }}
+          />
+          <Stack.Screen
+            name="NotificationsScreen"
+            component={NotificationsScreen}
+            options={{
+              title: "Thông báo",
+            }}
+          />
+          <Stack.Screen
+            name="AppearanceLanguageScreen"
+            component={AppearanceLanguageScreen}
+            options={{ title: "Giao diện và Ngôn ngữ" }}
           />
         </Stack.Navigator>
       )}
