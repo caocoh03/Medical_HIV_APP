@@ -13,6 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 const DOCTORS = [
   { id: 1, name: "BS. Trần Thị Tư Vấn" },
   { id: 2, name: "BS. Lê Văn Hỗ Trợ" },
+  { id: 3, name: "BS. Hồ Minh Châu" },
+  { id: 4, name: "BS. Nguyễn Thị Mai" },
 ];
 
 export default function BookSupport({ navigation }) {
@@ -108,7 +110,7 @@ export default function BookSupport({ navigation }) {
           <TextInput
             style={inputStyle}
             placeholder="Bí danh / Nickname (có thể bỏ trống)"
-            value={nickname} 
+            value={nickname}
             onChangeText={setNickname}
           />
         </>
