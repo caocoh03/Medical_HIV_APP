@@ -9,11 +9,13 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
+import { useThemeMode } from "../../context/ThemeContext";
 
 // Import dữ liệu thông báo
 import notificationsData from "../../assets/data/notifications.json";
 
 export default function NotificationsScreen() {
+  const { theme } = useThemeMode();
   const [notifications, setNotifications] = useState([]);
   const navigation = useNavigation();
 
@@ -60,7 +62,7 @@ export default function NotificationsScreen() {
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#008001" />
+          <Ionicons name="arrow-back" size={24} color={theme.colors.primary} />
         </TouchableOpacity>
         <Text style={styles.title}>Thông báo</Text>
       </View>

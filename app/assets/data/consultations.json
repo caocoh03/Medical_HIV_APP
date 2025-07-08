@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "patientId": 1,
+    "doctorId": 1,
+    "status": "pending",
+    "type": "consultation",
+    "scheduledTime": "2025-07-05T10:00:00Z",
+    "topic": "Tư vấn về tác dụng phụ của thuốc ARV",
+    "isAnonymous": false,
+    "patientName": "Nguyễn Văn A",
+    "createdAt": "2025-07-04T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "patientId": 2,
+    "doctorId": 2,
+    "status": "in_progress",
+    "type": "consultation",
+    "scheduledTime": "2025-07-04T14:30:00Z",
+    "topic": "Hỏi về chế độ ăn uống",
+    "isAnonymous": true,
+    "patientName": "Người dùng ẩn danh",
+    "createdAt": "2025-07-04T09:15:00Z"
+  },
+  {
+    "id": 3,
+    "patientId": 3,
+    "doctorId": 1,
+    "status": "completed",
+    "type": "consultation",
+    "scheduledTime": "2025-07-03T16:00:00Z",
+    "topic": "Tư vấn chung về HIV",
+    "isAnonymous": false,
+    "patientName": "Trần Thị B",
+    "createdAt": "2025-07-03T10:00:00Z"
+  }
+]

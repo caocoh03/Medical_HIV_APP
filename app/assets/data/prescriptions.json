@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "consultationId": 3,
+    "doctorId": 1,
+    "patientId": 3,
+    "medicines": [
+      {
+        "medicineId": 1,
+        "medicineName": "Efavirenz",
+        "quantity": 30,
+        "dosage": "1 viên/ngày vào buổi tối",
+        "price": 150000
+      },
+      {
+        "medicineId": 2,
+        "medicineName": "Tenofovir",
+        "quantity": 30,
+        "dosage": "1 viên/ngày vào buổi sáng",
+        "price": 120000
+      }
+    ],
+    "totalAmount": 270000,
+    "status": "pending_payment",
+    "instructions": "Uống thuốc đều đặn theo giờ, không được bỏ liều",
+    "createdAt": "2025-07-03T16:30:00Z"
+  }
+]

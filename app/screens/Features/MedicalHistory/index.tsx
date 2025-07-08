@@ -1,22 +1,29 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useThemeMode } from "../../../context/ThemeContext";
 import TestInfoScreen from "./TestInfo";
 import MedicalHistoryScreen from "./MedicalHistory";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function MedicalHistoryTabs() {
+  const { theme } = useThemeMode();
+
   return (
     <Tab.Navigator
       id={undefined}
       initialRouteName="TestInfo"
       screenOptions={{
-        tabBarActiveTintColor: "#008001",
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarLabelStyle: { fontWeight: "bold", fontSize: 15 },
-        tabBarIndicatorStyle: { backgroundColor: "#008001", height: 3 },
-        tabBarStyle: { backgroundColor: "#fff" },
-        tabBarPressColor: "#ffff",
-        tabBarPressOpacity: 0,
+        tabBarIndicatorStyle: {
+          backgroundColor: theme.colors.primary,
+          height: 3,
+        },
+        tabBarStyle: { backgroundColor: theme.colors.surface },
+        tabBarPressColor: theme.colors.primary + "20",
+        tabBarPressOpacity: 0.1,
       }}
     >
       <Tab.Screen

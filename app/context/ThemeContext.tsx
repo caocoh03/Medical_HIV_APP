@@ -7,11 +7,13 @@ import React, {
 } from "react";
 import { Appearance } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { lightTheme, darkTheme, Theme } from "../theme/colors";
 
 export type ThemeMode = "light" | "dark";
 
 interface ThemeContextProps {
   mode: ThemeMode;
+  theme: Theme;
   toggleTheme: () => void;
   setMode: (mode: ThemeMode) => void;
 }
@@ -45,7 +47,15 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setMode(newMode);
   };
 
-  const value = useMemo(() => ({ mode, toggleTheme, setMode }), [mode]);
+  const value = useMemo(
+    () => ({
+      mode,
+      theme: mode === "dark" ? darkTheme : lightTheme,
+      toggleTheme,
+      setMode,
+    }),
+    [mode]
+  );
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

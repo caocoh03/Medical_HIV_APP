@@ -1,4 +1,3 @@
-import { setLocale } from "../../i18n/i18n";
 import React, { useState } from "react";
 import {
   View,
@@ -12,73 +11,84 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useThemeMode } from "../../context/ThemeContext";
 
 export default function AppearanceLanguageScreen() {
   const navigation = useNavigation();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, mode, toggleTheme } = useThemeMode();
   const [language, setLanguage] = useState("vi");
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
-  const backgroundColor = isDarkMode ? "#121212" : "#f8fafc";
-  const cardColor = isDarkMode ? "#1f1f1f" : "#ffffff";
-  const textColor = isDarkMode ? "#eeeeee" : "#111111";
-
-  function setLocale(arg0: string) {
-    throw new Error("Function not implemented.");
-  }
-
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor }]}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
       contentContainerStyle={{ padding: 20 }}
     >
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#007aff" />
+          <Ionicons name="arrow-back" size={24} color={theme.colors.primary} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: textColor }]}>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
           Giao diện và Ngôn ngữ
         </Text>
       </View>
 
       {/* Chế độ tối */}
-      <View style={[styles.item, { backgroundColor: cardColor }]}>
+      <View
+        style={[
+          styles.item,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
         <Ionicons
           name="moon"
           size={22}
-          color={textColor}
+          color={theme.colors.text}
           style={{ width: 30 }}
         />
-        <Text style={[styles.itemText, { color: textColor }]}>Chế độ tối</Text>
+        <Text style={[styles.itemText, { color: theme.colors.text }]}>
+          Chế độ tối
+        </Text>
         <Switch
-          value={isDarkMode}
-          onValueChange={setIsDarkMode}
-          trackColor={{ false: "#ccc", true: "#4caf50" }}
-          thumbColor={isDarkMode ? "#fff" : "#f4f3f4"}
+          value={mode === "dark"}
+          onValueChange={toggleTheme}
+          trackColor={{ false: "#ccc", true: theme.colors.primary }}
+          thumbColor={mode === "dark" ? "#fff" : "#f4f3f4"}
           style={{ marginLeft: "auto" }}
         />
       </View>
 
       {/* Ngôn ngữ */}
       <TouchableOpacity
-        style={[styles.item, { backgroundColor: cardColor }]}
+        style={[
+          styles.item,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
         onPress={() => setLanguageModalVisible(true)}
       >
         <Ionicons
           name="language-outline"
           size={22}
-          color={textColor}
+          color={theme.colors.text}
           style={{ width: 30 }}
         />
-        <Text style={[styles.itemText, { color: textColor }]}>Ngôn ngữ</Text>
-        <Text style={{ color: textColor, marginLeft: "auto" }}>
+        <Text style={[styles.itemText, { color: theme.colors.text }]}>
+          Ngôn ngữ
+        </Text>
+        <Text style={{ color: theme.colors.text, marginLeft: "auto" }}>
           {language === "vi" ? "Tiếng Việt" : "English"}
         </Text>
         <Ionicons
           name="chevron-down"
           size={20}
-          color="#999"
+          color={theme.colors.textSecondary}
           style={{ marginLeft: 8 }}
         />
       </TouchableOpacity>
@@ -94,8 +104,15 @@ export default function AppearanceLanguageScreen() {
           style={styles.modalOverlay}
           onPress={() => setLanguageModalVisible(false)}
         >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Chọn ngôn ngữ</Text>
+          <View
+            style={[
+              styles.modalContent,
+              { backgroundColor: theme.colors.surface },
+            ]}
+          >
+            <Text style={[styles.modalTitle, { color: theme.colors.text }]}>
+              Chọn ngôn ngữ
+            </Text>
             <TouchableOpacity
               style={styles.languageOption}
               onPress={() => {
@@ -103,21 +120,20 @@ export default function AppearanceLanguageScreen() {
                 setLanguageModalVisible(false);
               }}
             >
-              <Text style={styles.languageText}>Tiếng Việt</Text>
+              <Text style={[styles.languageText, { color: theme.colors.text }]}>
+                Tiếng Việt
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.languageOption}
-              // onPress={() => {
-              //   setLanguage("en");
-              //   setLanguageModalVisible(false);
-              // }}
               onPress={() => {
-                setLocale("en");
                 setLanguage("en");
                 setLanguageModalVisible(false);
               }}
             >
-              <Text style={styles.languageText}>English</Text>
+              <Text style={[styles.languageText, { color: theme.colors.text }]}>
+                English
+              </Text>
             </TouchableOpacity>
           </View>
         </Pressable>
@@ -162,7 +178,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.4)",
   },
   modalContent: {
-    backgroundColor: "#fff",
     padding: 20,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,

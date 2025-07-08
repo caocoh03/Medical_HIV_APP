@@ -8,12 +8,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext/AuthContext";
+import { useThemeMode } from "../../context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
   const { setUser } = useAuth();
+  const { theme } = useThemeMode();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
@@ -35,7 +37,6 @@ export default function Login() {
       );
       const users = await response.json();
 
-      // const found = demoAccounts.find(
       const found = users.find(
         (acc) => acc.email === email && acc.password === password
       );
@@ -63,7 +64,7 @@ export default function Login() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[{ flex: 1 }, { backgroundColor: theme.colors.background }]}>
       <Image
         source={require("../../assets/background.png")}
         style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]}
@@ -80,17 +81,24 @@ export default function Login() {
         <View
           style={{
             width: "92%",
-            backgroundColor: "rgba(255,255,255,0.85)",
+            backgroundColor: theme.colors.cardBackground,
             borderRadius: 18,
             paddingVertical: 38,
             paddingHorizontal: 28,
             alignItems: "center",
+            shadowColor: theme.colors.shadowColor,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 5,
+            borderWidth: 1,
+            borderColor: theme.colors.cardBorder,
           }}
         >
           <Ionicons
             name="shield-half-sharp"
             size={64}
-            color="#008001"
+            color={theme.colors.primary}
             style={{ marginBottom: 14 }}
           />
           <Text
@@ -98,45 +106,79 @@ export default function Login() {
               fontSize: 28,
               fontWeight: "bold",
               marginBottom: 14,
-              color: "#1b242b",
+              color: theme.colors.text,
             }}
           >
             Đăng nhập
           </Text>
           <TextInput
             placeholder="Tên đăng nhập"
-            placeholderTextColor="#888"
+            placeholderTextColor={theme.colors.textSecondary}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
-            style={styles.input}
+            style={[
+              styles.input,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.inputBackground,
+                color: theme.colors.text,
+              },
+            ]}
           />
           <TextInput
             placeholder="Mật khẩu"
-            placeholderTextColor="#888"
+            placeholderTextColor={theme.colors.textSecondary}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            style={styles.input}
+            style={[
+              styles.input,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.inputBackground,
+                color: theme.colors.text,
+              },
+            ]}
           />
           <TouchableOpacity
             onPress={handleLogin}
-            style={styles.loginBtn}
+            style={[styles.loginBtn, { backgroundColor: theme.colors.primary }]}
             activeOpacity={0.85}
           >
             <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
               Đăng nhập
             </Text>
           </TouchableOpacity>
-          <Text style={{ color: "#888", marginTop: 8, fontSize: 13 }}>
-            User: user/123 &nbsp;|&nbsp; Bác sĩ: doctor/456
+          <Text
+            style={{
+              color: theme.colors.textSecondary,
+              marginTop: 8,
+              fontSize: 13,
+              textAlign: "center",
+            }}
+          >
+            🧑‍⚕️ Demo Bác sĩ: doctor/456
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.textSecondary,
+              fontSize: 13,
+              textAlign: "center",
+            }}
+          >
+            👤 Demo Bệnh nhân: user/123
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("Register" as never)}
           >
-            <Text style={{ color: "#444", marginTop: 6, fontSize: 13 }}>
+            <Text
+              style={{ color: theme.colors.text, marginTop: 6, fontSize: 13 }}
+            >
               Chưa có tài khoản?{" "}
-              <Text style={{ fontWeight: "bold" }}>Đăng ký</Text>
+              <Text style={{ fontWeight: "bold", color: theme.colors.primary }}>
+                Đăng ký
+              </Text>
             </Text>
           </TouchableOpacity>
         </View>
