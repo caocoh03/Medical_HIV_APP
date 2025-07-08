@@ -6,9 +6,11 @@ import {
   StyleSheet,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext/AuthContext";
+import { useThemeMode } from "../../context/ThemeContext";
 import { Button } from "@gluestack-ui/themed";
 import Toast from "react-native-toast-message";
 import Navigation from "../../navigation";
@@ -17,14 +19,18 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 type RootStackParamList = {
   NotificationsScreen: undefined;
   AppearanceLanguageScreen: undefined;
+  UserProfile: undefined;
   // Add other screens here as needed
 };
 
 export default function Settings() {
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
+  const { theme } = useThemeMode();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  //const navigation = useNavigation();
+
+  // Log để debug
+  console.log("Settings screen rendered, user:", user?.name);
 
   const handleLogout = () => {
     Alert.alert("Xác nhận", "Bạn có chắc chắn muốn đăng xuất?", [
@@ -41,10 +47,60 @@ export default function Settings() {
 
   return (
     <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ padding: 20 }}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      contentContainerStyle={{
+        padding: 20,
+        paddingBottom: 120, // Thêm khoảng cách dưới để tránh bị che bởi tab bar
+        flexGrow: 1, // Đảm bảo content có thể stretch
+      }}
+      showsVerticalScrollIndicator={true}
+      bounces={true}
+      alwaysBounceVertical={false}
+      keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.header}>Chúc bạn có một ngày tốt lành!</Text>
+      {/* User Profile Section */}
+      <View
+        style={[
+          styles.profileSection,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+          <Image
+            source={{ uri: user?.avatar || "https://i.imgur.com/1XW7QYk.png" }}
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
+        <View style={styles.profileInfo}>
+          <Text style={[styles.profileName, { color: theme.colors.text }]}>
+            {user?.name || "Người dùng"}
+          </Text>
+          <Text
+            style={[styles.profileRole, { color: theme.colors.textSecondary }]}
+          >
+            {user?.role === "doctor" ? "🩺 Bác sĩ" : "👤 Bệnh nhân"}
+          </Text>
+          <Text
+            style={[styles.profileEmail, { color: theme.colors.textTertiary }]}
+          >
+            {user?.email || ""}
+          </Text>
+        </View>
+      </View>
+
+      <Text style={[styles.header, { color: theme.colors.text }]}>
+        Chúc bạn có một ngày tốt lành!
+      </Text>
+
+      <SettingItem
+        icon="person"
+        title="Hồ sơ cá nhân"
+        onPress={() => navigation.navigate("UserProfile")}
+      />
+
       <SettingItem
         icon="notifications"
         title="Thông báo"
@@ -90,11 +146,30 @@ export default function Settings() {
       />
 
       <SettingItem
+        icon="star-outline"
+        title="Đánh giá ứng dụng"
+        onPress={() => Toast.show({ text1: "Cảm ơn bạn đã sử dụng ứng dụng!" })}
+      />
+
+      <SettingItem
         icon="log-out-outline"
         title="Đăng xuất"
         onPress={handleLogout}
         color="#d32f2f"
       />
+
+      {/* Thêm một số item test để đảm bảo scroll hoạt động */}
+      <View style={{ height: 20 }} />
+      <Text
+        style={{
+          textAlign: "center",
+          color: theme.colors.textSecondary,
+          fontSize: 12,
+          marginBottom: 20,
+        }}
+      >
+        Medical HIV App v1.0
+      </Text>
     </ScrollView>
   );
 }
@@ -106,25 +181,32 @@ type SettingItemProps = {
   color?: string;
 };
 
-function SettingItem({
-  icon,
-  title,
-  onPress,
-  color = "#333",
-}: SettingItemProps) {
+function SettingItem({ icon, title, onPress, color }: SettingItemProps) {
+  const { theme } = useThemeMode();
+  const itemColor = color || theme.colors.text;
+
   return (
-    <TouchableOpacity style={styles.item} onPress={onPress}>
+    <TouchableOpacity
+      style={[
+        styles.item,
+        {
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+        },
+      ]}
+      onPress={onPress}
+    >
       <Ionicons
         name={icon as any}
         size={22}
-        color={color}
+        color={itemColor}
         style={{ width: 30 }}
       />
-      <Text style={[styles.itemText, { color }]}>{title}</Text>
+      <Text style={[styles.itemText, { color: itemColor }]}>{title}</Text>
       <MaterialIcons
         name="keyboard-arrow-right"
         size={22}
-        color="#999"
+        color={theme.colors.textSecondary}
         style={{ marginLeft: "auto" }}
       />
     </TouchableOpacity>
@@ -133,17 +215,49 @@ function SettingItem({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f8fafc",
     flex: 1,
+  },
+  profileSection: {
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#f0f0f0",
+  },
+  profileInfo: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  profileName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  profileRole: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
+  profileEmail: {
+    fontSize: 12,
   },
   header: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#008001",
     marginBottom: 20,
   },
   item: {
-    backgroundColor: "#fff",
     flexDirection: "row",
     alignItems: "center",
     padding: 16,

@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "name": "Efavirenz",
+    "type": "Thuốc kháng HIV",
+    "price": 150000,
+    "unit": "viên",
+    "description": "Thuốc ức chế reverse transcriptase không nucleoside"
+  },
+  {
+    "id": 2,
+    "name": "Tenofovir",
+    "type": "Thuốc kháng HIV",
+    "price": 120000,
+    "unit": "viên",
+    "description": "Thuốc ức chế reverse transcriptase nucleotide"
+  },
+  {
+    "id": 3,
+    "name": "Emtricitabine",
+    "type": "Thuốc kháng HIV",
+    "price": 100000,
+    "unit": "viên",
+    "description": "Thuốc ức chế reverse transcriptase nucleoside"
+  },
+  {
+    "id": 4,
+    "name": "Ritonavir",
+    "type": "Thuốc kháng HIV",
+    "price": 200000,
+    "unit": "viên",
+    "description": "Thuốc ức chế protease"
+  },
+  {
+    "id": 5,
+    "name": "Dolutegravir",
+    "type": "Thuốc kháng HIV",
+    "price": 180000,
+    "unit": "viên",
+    "description": "Thuốc ức chế integrase"
+  },
+  {
+    "id": 6,
+    "name": "Paracetamol",
+    "type": "Thuốc giảm đau",
+    "price": 5000,
+    "unit": "viên",
+    "description": "Thuốc giảm đau, hạ sốt"
+  },
+  {
+    "id": 7,
+    "name": "Ibuprofen",
+    "type": "Thuốc giảm đau",
+    "price": 8000,
+    "unit": "viên",
+    "description": "Thuốc chống viêm không steroid"
+  },
+  {
+    "id": 8,
+    "name": "Vitamin B complex",
+    "type": "Vitamin",
+    "price": 25000,
+    "unit": "viên",
+    "description": "Bổ sung vitamin B"
+  }
+]

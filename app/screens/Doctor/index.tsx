@@ -82,8 +82,8 @@ const todayAppointments = [
   },
 ];
 
-export default function DoctorHome() {
-  const { setUser } = useAuth();
+export default function DoctorHome({ navigation }) {
+  const { user, setUser } = useAuth();
   const [selectedRegimen, setSelectedRegimen] = useState(null);
   const [customNote, setCustomNote] = useState("");
 
@@ -94,15 +94,22 @@ export default function DoctorHome() {
     >
       {/* Header */}
       <View style={styles.headerRow}>
-        <Image source={{ uri: doctorInfo.avatar }} style={styles.avatar} />
+        <Image
+          source={{
+            uri:
+              user?.avatar ||
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG_WQbn1-KHIm_S4DLtpLTdBMO8O-Y5dIkLQ&s",
+          }}
+          style={styles.avatar}
+        />
         <View style={{ marginLeft: 16, flex: 1 }}>
-          <Text style={styles.docName}>{doctorInfo.name}</Text>
+          <Text style={styles.docName}>{user?.name || "Bác sĩ"}</Text>
           <Text style={{ color: "#008001", fontWeight: "bold" }}>
-            {doctorInfo.department}
+            {user?.role === "doctor" ? "Bác sĩ điều trị" : "Truyền nhiễm"}
           </Text>
           <Text style={styles.docEmail}>
             <Ionicons name="mail-outline" size={14} color="#008001" />{" "}
-            {doctorInfo.email}
+            {user?.email || "doctor@email.com"}
           </Text>
         </View>
         <TouchableOpacity
@@ -129,6 +136,40 @@ export default function DoctorHome() {
           <Text style={styles.statLabel}>Bệnh nhân</Text>
         </View>
       </View>
+
+      {/* Nút truy cập yêu cầu tư vấn */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#008001",
+          paddingVertical: 15,
+          paddingHorizontal: 20,
+          borderRadius: 10,
+          marginVertical: 20,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        }}
+        onPress={() =>
+          navigation.navigate("DoctorConsultationScreen", { doctorId: 1 })
+        }
+      >
+        <Ionicons name="chatbubbles-outline" size={24} color="#fff" />
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 16,
+            fontWeight: "bold",
+            marginLeft: 10,
+          }}
+        >
+          Yêu cầu tư vấn trực tuyến
+        </Text>
+      </TouchableOpacity>
 
       {/* Section: Lựa chọn phác đồ ARV */}
       <View style={styles.regimenSection}>

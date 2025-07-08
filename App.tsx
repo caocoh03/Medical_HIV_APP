@@ -3,6 +3,8 @@ import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./gluestack-ui.config";
 import Navigation from "./app/navigation";
 import { AuthProvider } from "./app/context/AuthContext/AuthContext";
+import { DataProvider } from "./app/context/DataContext";
+import { ThemeProvider } from "./app/context/ThemeContext";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -56,11 +58,15 @@ export default function App() {
     ),
   };
   return (
-    <GluestackUIProvider config={config}>
-      <AuthProvider>
-        <Navigation />
-        <Toast config={toastConfig} />
-      </AuthProvider>
-    </GluestackUIProvider>
+    <ThemeProvider>
+      <GluestackUIProvider config={config}>
+        <AuthProvider>
+          <DataProvider>
+            <Navigation />
+            <Toast config={toastConfig} />
+          </DataProvider>
+        </AuthProvider>
+      </GluestackUIProvider>
+    </ThemeProvider>
   );
 }
