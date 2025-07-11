@@ -53,6 +53,8 @@ import CertificatesScreen from "../screens/Manager/CertificatesScreen";
 import DoctorCertDetailScreen from "../screens/Manager/DoctorCertDetailScreen";
 import ScheduleScreen from "../screens/Manager/ScheduleScreen";
 import DoctorScheduleDetailScreen from "../screens/Manager/DoctorScheduleDetailScreen";
+import DutyHoursScreen from "../screens/Manager/DutyHoursScreen";
+import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -372,6 +374,28 @@ export default function Navigation() {
             options={{
               headerShown: true,
               title: "Quản lý lịch làm việc",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DutyHoursScreen"
+            component={DutyHoursScreen}
+            options={{
+              headerShown: true,
+              title: "Giờ trực hôm nay",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DutyHoursDetailScreen"
+            component={DutyHoursDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Quản lý ca trực",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
               headerTitleStyle: { fontWeight: "bold", fontSize: 18 },

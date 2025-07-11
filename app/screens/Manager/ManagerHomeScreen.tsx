@@ -222,7 +222,7 @@ const ManagerHomeScreen: React.FC = () => {
             <HomeQuickButton icon="people" color="#0984E3" label="Danh sách bác sĩ" desc="Quản lý hồ sơ, trạng thái" onPress={() => navigation.navigate("DoctorListScreen") } theme={theme} />
             <HomeQuickButton icon="school" color="#00B894" label="Bằng cấp & chuyên môn" desc="Quản lý chuyên môn, bằng cấp" onPress={() => navigation.navigate("CertificatesScreen")} theme={theme} />
             <HomeQuickButton icon="calendar" color="#6C5CE7" label="Lịch làm việc" desc="Xem & phân ca bác sĩ" onPress={() => navigation.navigate("ScheduleScreen")} theme={theme} />
-            <HomeQuickButton icon="time" color="#fdcb6e" label="Giờ trực hôm nay" desc="Bác sĩ đang trực" onPress={() => {}} theme={theme} />
+            <HomeQuickButton icon="time" color="#fdcb6e" label="Giờ trực hôm nay" desc="Bác sĩ đang trực" onPress={() => navigation.navigate("DutyHoursScreen")} theme={theme} />
             <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => {}} theme={theme} />
           </View>
           {/* Stat Box */}

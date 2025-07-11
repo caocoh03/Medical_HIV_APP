@@ -245,8 +245,163 @@ class ManagerDataService {
       }
     ];
 
+    const sampleSchedules = [
+      {
+        doctorId: "1",
+        schedule: [
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "2",
+        schedule: [
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "4",
+        schedule: [
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "5",
+        schedule: [
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "6",
+        schedule: [
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true }
+            ]
+          }
+        ]
+      }
+    ];
+
     await AsyncStorage.setItem(MANAGER_KEYS.DOCTORS, JSON.stringify(sampleDoctors));
     await AsyncStorage.setItem(MANAGER_KEYS.APPOINTMENTS, JSON.stringify(sampleAppointments));
+    await AsyncStorage.setItem(MANAGER_KEYS.SCHEDULES, JSON.stringify(sampleSchedules));
   }
 
   // Doctors
@@ -385,6 +540,67 @@ class ManagerDataService {
         pendingAppointments: 0,
         todayAppointments: 0
       };
+    }
+  }
+
+  // Schedules
+  async getSchedules() {
+    try {
+      const data = await AsyncStorage.getItem(MANAGER_KEYS.SCHEDULES);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.error("Error getting schedules:", error);
+      return [];
+    }
+  }
+
+  async getScheduleByDoctorId(doctorId) {
+    try {
+      const schedules = await this.getSchedules();
+      return schedules.find(schedule => schedule.doctorId === doctorId);
+    } catch (error) {
+      console.error("Error getting schedule by doctor id:", error);
+      return null;
+    }
+  }
+
+  async addSchedule(schedule) {
+    try {
+      const schedules = await this.getSchedules();
+      schedules.push(schedule);
+      await AsyncStorage.setItem(MANAGER_KEYS.SCHEDULES, JSON.stringify(schedules));
+      return schedule;
+    } catch (error) {
+      console.error("Error adding schedule:", error);
+      throw error;
+    }
+  }
+
+  async updateSchedule(doctorId, updates) {
+    try {
+      const schedules = await this.getSchedules();
+      const index = schedules.findIndex(schedule => schedule.doctorId === doctorId);
+      if (index !== -1) {
+        schedules[index] = { ...schedules[index], ...updates };
+        await AsyncStorage.setItem(MANAGER_KEYS.SCHEDULES, JSON.stringify(schedules));
+        return schedules[index];
+      }
+      return null;
+    } catch (error) {
+      console.error("Error updating schedule:", error);
+      throw error;
+    }
+  }
+
+  async deleteSchedule(doctorId) {
+    try {
+      const schedules = await this.getSchedules();
+      const filteredSchedules = schedules.filter(schedule => schedule.doctorId !== doctorId);
+      await AsyncStorage.setItem(MANAGER_KEYS.SCHEDULES, JSON.stringify(filteredSchedules));
+      return true;
+    } catch (error) {
+      console.error("Error deleting schedule:", error);
+      throw error;
     }
   }
 
