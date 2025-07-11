@@ -171,6 +171,7 @@ const ManagerHomeScreen: React.FC = () => {
       
       // Load appointments
       const appointments = await managerDataService.getAppointments();
+      const todayAppointments = appointments.filter(a => a.date === new Date().toISOString().split('T')[0]);
       
       // Load approval requests
       const approvalRequests = await managerDataService.getApprovalRequests();
@@ -180,8 +181,8 @@ const ManagerHomeScreen: React.FC = () => {
       const statsData = await managerDataService.getDashboardStats();
       
       setStats({
-        doctorCount: doctors.length,
-        patientCount: statsData.totalAppointments,
+        doctorCount: activeDoctors.length,
+        patientCount: todayAppointments.length,
         appointmentCount: pendingRequests.length
       });
       
@@ -232,9 +233,9 @@ const ManagerHomeScreen: React.FC = () => {
           {/* Stat Box */}
           <View style={{ backgroundColor: theme.colors.surface, borderRadius: 14, padding: 16, marginBottom: 18, shadowColor: theme.colors.shadowColor, shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 }}>
             <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 4, color: theme.colors.text }}>📅 Thống kê nhanh</RNText>
-            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang trực: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.doctorCount}</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang hoạt động: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.doctorCount}</RNText></RNText>
             <RNText style={{ color: theme.colors.text }}>Yêu cầu đang chờ duyệt: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.appointmentCount}</RNText></RNText>
-            <RNText style={{ color: theme.colors.text }}>Hồ sơ cần cập nhật: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.patientCount}</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Lịch hẹn hôm nay: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.patientCount}</RNText></RNText>
           </View>
           {/* Doctor Overview Section */}
           <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Bác sĩ cập nhật gần đây</RNText>
@@ -249,6 +250,48 @@ const ManagerHomeScreen: React.FC = () => {
             <EducationMaterialCard icon="person-add-outline" title="Hướng dẫn nhập hồ sơ bác sĩ" desc="Quy trình nhập mới, cập nhật hồ sơ bác sĩ." link="#" theme={theme} />
             <EducationMaterialCard icon="calendar-outline" title="Quy trình phân ca" desc="Hướng dẫn phân ca, sắp xếp lịch làm việc." link="#" theme={theme} />
             <EducationMaterialCard icon="document-text-outline" title="Chính sách nghỉ phép" desc="Quy định về nghỉ phép, phê duyệt đơn." link="#" theme={theme} />
+          </View>
+
+          {/* Demo Reset Button */}
+          <View style={{ marginBottom: 14 }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: theme.colors.primary + "20",
+                borderWidth: 1,
+                borderColor: theme.colors.primary,
+                borderRadius: 8,
+                padding: 12,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+              onPress={async () => {
+                Alert.alert(
+                  "Reset Demo Data",
+                  "Bạn có chắc chắn muốn reset dữ liệu demo?",
+                  [
+                    { text: "Hủy", style: "cancel" },
+                    {
+                      text: "Reset",
+                      style: "destructive",
+                      onPress: async () => {
+                        try {
+                          const managerDataService = new ManagerDataService();
+                          await managerDataService.resetAndInitializeDemoData();
+                          await loadDashboardData();
+                          Alert.alert("Thành công", "Đã reset dữ liệu demo");
+                        } catch (error) {
+                          Alert.alert("Lỗi", "Không thể reset dữ liệu demo");
+                        }
+                      }
+                    }
+                  ]
+                );
+              }}
+            >
+              <Ionicons name="refresh" size={16} color={theme.colors.primary} style={{ marginRight: 8 }} />
+              <RNText style={{ color: theme.colors.primary, fontWeight: "600" }}>🔄 Reset Demo Data</RNText>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

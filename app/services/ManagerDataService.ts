@@ -237,12 +237,12 @@ class ManagerDataService {
         patientName: "Nguyễn Văn A",
         doctorId: "1",
         doctorName: "BS. Nguyễn Thanh Tùng",
-        date: "2025-01-15",
+        date: new Date().toISOString().split('T')[0],
         time: "09:00",
         status: "pending",
         type: "Khám định kỳ",
         notes: "Bệnh nhân cần khám định kỳ và xét nghiệm CD4",
-        createdAt: "2025-01-10T08:00:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "2",
@@ -250,12 +250,12 @@ class ManagerDataService {
         patientName: "Trần Thị B",
         doctorId: "2",
         doctorName: "BS. Lê Quang Liêm",
-        date: "2025-01-16",
+        date: new Date().toISOString().split('T')[0],
         time: "14:30",
         status: "pending",
         type: "Tư vấn",
         notes: "Bệnh nhân cần tư vấn về tác dụng phụ thuốc ARV",
-        createdAt: "2025-01-11T10:30:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "3",
@@ -263,12 +263,12 @@ class ManagerDataService {
         patientName: "Lê Văn C",
         doctorId: "4",
         doctorName: "BS. Trần Thị Hương",
-        date: "2025-01-17",
+        date: new Date().toISOString().split('T')[0],
         time: "10:00",
         status: "confirmed",
         type: "Khám chuyên khoa",
         notes: "Bệnh nhân cần khám chuyên khoa HIV/AIDS",
-        createdAt: "2025-01-12T14:15:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "4",
@@ -276,12 +276,12 @@ class ManagerDataService {
         patientName: "Phạm Thị D",
         doctorId: "5",
         doctorName: "BS. Hoàng Văn Minh",
-        date: "2025-01-18",
+        date: new Date().toISOString().split('T')[0],
         time: "08:00",
         status: "pending",
         type: "Khám tim mạch",
         notes: "Bệnh nhân có triệu chứng tăng huyết áp",
-        createdAt: "2025-01-13T09:45:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "5",
@@ -289,12 +289,12 @@ class ManagerDataService {
         patientName: "Hoàng Văn E",
         doctorId: "6",
         doctorName: "BS. Ngô Thị Lan",
-        date: "2025-01-19",
+        date: new Date().toISOString().split('T')[0],
         time: "15:00",
         status: "pending",
         type: "Khám nhi",
         notes: "Trẻ em cần khám nhi và tư vấn dinh dưỡng",
-        createdAt: "2025-01-14T11:20:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "6",
@@ -302,12 +302,12 @@ class ManagerDataService {
         patientName: "Nguyễn Thị F",
         doctorId: "7",
         doctorName: "BS. Vũ Hoàng Nam",
-        date: "2025-01-20",
+        date: new Date().toISOString().split('T')[0],
         time: "19:00",
         status: "pending",
         type: "Cấp cứu",
         notes: "Bệnh nhân có triệu chứng sốt cao và khó thở",
-        createdAt: "2025-01-15T08:30:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "7",
@@ -315,12 +315,12 @@ class ManagerDataService {
         patientName: "Trần Văn G",
         doctorId: "8",
         doctorName: "BS. Lê Thị Mai",
-        date: "2025-01-21",
+        date: new Date().toISOString().split('T')[0],
         time: "10:00",
         status: "pending",
         type: "Tư vấn tâm lý",
         notes: "Bệnh nhân cần tư vấn tâm lý sau khi biết kết quả dương tính",
-        createdAt: "2025-01-16T14:45:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "8",
@@ -328,12 +328,12 @@ class ManagerDataService {
         patientName: "Lê Thị H",
         doctorId: "1",
         doctorName: "BS. Nguyễn Thanh Tùng",
-        date: "2025-01-22",
+        date: new Date().toISOString().split('T')[0],
         time: "09:30",
         status: "confirmed",
         type: "Khám định kỳ",
         notes: "Bệnh nhân cần khám định kỳ và điều chỉnh thuốc ARV",
-        createdAt: "2025-01-17T09:15:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "9",
@@ -341,12 +341,12 @@ class ManagerDataService {
         patientName: "Phạm Văn I",
         doctorId: "2",
         doctorName: "BS. Lê Quang Liêm",
-        date: "2025-01-23",
+        date: new Date().toISOString().split('T')[0],
         time: "16:00",
         status: "pending",
         type: "Khám nhiễm khuẩn",
         notes: "Bệnh nhân có dấu hiệu nhiễm trùng cơ hội",
-        createdAt: "2025-01-18T11:00:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "10",
@@ -354,12 +354,77 @@ class ManagerDataService {
         patientName: "Vũ Thị K",
         doctorId: "4",
         doctorName: "BS. Trần Thị Hương",
-        date: "2025-01-24",
+        date: new Date().toISOString().split('T')[0],
         time: "14:00",
         status: "pending",
         type: "Tư vấn sức khỏe sinh sản",
         notes: "Bệnh nhân nữ cần tư vấn về sức khỏe sinh sản và HIV",
-        createdAt: "2025-01-19T15:30:00Z"
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "11",
+        patientId: "11",
+        patientName: "Đỗ Văn L",
+        doctorId: "3",
+        doctorName: "BS. Phùng Thanh Độ",
+        date: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "09:00",
+        status: "pending",
+        type: "Khám da liễu",
+        notes: "Bệnh nhân có biến chứng da do HIV",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "12",
+        patientId: "12",
+        patientName: "Võ Thị M",
+        doctorId: "1",
+        doctorName: "BS. Nguyễn Thanh Tùng",
+        date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "10:30",
+        status: "pending",
+        type: "Khám định kỳ",
+        notes: "Bệnh nhân cần khám định kỳ và xét nghiệm",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "13",
+        patientId: "13",
+        patientName: "Lý Văn N",
+        doctorId: "5",
+        doctorName: "BS. Hoàng Văn Minh",
+        date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "14:00",
+        status: "pending",
+        type: "Khám tim mạch",
+        notes: "Bệnh nhân có triệu chứng đau ngực",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "14",
+        patientId: "14",
+        patientName: "Hồ Thị O",
+        doctorId: "6",
+        doctorName: "BS. Ngô Thị Lan",
+        date: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "11:00",
+        status: "pending",
+        type: "Khám nhi",
+        notes: "Trẻ em cần khám nhi và tiêm chủng",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "15",
+        patientId: "15",
+        patientName: "Nguyễn Văn P",
+        doctorId: "8",
+        doctorName: "BS. Lê Thị Mai",
+        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "15:30",
+        status: "pending",
+        type: "Tư vấn tâm lý",
+        notes: "Bệnh nhân cần tư vấn tâm lý và hỗ trợ",
+        createdAt: new Date().toISOString()
       }
     ];
 
@@ -865,8 +930,8 @@ class ManagerDataService {
         status: "pending",
         urgency: "Bình thường",
         notes: "Hội thảo có chứng chỉ CME",
-        createdAt: "2024-12-10T08:00:00.000Z",
-        updatedAt: "2024-12-10T08:00:00.000Z"
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       },
       {
         id: "2",
@@ -878,8 +943,8 @@ class ManagerDataService {
         status: "approved",
         urgency: "Cao",
         notes: "Đã phê duyệt và thông báo cho bệnh nhân",
-        createdAt: "2024-12-08T10:30:00.000Z",
-        updatedAt: "2024-12-09T14:20:00.000Z"
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "3",
@@ -891,8 +956,8 @@ class ManagerDataService {
         status: "pending",
         urgency: "Cao",
         notes: "Thiết bị cần thiết cho điều trị",
-        createdAt: "2024-12-11T09:15:00.000Z",
-        updatedAt: "2024-12-11T09:15:00.000Z"
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "4",
@@ -904,8 +969,8 @@ class ManagerDataService {
         status: "approved",
         urgency: "Bình thường",
         notes: "Khóa học có chứng chỉ chuyên khoa",
-        createdAt: "2024-12-05T16:45:00.000Z",
-        updatedAt: "2024-12-07T11:30:00.000Z"
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "5",
@@ -917,8 +982,8 @@ class ManagerDataService {
         status: "rejected",
         urgency: "Cao",
         notes: "Có thể tư vấn trực tiếp thay vì qua đơn",
-        createdAt: "2024-12-09T13:20:00.000Z",
-        updatedAt: "2024-12-10T15:45:00.000Z"
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "6",
@@ -930,8 +995,8 @@ class ManagerDataService {
         status: "pending",
         urgency: "Bình thường",
         notes: "Khám sức khỏe định kỳ",
-        createdAt: "2024-12-12T07:30:00.000Z",
-        updatedAt: "2024-12-12T07:30:00.000Z"
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "7",
@@ -943,8 +1008,8 @@ class ManagerDataService {
         status: "pending",
         urgency: "Trung bình",
         notes: "Phục vụ công tác tư vấn",
-        createdAt: "2024-12-11T14:00:00.000Z",
-        updatedAt: "2024-12-11T14:00:00.000Z"
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
       },
       {
         id: "8",
@@ -956,8 +1021,8 @@ class ManagerDataService {
         status: "approved",
         urgency: "Bình thường",
         notes: "Hội thảo có chứng chỉ CME",
-        createdAt: "2024-12-06T11:20:00.000Z",
-        updatedAt: "2024-12-08T09:15:00.000Z"
+        createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
       }
     ];
 
@@ -1245,6 +1310,17 @@ class ManagerDataService {
       await AsyncStorage.multiRemove(Object.values(MANAGER_KEYS));
     } catch (error) {
       console.error("Error clearing manager data:", error);
+    }
+  }
+
+  // Reset and reinitialize demo data
+  async resetAndInitializeDemoData() {
+    try {
+      await this.clearAllManagerData();
+      await this.initializeSampleManagerData();
+      console.log("Demo data has been reset and reinitialized successfully");
+    } catch (error) {
+      console.error("Error resetting demo data:", error);
     }
   }
 }
