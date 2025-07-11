@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, View, Text as RNText, TouchableOpacity, Image } from "react-native";
+import { ScrollView, View, Text as RNText, TouchableOpacity, Image, Alert, ImageBackground } from "react-native";
 import { Box, Heading, Text, HStack, VStack, Button } from "@gluestack-ui/themed";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -149,7 +149,7 @@ const ManagerHomeScreen: React.FC = () => {
   const { setUser } = useAuth();
   const navigation = useNavigation();
   const { theme } = useThemeMode();
-  // Dữ liệu mẫu
+  
   const doctorCount = 10;
   const patientCount = 120;
   const appointmentCount = 35;
@@ -161,55 +161,72 @@ const ManagerHomeScreen: React.FC = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 110, flexGrow: 1 }}>
-        {/* Nút Đăng xuất */}
-        <View style={{ alignItems: "flex-end", marginBottom: 8 }}>
-          <Button
-            variant="outline"
-            action="error"
-            onPress={() => setUser(null)}
-            leftIcon={<Ionicons name="log-out-outline" size={18} color="#d32f2f" />}
-          >
-            <Text color="#d32f2f" fontWeight="$bold">Đăng xuất</Text>
-          </Button>
-        </View>
-        {/* Greeting Section */}
-        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 16 }}>
-          <Ionicons name="shield-checkmark" size={32} color={theme.colors.primary} style={{ marginRight: 10 }} />
-          <RNText style={{ fontSize: 20, fontWeight: "bold", color: theme.colors.primary }}>
-            👋 Xin chào, Quản lý!
-          </RNText>
-        </View>
-        {/* Quick Access Buttons */}
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", marginBottom: 18 }}>
-          <HomeQuickButton icon="people" color="#0984E3" label="Danh sách bác sĩ" desc="Quản lý hồ sơ, trạng thái" onPress={() => {}} theme={theme} />
-          <HomeQuickButton icon="school" color="#00B894" label="Bằng cấp & chuyên môn" desc="Quản lý chuyên môn, bằng cấp" onPress={() => {}} theme={theme} />
-          <HomeQuickButton icon="calendar" color="#6C5CE7" label="Lịch làm việc" desc="Xem & phân ca bác sĩ" onPress={() => {}} theme={theme} />
-          <HomeQuickButton icon="time" color="#fdcb6e" label="Giờ trực hôm nay" desc="Bác sĩ đang trực" onPress={() => {}} theme={theme} />
-          <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => {}} theme={theme} />
-        </View>
-        {/* Stat Box */}
-        <View style={{ backgroundColor: theme.colors.surface, borderRadius: 14, padding: 16, marginBottom: 18, shadowColor: theme.colors.shadowColor, shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 }}>
-          <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 4, color: theme.colors.text }}>📅 Thống kê nhanh</RNText>
-          <RNText style={{ color: theme.colors.text }}>Bác sĩ đang trực: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>6</RNText></RNText>
-          <RNText style={{ color: theme.colors.text }}>Yêu cầu đang chờ duyệt: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>3</RNText></RNText>
-          <RNText style={{ color: theme.colors.text }}>Hồ sơ cần cập nhật: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>1</RNText></RNText>
-        </View>
-        {/* Doctor Overview Section */}
-        <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Bác sĩ cập nhật gần đây</RNText>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} nestedScrollEnabled={true} style={{ marginBottom: 18 }}>
-          {doctors.map((doc, idx) => (
-            <DoctorCard key={idx} name={doc.name} avatar={doc.avatar} specialty={doc.specialty} status={doc.status} onPress={() => {}} theme={theme} />
-          ))}
-        </ScrollView>
-        {/* Education Material Section */}
-        <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Tài liệu hướng dẫn quản lý</RNText>
-        <View style={{ marginBottom: 14 }}>
-          <EducationMaterialCard icon="person-add-outline" title="Hướng dẫn nhập hồ sơ bác sĩ" desc="Quy trình nhập mới, cập nhật hồ sơ bác sĩ." link="#" theme={theme} />
-          <EducationMaterialCard icon="calendar-outline" title="Quy trình phân ca" desc="Hướng dẫn phân ca, sắp xếp lịch làm việc." link="#" theme={theme} />
-          <EducationMaterialCard icon="document-text-outline" title="Chính sách nghỉ phép" desc="Quy định về nghỉ phép, phê duyệt đơn." link="#" theme={theme} />
+      <ScrollView contentContainerStyle={{ padding: 0, paddingBottom: 110, flexGrow: 1 }}>
+        <ImageBackground
+          source={require("../../assets/manager_material/banner.jpg")}
+          style={{ width: "100%", height: 160, borderBottomLeftRadius: 24, borderBottomRightRadius: 24, overflow: "hidden", marginBottom: 10 }}
+          imageStyle={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}
+          resizeMode="cover"
+        />
+        <View style={{ padding: 20 }}>
+          {/* Greeting Section */}
+          <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 16 }}>
+            <Ionicons name="shield-checkmark" size={32} color={theme.colors.primary} style={{ marginRight: 10 }} />
+            <RNText style={{ fontSize: 20, fontWeight: "bold", color: theme.colors.primary }}>
+              👋 Xin chào, Quản lý!
+            </RNText>
+          </View>
+          {/* Quick Access Buttons */}
+          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", marginBottom: 18 }}>
+            <HomeQuickButton icon="people" color="#0984E3" label="Danh sách bác sĩ" desc="Quản lý hồ sơ, trạng thái" onPress={() => navigation.navigate("DoctorListScreen") } theme={theme} />
+            <HomeQuickButton icon="school" color="#00B894" label="Bằng cấp & chuyên môn" desc="Quản lý chuyên môn, bằng cấp" onPress={() => {}} theme={theme} />
+            <HomeQuickButton icon="calendar" color="#6C5CE7" label="Lịch làm việc" desc="Xem & phân ca bác sĩ" onPress={() => {}} theme={theme} />
+            <HomeQuickButton icon="time" color="#fdcb6e" label="Giờ trực hôm nay" desc="Bác sĩ đang trực" onPress={() => {}} theme={theme} />
+            <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => {}} theme={theme} />
+          </View>
+          {/* Stat Box */}
+          <View style={{ backgroundColor: theme.colors.surface, borderRadius: 14, padding: 16, marginBottom: 18, shadowColor: theme.colors.shadowColor, shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 }}>
+            <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 4, color: theme.colors.text }}>📅 Thống kê nhanh</RNText>
+            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang trực: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>6</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Yêu cầu đang chờ duyệt: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>3</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Hồ sơ cần cập nhật: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>1</RNText></RNText>
+          </View>
+          {/* Doctor Overview Section */}
+          <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Bác sĩ cập nhật gần đây</RNText>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} nestedScrollEnabled={true} style={{ marginBottom: 18 }}>
+            {doctors.map((doc, idx) => (
+              <DoctorCard key={idx} name={doc.name} avatar={doc.avatar} specialty={doc.specialty} status={doc.status} onPress={() => {}} theme={theme} />
+            ))}
+          </ScrollView>
+          {/* Education Material Section */}
+          <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Tài liệu hướng dẫn quản lý</RNText>
+          <View style={{ marginBottom: 14 }}>
+            <EducationMaterialCard icon="person-add-outline" title="Hướng dẫn nhập hồ sơ bác sĩ" desc="Quy trình nhập mới, cập nhật hồ sơ bác sĩ." link="#" theme={theme} />
+            <EducationMaterialCard icon="calendar-outline" title="Quy trình phân ca" desc="Hướng dẫn phân ca, sắp xếp lịch làm việc." link="#" theme={theme} />
+            <EducationMaterialCard icon="document-text-outline" title="Chính sách nghỉ phép" desc="Quy định về nghỉ phép, phê duyệt đơn." link="#" theme={theme} />
+          </View>
         </View>
       </ScrollView>
+      {/* Nút Đăng xuất dưới cùng */}
+      <View style={{ padding: 20, backgroundColor: theme.colors.background }}>
+        <Button
+          variant="outline"
+          action="error"
+          onPress={() => {
+            Alert.alert(
+              "Xác nhận đăng xuất",
+              "Bạn có chắc chắn muốn đăng xuất?",
+              [
+                { text: "Huỷ", style: "cancel" },
+                { text: "Đăng xuất", style: "destructive", onPress: () => setUser(null) },
+              ]
+            );
+          }}
+          leftIcon={<Ionicons name="log-out-outline" size={18} color="#d32f2f" />}
+        >
+          <Text color="#d32f2f" fontWeight="$bold">Đăng xuất</Text>
+        </Button>
+      </View>
     </View>
   );
 };
