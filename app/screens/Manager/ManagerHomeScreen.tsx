@@ -172,13 +172,17 @@ const ManagerHomeScreen: React.FC = () => {
       // Load appointments
       const appointments = await managerDataService.getAppointments();
       
+      // Load approval requests
+      const approvalRequests = await managerDataService.getApprovalRequests();
+      const pendingRequests = approvalRequests.filter(r => r.status === 'pending');
+      
       // Get dashboard stats
       const statsData = await managerDataService.getDashboardStats();
       
       setStats({
         doctorCount: doctors.length,
         patientCount: statsData.totalAppointments,
-        appointmentCount: appointments.length
+        appointmentCount: pendingRequests.length
       });
       
       // Get recent doctors (last 3)
@@ -223,7 +227,7 @@ const ManagerHomeScreen: React.FC = () => {
             <HomeQuickButton icon="school" color="#00B894" label="Bằng cấp & chuyên môn" desc="Quản lý chuyên môn, bằng cấp" onPress={() => navigation.navigate("CertificatesScreen")} theme={theme} />
             <HomeQuickButton icon="calendar" color="#6C5CE7" label="Lịch làm việc" desc="Xem & phân ca bác sĩ" onPress={() => navigation.navigate("ScheduleScreen")} theme={theme} />
             <HomeQuickButton icon="time" color="#fdcb6e" label="Giờ trực hôm nay" desc="Bác sĩ đang trực" onPress={() => navigation.navigate("DutyHoursScreen")} theme={theme} />
-            <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => {}} theme={theme} />
+            <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => navigation.navigate("ApprovalRequestsScreen")} theme={theme} />
           </View>
           {/* Stat Box */}
           <View style={{ backgroundColor: theme.colors.surface, borderRadius: 14, padding: 16, marginBottom: 18, shadowColor: theme.colors.shadowColor, shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 }}>

@@ -55,6 +55,7 @@ import ScheduleScreen from "../screens/Manager/ScheduleScreen";
 import DoctorScheduleDetailScreen from "../screens/Manager/DoctorScheduleDetailScreen";
 import DutyHoursScreen from "../screens/Manager/DutyHoursScreen";
 import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
+import ApprovalRequestsScreen from "../screens/Manager/ApprovalRequestsScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -396,6 +397,17 @@ export default function Navigation() {
             options={{
               headerShown: true,
               title: "Quản lý ca trực",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="ApprovalRequestsScreen"
+            component={ApprovalRequestsScreen}
+            options={{
+              headerShown: true,
+              title: "Yêu cầu phê duyệt",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
               headerTitleStyle: { fontWeight: "bold", fontSize: 18 },

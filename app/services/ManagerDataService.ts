@@ -5,6 +5,7 @@ const MANAGER_KEYS = {
   DOCTORS: "manager_doctors",
   APPOINTMENTS: "manager_appointments",
   SCHEDULES: "manager_schedules",
+  APPROVAL_REQUESTS: "manager_approval_requests",
 };
 
 class ManagerDataService {
@@ -853,9 +854,117 @@ class ManagerDataService {
       }
     ];
 
+    const sampleApprovalRequests = [
+      {
+        id: "1",
+        type: "leave_request",
+        title: "Đơn xin nghỉ phép",
+        description: "Tôi xin phép nghỉ 3 ngày từ 15/12/2024 đến 17/12/2024 để tham gia hội thảo y khoa tại TP.HCM. Đây là hội thảo quan trọng về điều trị HIV/AIDS mới nhất.",
+        requesterName: "BS. Nguyễn Thanh Tùng",
+        requesterId: "1",
+        status: "pending",
+        urgency: "Bình thường",
+        notes: "Hội thảo có chứng chỉ CME",
+        createdAt: "2024-12-10T08:00:00.000Z",
+        updatedAt: "2024-12-10T08:00:00.000Z"
+      },
+      {
+        id: "2",
+        type: "schedule_change",
+        title: "Yêu cầu thay đổi lịch làm việc",
+        description: "Tôi muốn thay đổi lịch làm việc từ ca sáng sang ca chiều vào thứ 3 hàng tuần do có việc cá nhân quan trọng.",
+        requesterName: "BS. Lê Quang Liêm",
+        requesterId: "2",
+        status: "approved",
+        urgency: "Cao",
+        notes: "Đã phê duyệt và thông báo cho bệnh nhân",
+        createdAt: "2024-12-08T10:30:00.000Z",
+        updatedAt: "2024-12-09T14:20:00.000Z"
+      },
+      {
+        id: "3",
+        type: "equipment_request",
+        title: "Yêu cầu thiết bị y tế",
+        description: "Khoa cần thêm 2 máy đo huyết áp điện tử và 1 máy đo đường huyết để phục vụ bệnh nhân HIV có biến chứng tim mạch và tiểu đường.",
+        requesterName: "BS. Hoàng Văn Minh",
+        requesterId: "5",
+        status: "pending",
+        urgency: "Cao",
+        notes: "Thiết bị cần thiết cho điều trị",
+        createdAt: "2024-12-11T09:15:00.000Z",
+        updatedAt: "2024-12-11T09:15:00.000Z"
+      },
+      {
+        id: "4",
+        type: "training_request",
+        title: "Đăng ký khóa đào tạo",
+        description: "Tôi muốn đăng ký tham gia khóa đào tạo 'Điều trị HIV/AIDS cho trẻ em' tại Bệnh viện Nhi Trung ương từ 20/01/2025 đến 25/01/2025.",
+        requesterName: "BS. Ngô Thị Lan",
+        requesterId: "6",
+        status: "approved",
+        urgency: "Bình thường",
+        notes: "Khóa học có chứng chỉ chuyên khoa",
+        createdAt: "2024-12-05T16:45:00.000Z",
+        updatedAt: "2024-12-07T11:30:00.000Z"
+      },
+      {
+        id: "5",
+        type: "consultation_request",
+        title: "Yêu cầu tư vấn chuyên môn",
+        description: "Tôi cần tư vấn về trường hợp bệnh nhân HIV có biến chứng da phức tạp. Bệnh nhân có tiền sử dị ứng thuốc ARV.",
+        requesterName: "BS. Phùng Thanh Độ",
+        requesterId: "3",
+        status: "rejected",
+        urgency: "Cao",
+        notes: "Có thể tư vấn trực tiếp thay vì qua đơn",
+        createdAt: "2024-12-09T13:20:00.000Z",
+        updatedAt: "2024-12-10T15:45:00.000Z"
+      },
+      {
+        id: "6",
+        type: "leave_request",
+        title: "Đơn xin nghỉ phép",
+        description: "Tôi xin phép nghỉ 1 ngày vào 20/12/2024 để đi khám sức khỏe định kỳ.",
+        requesterName: "BS. Trần Thị Hương",
+        requesterId: "4",
+        status: "pending",
+        urgency: "Bình thường",
+        notes: "Khám sức khỏe định kỳ",
+        createdAt: "2024-12-12T07:30:00.000Z",
+        updatedAt: "2024-12-12T07:30:00.000Z"
+      },
+      {
+        id: "7",
+        type: "equipment_request",
+        title: "Yêu cầu máy tính bảng",
+        description: "Khoa cần thêm 3 máy tính bảng để bác sĩ tra cứu thông tin thuốc và hướng dẫn điều trị cho bệnh nhân.",
+        requesterName: "BS. Vũ Hoàng Nam",
+        requesterId: "7",
+        status: "pending",
+        urgency: "Trung bình",
+        notes: "Phục vụ công tác tư vấn",
+        createdAt: "2024-12-11T14:00:00.000Z",
+        updatedAt: "2024-12-11T14:00:00.000Z"
+      },
+      {
+        id: "8",
+        type: "training_request",
+        title: "Đăng ký hội thảo",
+        description: "Tôi muốn tham gia hội thảo 'Tâm lý học trong điều trị HIV/AIDS' tại Hà Nội từ 10/02/2025 đến 12/02/2025.",
+        requesterName: "BS. Lê Thị Mai",
+        requesterId: "8",
+        status: "approved",
+        urgency: "Bình thường",
+        notes: "Hội thảo có chứng chỉ CME",
+        createdAt: "2024-12-06T11:20:00.000Z",
+        updatedAt: "2024-12-08T09:15:00.000Z"
+      }
+    ];
+
     await AsyncStorage.setItem(MANAGER_KEYS.DOCTORS, JSON.stringify(sampleDoctors));
     await AsyncStorage.setItem(MANAGER_KEYS.APPOINTMENTS, JSON.stringify(sampleAppointments));
     await AsyncStorage.setItem(MANAGER_KEYS.SCHEDULES, JSON.stringify(sampleSchedules));
+    await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(sampleApprovalRequests));
   }
 
   // Doctors
@@ -1054,6 +1163,78 @@ class ManagerDataService {
       return true;
     } catch (error) {
       console.error("Error deleting schedule:", error);
+      throw error;
+    }
+  }
+
+  // Approval Requests
+  async getApprovalRequests() {
+    try {
+      const data = await AsyncStorage.getItem(MANAGER_KEYS.APPROVAL_REQUESTS);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.error("Error getting approval requests:", error);
+      return [];
+    }
+  }
+
+  async getApprovalRequestById(requestId) {
+    try {
+      const requests = await this.getApprovalRequests();
+      return requests.find(request => request.id === requestId);
+    } catch (error) {
+      console.error("Error getting approval request by id:", error);
+      return null;
+    }
+  }
+
+  async addApprovalRequest(request) {
+    try {
+      const requests = await this.getApprovalRequests();
+      const newRequest = {
+        ...request,
+        id: (requests.length + 1).toString(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      requests.push(newRequest);
+      await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(requests));
+      return newRequest;
+    } catch (error) {
+      console.error("Error adding approval request:", error);
+      throw error;
+    }
+  }
+
+  async updateApprovalRequest(requestId, updates) {
+    try {
+      const requests = await this.getApprovalRequests();
+      const index = requests.findIndex(request => request.id === requestId);
+      if (index !== -1) {
+        requests[index] = { 
+          ...requests[index], 
+          ...updates,
+          updatedAt: new Date().toISOString()
+        };
+        await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(requests));
+        return requests[index];
+      }
+      return null;
+    } catch (error) {
+      console.error("Error updating approval request:", error);
+      throw error;
+    }
+  }
+
+  async deleteApprovalRequest(requestId) {
+    try {
+      const requests = await this.getApprovalRequests();
+      const filteredRequests = requests.filter(request => request.id !== requestId);
+      await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(filteredRequests));
+      return true;
+    } catch (error) {
+      console.error("Error deleting approval request:", error);
       throw error;
     }
   }
