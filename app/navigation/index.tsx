@@ -46,6 +46,7 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -286,12 +287,31 @@ export default function Navigation() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
+      ) : user.role === "manager" ? (
+        <Stack.Navigator
+          id={undefined}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen
+            name="ManagerHomeScreen"
+            component={ManagerHomeScreen}
+            options={{
+              headerShown: true,
+              title: `Quản lý ${user?.name || ""}`,
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          {/* Thêm các màn hình quản lý khác ở đây sau */}
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator
           id={undefined}
           screenOptions={{
             headerShown: false,
-
             gestureEnabled: true,
             animation: "slide_from_right",
           }}
