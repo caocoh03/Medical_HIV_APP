@@ -174,6 +174,58 @@ class ManagerDataService {
           { day: "Thứ 6", time: "14:00 - 18:00" }
         ],
         notes: "Chuyên gia nhi khoa, đặc biệt là điều trị HIV cho trẻ em và tư vấn dinh dưỡng."
+      },
+      {
+        id: "7",
+        name: "BS. Vũ Hoàng Nam",
+        specialty: "Bác sĩ Cấp cứu",
+        experience: "7 năm kinh nghiệm",
+        available: true,
+        image: "https://randomuser.me/api/portraits/men/15.jpg",
+        description: "Bác sĩ cấp cứu chuyên xử lý các trường hợp khẩn cấp",
+        email: "vuhoangnam@hospital.com",
+        phone: "0901234573",
+        education: "Đại học Y Hà Nội",
+        certificates: [
+          "Chứng chỉ hành nghề y tế",
+          "Chứng chỉ cấp cứu tim mạch",
+          "Chứng chỉ cấp cứu hô hấp",
+          "Chứng chỉ cấp cứu nhi khoa",
+          "Chứng chỉ điều trị sốc"
+        ],
+        schedule: [
+          { day: "Thứ 2", time: "18:00 - 22:00" },
+          { day: "Thứ 3", time: "18:00 - 22:00" },
+          { day: "Thứ 5", time: "18:00 - 22:00" },
+          { day: "Thứ 7", time: "08:00 - 12:00" }
+        ],
+        notes: "Chuyên gia cấp cứu, đặc biệt là xử lý các trường hợp khẩn cấp liên quan đến HIV/AIDS."
+      },
+      {
+        id: "8",
+        name: "BS. Lê Thị Mai",
+        specialty: "Bác sĩ Tâm lý",
+        experience: "9 năm kinh nghiệm",
+        available: true,
+        image: "https://randomuser.me/api/portraits/women/13.jpg",
+        description: "Bác sĩ tâm lý chuyên tư vấn cho bệnh nhân HIV/AIDS",
+        email: "lethimai@hospital.com",
+        phone: "0901234574",
+        education: "Đại học Y Dược TP.HCM",
+        certificates: [
+          "Chứng chỉ hành nghề y tế",
+          "Chứng chỉ tâm lý học lâm sàng",
+          "Chứng chỉ tư vấn tâm lý HIV/AIDS",
+          "Chứng chỉ trị liệu nhận thức hành vi",
+          "Chứng chỉ tư vấn gia đình"
+        ],
+        schedule: [
+          { day: "Thứ 2", time: "14:00 - 18:00" },
+          { day: "Thứ 4", time: "08:00 - 12:00" },
+          { day: "Thứ 6", time: "14:00 - 18:00" },
+          { day: "Chủ nhật", time: "08:00 - 12:00" }
+        ],
+        notes: "Chuyên gia tâm lý, đặc biệt là tư vấn tâm lý cho bệnh nhân HIV/AIDS và gia đình."
       }
     ];
 
@@ -242,6 +294,71 @@ class ManagerDataService {
         type: "Khám nhi",
         notes: "Trẻ em cần khám nhi và tư vấn dinh dưỡng",
         createdAt: "2025-01-14T11:20:00Z"
+      },
+      {
+        id: "6",
+        patientId: "6",
+        patientName: "Nguyễn Thị F",
+        doctorId: "7",
+        doctorName: "BS. Vũ Hoàng Nam",
+        date: "2025-01-20",
+        time: "19:00",
+        status: "pending",
+        type: "Cấp cứu",
+        notes: "Bệnh nhân có triệu chứng sốt cao và khó thở",
+        createdAt: "2025-01-15T08:30:00Z"
+      },
+      {
+        id: "7",
+        patientId: "7",
+        patientName: "Trần Văn G",
+        doctorId: "8",
+        doctorName: "BS. Lê Thị Mai",
+        date: "2025-01-21",
+        time: "10:00",
+        status: "pending",
+        type: "Tư vấn tâm lý",
+        notes: "Bệnh nhân cần tư vấn tâm lý sau khi biết kết quả dương tính",
+        createdAt: "2025-01-16T14:45:00Z"
+      },
+      {
+        id: "8",
+        patientId: "8",
+        patientName: "Lê Thị H",
+        doctorId: "1",
+        doctorName: "BS. Nguyễn Thanh Tùng",
+        date: "2025-01-22",
+        time: "09:30",
+        status: "confirmed",
+        type: "Khám định kỳ",
+        notes: "Bệnh nhân cần khám định kỳ và điều chỉnh thuốc ARV",
+        createdAt: "2025-01-17T09:15:00Z"
+      },
+      {
+        id: "9",
+        patientId: "9",
+        patientName: "Phạm Văn I",
+        doctorId: "2",
+        doctorName: "BS. Lê Quang Liêm",
+        date: "2025-01-23",
+        time: "16:00",
+        status: "pending",
+        type: "Khám nhiễm khuẩn",
+        notes: "Bệnh nhân có dấu hiệu nhiễm trùng cơ hội",
+        createdAt: "2025-01-18T11:00:00Z"
+      },
+      {
+        id: "10",
+        patientId: "10",
+        patientName: "Vũ Thị K",
+        doctorId: "4",
+        doctorName: "BS. Trần Thị Hương",
+        date: "2025-01-24",
+        time: "14:00",
+        status: "pending",
+        type: "Tư vấn sức khỏe sinh sản",
+        notes: "Bệnh nhân nữ cần tư vấn về sức khỏe sinh sản và HIV",
+        createdAt: "2025-01-19T15:30:00Z"
       }
     ];
 
@@ -250,31 +367,59 @@ class ManagerDataService {
         doctorId: "1",
         schedule: [
           {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
             day: "Thứ 2",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
             ]
           },
           {
             day: "Thứ 3",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 5",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
             ]
           },
           {
             day: "Thứ 6",
             shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           }
         ]
@@ -283,31 +428,120 @@ class ManagerDataService {
         doctorId: "2",
         schedule: [
           {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
             day: "Thứ 2",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 3",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
             ]
           },
           {
             day: "Thứ 4",
             shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 7",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "3",
+        schedule: [
+          {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           }
         ]
@@ -316,31 +550,59 @@ class ManagerDataService {
         doctorId: "4",
         schedule: [
           {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
             day: "Thứ 2",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 4",
             shifts: [
-              { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 6",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 7",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           }
         ]
@@ -349,24 +611,59 @@ class ManagerDataService {
         doctorId: "5",
         schedule: [
           {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
             day: "Thứ 2",
             shifts: [
-              { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 3",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
             ]
           },
           {
             day: "Thứ 5",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           }
         ]
@@ -375,24 +672,181 @@ class ManagerDataService {
         doctorId: "6",
         schedule: [
           {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
             day: "Thứ 2",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 4",
             shifts: [
               { startTime: "08:00", endTime: "12:00", active: true },
-              { startTime: "14:00", endTime: "18:00", active: false }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           },
           {
             day: "Thứ 6",
             shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "7",
+        schedule: [
+          {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
               { startTime: "08:00", endTime: "12:00", active: false },
-              { startTime: "14:00", endTime: "18:00", active: true }
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          }
+        ]
+      },
+      {
+        doctorId: "8",
+        schedule: [
+          {
+            day: "Chủ nhật",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 2",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 3",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 4",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: false }
+            ]
+          },
+          {
+            day: "Thứ 5",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: false },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 6",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: true },
+              { startTime: "18:00", endTime: "22:00", active: true }
+            ]
+          },
+          {
+            day: "Thứ 7",
+            shifts: [
+              { startTime: "08:00", endTime: "12:00", active: true },
+              { startTime: "14:00", endTime: "18:00", active: false },
+              { startTime: "18:00", endTime: "22:00", active: true }
             ]
           }
         ]

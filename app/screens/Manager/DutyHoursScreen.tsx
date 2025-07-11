@@ -39,33 +39,44 @@ const DutyHoursScreen = () => {
       const dayNames = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
       const todayName = dayNames[dayOfWeek];
       
-      // Filter doctors who have duty today
-      const todayDutyDoctors = doctors.filter(doctor => {
+      // For demo purposes, show all doctors with their duty schedules
+      // This allows viewing duty hours for any day of the week
+      const allDoctorsWithDuty = doctors.map(doctor => {
         const doctorSchedule = schedules.find(s => s.doctorId === doctor.id);
-        if (!doctorSchedule) return false;
+        if (!doctorSchedule) {
+          return {
+            ...doctor,
+            dutyShifts: [],
+            totalHours: 0,
+            hasDutyToday: false
+          };
+        }
         
         const todaySchedule = doctorSchedule.schedule.find(s => s.day === todayName);
-        return todaySchedule && todaySchedule.shifts.some(shift => shift.active);
-      });
-      
-      // Add duty information to each doctor
-      const doctorsWithDuty = todayDutyDoctors.map(doctor => {
-        const doctorSchedule = schedules.find(s => s.doctorId === doctor.id);
-        const todaySchedule = doctorSchedule.schedule.find(s => s.day === todayName);
-        const activeShifts = todaySchedule.shifts.filter(shift => shift.active);
+        const activeShifts = todaySchedule ? todaySchedule.shifts.filter(shift => shift.active) : [];
+        
+        // Get all active shifts for the week for demo purposes
+        const allActiveShifts = doctorSchedule.schedule.flatMap(daySchedule => 
+          daySchedule.shifts.filter(shift => shift.active).map(shift => ({
+            ...shift,
+            day: daySchedule.day
+          }))
+        );
         
         return {
           ...doctor,
           dutyShifts: activeShifts,
+          allWeekShifts: allActiveShifts,
           totalHours: activeShifts.reduce((total, shift) => {
             const start = new Date(`2000-01-01 ${shift.startTime}`);
             const end = new Date(`2000-01-01 ${shift.endTime}`);
             return total + (end - start) / (1000 * 60 * 60);
-          }, 0)
+          }, 0),
+          hasDutyToday: activeShifts.length > 0
         };
       });
       
-      setDutyDoctors(doctorsWithDuty);
+      setDutyDoctors(allDoctorsWithDuty);
     } catch (error) {
       console.error('Error loading duty data:', error);
       Alert.alert('Lỗi', 'Không thể tải dữ liệu giờ trực');
@@ -75,10 +86,14 @@ const DutyHoursScreen = () => {
   };
 
   const getFilteredDoctors = () => {
+    if (!dutyDoctors || dutyDoctors.length === 0) return [];
     if (filter === 'all') return dutyDoctors;
     
     return dutyDoctors.filter(doctor => {
-      return doctor.dutyShifts.some(shift => {
+      // For demo, show doctors who have duty in the selected shift on any day
+      if (!doctor.allWeekShifts || doctor.allWeekShifts.length === 0) return false;
+      
+      return doctor.allWeekShifts.some(shift => {
         const hour = parseInt(shift.startTime.split(':')[0]);
         if (filter === 'morning') return hour >= 6 && hour < 12;
         if (filter === 'afternoon') return hour >= 12 && hour < 18;
@@ -105,27 +120,30 @@ const DutyHoursScreen = () => {
   const getStats = () => {
     const filtered = getFilteredDoctors();
     const totalDoctors = filtered.length;
-    const totalHours = filtered.reduce((sum, doctor) => sum + doctor.totalHours, 0);
+    const totalHours = filtered.reduce((sum, doctor) => sum + (doctor.totalHours || 0), 0);
+    const totalWeekHours = filtered.reduce((sum, doctor) => sum + ((doctor.allWeekShifts && doctor.allWeekShifts.length) ? doctor.allWeekShifts.length * 4 : 0), 0);
+    
+    // Calculate stats based on all week shifts for demo
     const morningShift = filtered.filter(doctor => 
-      doctor.dutyShifts.some(shift => {
+      doctor.allWeekShifts && doctor.allWeekShifts.some(shift => {
         const hour = parseInt(shift.startTime.split(':')[0]);
         return hour >= 6 && hour < 12;
       })
     ).length;
     const afternoonShift = filtered.filter(doctor => 
-      doctor.dutyShifts.some(shift => {
+      doctor.allWeekShifts && doctor.allWeekShifts.some(shift => {
         const hour = parseInt(shift.startTime.split(':')[0]);
         return hour >= 12 && hour < 18;
       })
     ).length;
     const nightShift = filtered.filter(doctor => 
-      doctor.dutyShifts.some(shift => {
+      doctor.allWeekShifts && doctor.allWeekShifts.some(shift => {
         const hour = parseInt(shift.startTime.split(':')[0]);
         return hour >= 18 || hour < 6;
       })
     ).length;
 
-    return { totalDoctors, totalHours, morningShift, afternoonShift, nightShift };
+    return { totalDoctors, totalHours, totalWeekHours, morningShift, afternoonShift, nightShift };
   };
 
   if (loading) {
@@ -160,9 +178,20 @@ const DutyHoursScreen = () => {
       </View>
 
       <ScrollView style={styles.content}>
+        {/* Demo Notice */}
+        <View style={[styles.demoNotice, { backgroundColor: theme.colors.primary + '15', borderColor: theme.colors.primary }]}>
+          <Ionicons name="information-circle" size={20} color={theme.colors.primary} />
+          <Text style={[styles.demoNoticeText, { color: theme.colors.primary }]}>
+            🎯 Demo: Hiển thị tất cả 8 bác sĩ với lịch trực trong tuần. Hôm nay là {new Date().toLocaleDateString('vi-VN', { weekday: 'long' })}. 
+            Bác sĩ có ca trực hôm nay sẽ hiển thị màu xanh.
+          </Text>
+        </View>
+
         {/* Stats Section */}
         <View style={[styles.statsContainer, { backgroundColor: theme.colors.surface }]}>
-          <Text style={[styles.statsTitle, { color: theme.colors.text }]}>📊 Thống kê hôm nay</Text>
+          <Text style={[styles.statsTitle, { color: theme.colors.text }]}>
+            📊 Thống kê hôm nay ({new Date().toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })})
+          </Text>
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: theme.colors.primary }]}>{stats.totalDoctors}</Text>
@@ -170,7 +199,11 @@ const DutyHoursScreen = () => {
             </View>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: theme.colors.primary }]}>{stats.totalHours.toFixed(1)}h</Text>
-              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>Tổng giờ</Text>
+              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>Hôm nay</Text>
+            </View>
+            <View style={styles.statItem}>
+              <Text style={[styles.statNumber, { color: theme.colors.primary }]}>{stats.totalWeekHours}h</Text>
+              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>Tổng tuần</Text>
             </View>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: '#4CAF50' }]}>{stats.morningShift}</Text>
@@ -245,14 +278,17 @@ const DutyHoursScreen = () => {
         {/* Doctors List */}
         <View style={styles.doctorsContainer}>
           <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
-            Bác sĩ đang trực ({filteredDoctors.length})
+            Danh sách bác sĩ ({filteredDoctors.length})
           </Text>
           
           {filteredDoctors.length === 0 ? (
             <View style={[styles.emptyState, { backgroundColor: theme.colors.surface }]}>
               <Ionicons name="time-outline" size={48} color={theme.colors.textSecondary} />
               <Text style={[styles.emptyText, { color: theme.colors.textSecondary }]}>
-                Không có bác sĩ nào trực {filter !== 'all' ? `ca ${filter === 'morning' ? 'sáng' : filter === 'afternoon' ? 'chiều' : 'tối'}` : 'hôm nay'}
+                Không có bác sĩ nào trong ca {filter === 'morning' ? 'sáng' : filter === 'afternoon' ? 'chiều' : 'tối'}
+              </Text>
+              <Text style={[styles.emptySubText, { color: theme.colors.textSecondary }]}>
+                💡 Demo: Hãy thử lọc "Tất cả" để xem tất cả bác sĩ
               </Text>
             </View>
           ) : (
@@ -265,9 +301,9 @@ const DutyHoursScreen = () => {
                 <View style={styles.doctorInfo}>
                   <View style={styles.doctorHeader}>
                     <Text style={[styles.doctorName, { color: theme.colors.text }]}>{doctor.name}</Text>
-                    <View style={[styles.statusBadge, { backgroundColor: doctor.available ? '#4CAF50' : '#f44336' }]}>
+                    <View style={[styles.statusBadge, { backgroundColor: doctor.hasDutyToday ? '#4CAF50' : '#f44336' }]}>
                       <Text style={styles.statusText}>
-                        {doctor.available ? 'Đang trực' : 'Nghỉ'}
+                        {doctor.hasDutyToday ? 'Có ca hôm nay' : 'Không có ca'}
                       </Text>
                     </View>
                   </View>
@@ -275,12 +311,12 @@ const DutyHoursScreen = () => {
                     {doctor.specialty}
                   </Text>
                   <Text style={[styles.doctorHours, { color: theme.colors.textSecondary }]}>
-                    Tổng giờ trực: {doctor.totalHours.toFixed(1)}h
+                    Ca trực hôm nay: {(doctor.totalHours || 0).toFixed(1)}h | Tổng tuần: {((doctor.allWeekShifts && doctor.allWeekShifts.length) ? doctor.allWeekShifts.length * 4 : 0)}h
                   </Text>
                 </View>
                 
                 <View style={styles.shiftsContainer}>
-                  {doctor.dutyShifts.map((shift, shiftIndex) => (
+                  {doctor.dutyShifts && doctor.dutyShifts.map((shift, shiftIndex) => (
                     <View
                       key={shiftIndex}
                       style={[
@@ -293,6 +329,11 @@ const DutyHoursScreen = () => {
                       </Text>
                     </View>
                   ))}
+                  {(!doctor.dutyShifts || doctor.dutyShifts.length === 0) && (
+                    <Text style={[styles.noShiftText, { color: theme.colors.textSecondary }]}>
+                      Không có ca trực hôm nay
+                    </Text>
+                  )}
                 </View>
               </TouchableOpacity>
             ))
@@ -339,6 +380,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  demoNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 16,
+  },
+  demoNoticeText: {
+    fontSize: 14,
+    marginLeft: 8,
+    flex: 1,
+  },
   statsContainer: {
     borderRadius: 12,
     padding: 16,
@@ -361,7 +415,7 @@ const styles = StyleSheet.create({
   },
   statItem: {
     alignItems: 'center',
-    width: '18%',
+    width: '16%',
     marginBottom: 8,
   },
   statNumber: {
@@ -410,6 +464,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginTop: 12,
+  },
+  emptySubText: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 8,
+    fontStyle: 'italic',
+  },
+  noShiftText: {
+    fontSize: 12,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: 4,
   },
   doctorCard: {
     borderRadius: 12,

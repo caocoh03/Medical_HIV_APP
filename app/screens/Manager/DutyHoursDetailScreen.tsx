@@ -190,7 +190,7 @@ const DutyHoursDetailScreen = () => {
             <View style={styles.inputGroup}>
               <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Chọn bác sĩ:</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.doctorScroll}>
-                {doctors.map((doctor) => (
+                {doctors && doctors.map((doctor) => (
                   <TouchableOpacity
                     key={doctor.id}
                     style={[
@@ -359,6 +359,14 @@ const DutyHoursDetailScreen = () => {
       </View>
 
       <ScrollView style={styles.content}>
+        {/* Demo Notice */}
+        <View style={[styles.demoNotice, { backgroundColor: theme.colors.primary + '15', borderColor: theme.colors.primary }]}>
+          <Ionicons name="information-circle" size={20} color={theme.colors.primary} />
+          <Text style={[styles.demoNoticeText, { color: theme.colors.primary }]}>
+            🎯 Demo: Quản lý ca trực chi tiết. Có thể thêm, sửa, xóa và bật/tắt ca trực.
+          </Text>
+        </View>
+
         {selectedDoctor ? (
           // Show specific doctor's duty schedule
           <View>
@@ -435,9 +443,9 @@ const DutyHoursDetailScreen = () => {
           // Show all doctors with their duty status
           <View>
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Tất cả bác sĩ</Text>
-            {doctors.map((doctor) => {
+            {doctors && doctors.map((doctor) => {
               const todaySchedule = getTodaySchedule(doctor.id);
-              const activeShifts = todaySchedule?.shifts.filter(s => s.active) || [];
+              const activeShifts = todaySchedule?.shifts?.filter(s => s.active) || [];
               
               return (
                 <TouchableOpacity
@@ -524,6 +532,19 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+  },
+  demoNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 16,
+  },
+  demoNoticeText: {
+    fontSize: 14,
+    marginLeft: 8,
+    flex: 1,
   },
   doctorInfo: {
     borderRadius: 12,
