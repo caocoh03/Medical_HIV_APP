@@ -5,6 +5,7 @@ const MANAGER_KEYS = {
   DOCTORS: "manager_doctors",
   APPOINTMENTS: "manager_appointments",
   SCHEDULES: "manager_schedules",
+  APPROVAL_REQUESTS: "manager_approval_requests",
 };
 
 class ManagerDataService {
@@ -236,12 +237,12 @@ class ManagerDataService {
         patientName: "Nguyễn Văn A",
         doctorId: "1",
         doctorName: "BS. Nguyễn Thanh Tùng",
-        date: "2025-01-15",
+        date: new Date().toISOString().split('T')[0],
         time: "09:00",
         status: "pending",
         type: "Khám định kỳ",
         notes: "Bệnh nhân cần khám định kỳ và xét nghiệm CD4",
-        createdAt: "2025-01-10T08:00:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "2",
@@ -249,12 +250,12 @@ class ManagerDataService {
         patientName: "Trần Thị B",
         doctorId: "2",
         doctorName: "BS. Lê Quang Liêm",
-        date: "2025-01-16",
+        date: new Date().toISOString().split('T')[0],
         time: "14:30",
         status: "pending",
         type: "Tư vấn",
         notes: "Bệnh nhân cần tư vấn về tác dụng phụ thuốc ARV",
-        createdAt: "2025-01-11T10:30:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "3",
@@ -262,12 +263,12 @@ class ManagerDataService {
         patientName: "Lê Văn C",
         doctorId: "4",
         doctorName: "BS. Trần Thị Hương",
-        date: "2025-01-17",
+        date: new Date().toISOString().split('T')[0],
         time: "10:00",
         status: "confirmed",
         type: "Khám chuyên khoa",
         notes: "Bệnh nhân cần khám chuyên khoa HIV/AIDS",
-        createdAt: "2025-01-12T14:15:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "4",
@@ -275,12 +276,12 @@ class ManagerDataService {
         patientName: "Phạm Thị D",
         doctorId: "5",
         doctorName: "BS. Hoàng Văn Minh",
-        date: "2025-01-18",
+        date: new Date().toISOString().split('T')[0],
         time: "08:00",
         status: "pending",
         type: "Khám tim mạch",
         notes: "Bệnh nhân có triệu chứng tăng huyết áp",
-        createdAt: "2025-01-13T09:45:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "5",
@@ -288,12 +289,12 @@ class ManagerDataService {
         patientName: "Hoàng Văn E",
         doctorId: "6",
         doctorName: "BS. Ngô Thị Lan",
-        date: "2025-01-19",
+        date: new Date().toISOString().split('T')[0],
         time: "15:00",
         status: "pending",
         type: "Khám nhi",
         notes: "Trẻ em cần khám nhi và tư vấn dinh dưỡng",
-        createdAt: "2025-01-14T11:20:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "6",
@@ -301,12 +302,12 @@ class ManagerDataService {
         patientName: "Nguyễn Thị F",
         doctorId: "7",
         doctorName: "BS. Vũ Hoàng Nam",
-        date: "2025-01-20",
+        date: new Date().toISOString().split('T')[0],
         time: "19:00",
         status: "pending",
         type: "Cấp cứu",
         notes: "Bệnh nhân có triệu chứng sốt cao và khó thở",
-        createdAt: "2025-01-15T08:30:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "7",
@@ -314,12 +315,12 @@ class ManagerDataService {
         patientName: "Trần Văn G",
         doctorId: "8",
         doctorName: "BS. Lê Thị Mai",
-        date: "2025-01-21",
+        date: new Date().toISOString().split('T')[0],
         time: "10:00",
         status: "pending",
         type: "Tư vấn tâm lý",
         notes: "Bệnh nhân cần tư vấn tâm lý sau khi biết kết quả dương tính",
-        createdAt: "2025-01-16T14:45:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "8",
@@ -327,12 +328,12 @@ class ManagerDataService {
         patientName: "Lê Thị H",
         doctorId: "1",
         doctorName: "BS. Nguyễn Thanh Tùng",
-        date: "2025-01-22",
+        date: new Date().toISOString().split('T')[0],
         time: "09:30",
         status: "confirmed",
         type: "Khám định kỳ",
         notes: "Bệnh nhân cần khám định kỳ và điều chỉnh thuốc ARV",
-        createdAt: "2025-01-17T09:15:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "9",
@@ -340,12 +341,12 @@ class ManagerDataService {
         patientName: "Phạm Văn I",
         doctorId: "2",
         doctorName: "BS. Lê Quang Liêm",
-        date: "2025-01-23",
+        date: new Date().toISOString().split('T')[0],
         time: "16:00",
         status: "pending",
         type: "Khám nhiễm khuẩn",
         notes: "Bệnh nhân có dấu hiệu nhiễm trùng cơ hội",
-        createdAt: "2025-01-18T11:00:00Z"
+        createdAt: new Date().toISOString()
       },
       {
         id: "10",
@@ -353,12 +354,77 @@ class ManagerDataService {
         patientName: "Vũ Thị K",
         doctorId: "4",
         doctorName: "BS. Trần Thị Hương",
-        date: "2025-01-24",
+        date: new Date().toISOString().split('T')[0],
         time: "14:00",
         status: "pending",
         type: "Tư vấn sức khỏe sinh sản",
         notes: "Bệnh nhân nữ cần tư vấn về sức khỏe sinh sản và HIV",
-        createdAt: "2025-01-19T15:30:00Z"
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "11",
+        patientId: "11",
+        patientName: "Đỗ Văn L",
+        doctorId: "3",
+        doctorName: "BS. Phùng Thanh Độ",
+        date: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "09:00",
+        status: "pending",
+        type: "Khám da liễu",
+        notes: "Bệnh nhân có biến chứng da do HIV",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "12",
+        patientId: "12",
+        patientName: "Võ Thị M",
+        doctorId: "1",
+        doctorName: "BS. Nguyễn Thanh Tùng",
+        date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "10:30",
+        status: "pending",
+        type: "Khám định kỳ",
+        notes: "Bệnh nhân cần khám định kỳ và xét nghiệm",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "13",
+        patientId: "13",
+        patientName: "Lý Văn N",
+        doctorId: "5",
+        doctorName: "BS. Hoàng Văn Minh",
+        date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "14:00",
+        status: "pending",
+        type: "Khám tim mạch",
+        notes: "Bệnh nhân có triệu chứng đau ngực",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "14",
+        patientId: "14",
+        patientName: "Hồ Thị O",
+        doctorId: "6",
+        doctorName: "BS. Ngô Thị Lan",
+        date: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "11:00",
+        status: "pending",
+        type: "Khám nhi",
+        notes: "Trẻ em cần khám nhi và tiêm chủng",
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: "15",
+        patientId: "15",
+        patientName: "Nguyễn Văn P",
+        doctorId: "8",
+        doctorName: "BS. Lê Thị Mai",
+        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: "15:30",
+        status: "pending",
+        type: "Tư vấn tâm lý",
+        notes: "Bệnh nhân cần tư vấn tâm lý và hỗ trợ",
+        createdAt: new Date().toISOString()
       }
     ];
 
@@ -853,9 +919,117 @@ class ManagerDataService {
       }
     ];
 
+    const sampleApprovalRequests = [
+      {
+        id: "1",
+        type: "leave_request",
+        title: "Đơn xin nghỉ phép",
+        description: "Tôi xin phép nghỉ 3 ngày từ 15/12/2024 đến 17/12/2024 để tham gia hội thảo y khoa tại TP.HCM. Đây là hội thảo quan trọng về điều trị HIV/AIDS mới nhất.",
+        requesterName: "BS. Nguyễn Thanh Tùng",
+        requesterId: "1",
+        status: "pending",
+        urgency: "Bình thường",
+        notes: "Hội thảo có chứng chỉ CME",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: "2",
+        type: "schedule_change",
+        title: "Yêu cầu thay đổi lịch làm việc",
+        description: "Tôi muốn thay đổi lịch làm việc từ ca sáng sang ca chiều vào thứ 3 hàng tuần do có việc cá nhân quan trọng.",
+        requesterName: "BS. Lê Quang Liêm",
+        requesterId: "2",
+        status: "approved",
+        urgency: "Cao",
+        notes: "Đã phê duyệt và thông báo cho bệnh nhân",
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "3",
+        type: "equipment_request",
+        title: "Yêu cầu thiết bị y tế",
+        description: "Khoa cần thêm 2 máy đo huyết áp điện tử và 1 máy đo đường huyết để phục vụ bệnh nhân HIV có biến chứng tim mạch và tiểu đường.",
+        requesterName: "BS. Hoàng Văn Minh",
+        requesterId: "5",
+        status: "pending",
+        urgency: "Cao",
+        notes: "Thiết bị cần thiết cho điều trị",
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "4",
+        type: "training_request",
+        title: "Đăng ký khóa đào tạo",
+        description: "Tôi muốn đăng ký tham gia khóa đào tạo 'Điều trị HIV/AIDS cho trẻ em' tại Bệnh viện Nhi Trung ương từ 20/01/2025 đến 25/01/2025.",
+        requesterName: "BS. Ngô Thị Lan",
+        requesterId: "6",
+        status: "approved",
+        urgency: "Bình thường",
+        notes: "Khóa học có chứng chỉ chuyên khoa",
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "5",
+        type: "consultation_request",
+        title: "Yêu cầu tư vấn chuyên môn",
+        description: "Tôi cần tư vấn về trường hợp bệnh nhân HIV có biến chứng da phức tạp. Bệnh nhân có tiền sử dị ứng thuốc ARV.",
+        requesterName: "BS. Phùng Thanh Độ",
+        requesterId: "3",
+        status: "rejected",
+        urgency: "Cao",
+        notes: "Có thể tư vấn trực tiếp thay vì qua đơn",
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "6",
+        type: "leave_request",
+        title: "Đơn xin nghỉ phép",
+        description: "Tôi xin phép nghỉ 1 ngày vào 20/12/2024 để đi khám sức khỏe định kỳ.",
+        requesterName: "BS. Trần Thị Hương",
+        requesterId: "4",
+        status: "pending",
+        urgency: "Bình thường",
+        notes: "Khám sức khỏe định kỳ",
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "7",
+        type: "equipment_request",
+        title: "Yêu cầu máy tính bảng",
+        description: "Khoa cần thêm 3 máy tính bảng để bác sĩ tra cứu thông tin thuốc và hướng dẫn điều trị cho bệnh nhân.",
+        requesterName: "BS. Vũ Hoàng Nam",
+        requesterId: "7",
+        status: "pending",
+        urgency: "Trung bình",
+        notes: "Phục vụ công tác tư vấn",
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "8",
+        type: "training_request",
+        title: "Đăng ký hội thảo",
+        description: "Tôi muốn tham gia hội thảo 'Tâm lý học trong điều trị HIV/AIDS' tại Hà Nội từ 10/02/2025 đến 12/02/2025.",
+        requesterName: "BS. Lê Thị Mai",
+        requesterId: "8",
+        status: "approved",
+        urgency: "Bình thường",
+        notes: "Hội thảo có chứng chỉ CME",
+        createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ];
+
     await AsyncStorage.setItem(MANAGER_KEYS.DOCTORS, JSON.stringify(sampleDoctors));
     await AsyncStorage.setItem(MANAGER_KEYS.APPOINTMENTS, JSON.stringify(sampleAppointments));
     await AsyncStorage.setItem(MANAGER_KEYS.SCHEDULES, JSON.stringify(sampleSchedules));
+    await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(sampleApprovalRequests));
   }
 
   // Doctors
@@ -1058,12 +1232,95 @@ class ManagerDataService {
     }
   }
 
+  // Approval Requests
+  async getApprovalRequests() {
+    try {
+      const data = await AsyncStorage.getItem(MANAGER_KEYS.APPROVAL_REQUESTS);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.error("Error getting approval requests:", error);
+      return [];
+    }
+  }
+
+  async getApprovalRequestById(requestId) {
+    try {
+      const requests = await this.getApprovalRequests();
+      return requests.find(request => request.id === requestId);
+    } catch (error) {
+      console.error("Error getting approval request by id:", error);
+      return null;
+    }
+  }
+
+  async addApprovalRequest(request) {
+    try {
+      const requests = await this.getApprovalRequests();
+      const newRequest = {
+        ...request,
+        id: (requests.length + 1).toString(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      requests.push(newRequest);
+      await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(requests));
+      return newRequest;
+    } catch (error) {
+      console.error("Error adding approval request:", error);
+      throw error;
+    }
+  }
+
+  async updateApprovalRequest(requestId, updates) {
+    try {
+      const requests = await this.getApprovalRequests();
+      const index = requests.findIndex(request => request.id === requestId);
+      if (index !== -1) {
+        requests[index] = { 
+          ...requests[index], 
+          ...updates,
+          updatedAt: new Date().toISOString()
+        };
+        await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(requests));
+        return requests[index];
+      }
+      return null;
+    } catch (error) {
+      console.error("Error updating approval request:", error);
+      throw error;
+    }
+  }
+
+  async deleteApprovalRequest(requestId) {
+    try {
+      const requests = await this.getApprovalRequests();
+      const filteredRequests = requests.filter(request => request.id !== requestId);
+      await AsyncStorage.setItem(MANAGER_KEYS.APPROVAL_REQUESTS, JSON.stringify(filteredRequests));
+      return true;
+    } catch (error) {
+      console.error("Error deleting approval request:", error);
+      throw error;
+    }
+  }
+
   // Clear all manager data
   async clearAllManagerData() {
     try {
       await AsyncStorage.multiRemove(Object.values(MANAGER_KEYS));
     } catch (error) {
       console.error("Error clearing manager data:", error);
+    }
+  }
+
+  // Reset and reinitialize demo data
+  async resetAndInitializeDemoData() {
+    try {
+      await this.clearAllManagerData();
+      await this.initializeSampleManagerData();
+      console.log("Demo data has been reset and reinitialized successfully");
+    } catch (error) {
+      console.error("Error resetting demo data:", error);
     }
   }
 }

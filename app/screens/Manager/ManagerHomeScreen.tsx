@@ -171,14 +171,19 @@ const ManagerHomeScreen: React.FC = () => {
       
       // Load appointments
       const appointments = await managerDataService.getAppointments();
+      const todayAppointments = appointments.filter(a => a.date === new Date().toISOString().split('T')[0]);
+      
+      // Load approval requests
+      const approvalRequests = await managerDataService.getApprovalRequests();
+      const pendingRequests = approvalRequests.filter(r => r.status === 'pending');
       
       // Get dashboard stats
       const statsData = await managerDataService.getDashboardStats();
       
       setStats({
-        doctorCount: doctors.length,
-        patientCount: statsData.totalAppointments,
-        appointmentCount: appointments.length
+        doctorCount: activeDoctors.length,
+        patientCount: todayAppointments.length,
+        appointmentCount: pendingRequests.length
       });
       
       // Get recent doctors (last 3)
@@ -223,14 +228,14 @@ const ManagerHomeScreen: React.FC = () => {
             <HomeQuickButton icon="school" color="#00B894" label="Bằng cấp & chuyên môn" desc="Quản lý chuyên môn, bằng cấp" onPress={() => navigation.navigate("CertificatesScreen")} theme={theme} />
             <HomeQuickButton icon="calendar" color="#6C5CE7" label="Lịch làm việc" desc="Xem & phân ca bác sĩ" onPress={() => navigation.navigate("ScheduleScreen")} theme={theme} />
             <HomeQuickButton icon="time" color="#fdcb6e" label="Giờ trực hôm nay" desc="Bác sĩ đang trực" onPress={() => navigation.navigate("DutyHoursScreen")} theme={theme} />
-            <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => {}} theme={theme} />
+            <HomeQuickButton icon="alert-circle" color="#d63031" label="Yêu cầu cần duyệt" desc="Phê duyệt hồ sơ, lịch" onPress={() => navigation.navigate("ApprovalRequestsScreen")} theme={theme} />
           </View>
           {/* Stat Box */}
           <View style={{ backgroundColor: theme.colors.surface, borderRadius: 14, padding: 16, marginBottom: 18, shadowColor: theme.colors.shadowColor, shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 }}>
             <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 4, color: theme.colors.text }}>📅 Thống kê nhanh</RNText>
-            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang trực: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.doctorCount}</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang hoạt động: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.doctorCount}</RNText></RNText>
             <RNText style={{ color: theme.colors.text }}>Yêu cầu đang chờ duyệt: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.appointmentCount}</RNText></RNText>
-            <RNText style={{ color: theme.colors.text }}>Hồ sơ cần cập nhật: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.patientCount}</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Lịch hẹn hôm nay: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.patientCount}</RNText></RNText>
           </View>
           {/* Doctor Overview Section */}
           <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Bác sĩ cập nhật gần đây</RNText>
@@ -242,9 +247,213 @@ const ManagerHomeScreen: React.FC = () => {
           {/* Education Material Section */}
           <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Tài liệu hướng dẫn quản lý</RNText>
           <View style={{ marginBottom: 14 }}>
-            <EducationMaterialCard icon="person-add-outline" title="Hướng dẫn nhập hồ sơ bác sĩ" desc="Quy trình nhập mới, cập nhật hồ sơ bác sĩ." link="#" theme={theme} />
-            <EducationMaterialCard icon="calendar-outline" title="Quy trình phân ca" desc="Hướng dẫn phân ca, sắp xếp lịch làm việc." link="#" theme={theme} />
-            <EducationMaterialCard icon="document-text-outline" title="Chính sách nghỉ phép" desc="Quy định về nghỉ phép, phê duyệt đơn." link="#" theme={theme} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('DoctorGuideScreen')}
+              style={{
+                backgroundColor: theme.colors.surface,
+                borderRadius: 12,
+                padding: 12,
+                marginBottom: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+                shadowColor: theme.colors.shadowColor,
+                shadowOpacity: 0.03,
+                shadowRadius: 3,
+                shadowOffset: { width: 0, height: 1 },
+                elevation: 1,
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.colors.primary + "15",
+                  borderRadius: 8,
+                  width: 36,
+                  height: 36,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 12,
+                }}
+              >
+                <Ionicons name="person-add-outline" size={18} color={theme.colors.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <RNText
+                  style={{
+                    fontWeight: "600",
+                    fontSize: 14,
+                    color: theme.colors.text,
+                    marginBottom: 2,
+                  }}
+                >
+                  Hướng dẫn nhập hồ sơ bác sĩ
+                </RNText>
+                <RNText
+                  style={{
+                    fontSize: 12,
+                    color: theme.colors.textSecondary,
+                    lineHeight: 16,
+                  }}
+                  numberOfLines={2}
+                >
+                  Quy trình nhập mới, cập nhật hồ sơ bác sĩ.
+                </RNText>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={theme.colors.textSecondary} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ScheduleGuideScreen')}
+              style={{
+                backgroundColor: theme.colors.surface,
+                borderRadius: 12,
+                padding: 12,
+                marginBottom: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+                shadowColor: theme.colors.shadowColor,
+                shadowOpacity: 0.03,
+                shadowRadius: 3,
+                shadowOffset: { width: 0, height: 1 },
+                elevation: 1,
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.colors.primary + "15",
+                  borderRadius: 8,
+                  width: 36,
+                  height: 36,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 12,
+                }}
+              >
+                <Ionicons name="calendar-outline" size={18} color={theme.colors.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <RNText
+                  style={{
+                    fontWeight: "600",
+                    fontSize: 14,
+                    color: theme.colors.text,
+                    marginBottom: 2,
+                  }}
+                >
+                  Quy trình phân ca
+                </RNText>
+                <RNText
+                  style={{
+                    fontSize: 12,
+                    color: theme.colors.textSecondary,
+                    lineHeight: 16,
+                  }}
+                  numberOfLines={2}
+                >
+                  Hướng dẫn phân ca, sắp xếp lịch làm việc.
+                </RNText>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={theme.colors.textSecondary} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('LeavePolicyGuideScreen')}
+              style={{
+                backgroundColor: theme.colors.surface,
+                borderRadius: 12,
+                padding: 12,
+                marginBottom: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+                shadowColor: theme.colors.shadowColor,
+                shadowOpacity: 0.03,
+                shadowRadius: 3,
+                shadowOffset: { width: 0, height: 1 },
+                elevation: 1,
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.colors.primary + "15",
+                  borderRadius: 8,
+                  width: 36,
+                  height: 36,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 12,
+                }}
+              >
+                <Ionicons name="document-text-outline" size={18} color={theme.colors.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <RNText
+                  style={{
+                    fontWeight: "600",
+                    fontSize: 14,
+                    color: theme.colors.text,
+                    marginBottom: 2,
+                  }}
+                >
+                  Chính sách nghỉ phép
+                </RNText>
+                <RNText
+                  style={{
+                    fontSize: 12,
+                    color: theme.colors.textSecondary,
+                    lineHeight: 16,
+                  }}
+                  numberOfLines={2}
+                >
+                  Quy định về nghỉ phép, phê duyệt đơn.
+                </RNText>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={theme.colors.textSecondary} />
+            </TouchableOpacity>
+          </View>
+
+          {/* Demo Reset Button */}
+          <View style={{ marginBottom: 14 }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: theme.colors.primary + "20",
+                borderWidth: 1,
+                borderColor: theme.colors.primary,
+                borderRadius: 8,
+                padding: 12,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+              onPress={async () => {
+                Alert.alert(
+                  "Reset Demo Data",
+                  "Bạn có chắc chắn muốn reset dữ liệu demo?",
+                  [
+                    { text: "Hủy", style: "cancel" },
+                    {
+                      text: "Reset",
+                      style: "destructive",
+                      onPress: async () => {
+                        try {
+                          const managerDataService = new ManagerDataService();
+                          await managerDataService.resetAndInitializeDemoData();
+                          await loadDashboardData();
+                          Alert.alert("Thành công", "Đã reset dữ liệu demo");
+                        } catch (error) {
+                          Alert.alert("Lỗi", "Không thể reset dữ liệu demo");
+                        }
+                      }
+                    }
+                  ]
+                );
+              }}
+            >
+              <Ionicons name="refresh" size={16} color={theme.colors.primary} style={{ marginRight: 8 }} />
+              <RNText style={{ color: theme.colors.primary, fontWeight: "600" }}>🔄 Reset Demo Data</RNText>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
