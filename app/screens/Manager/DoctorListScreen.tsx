@@ -5,6 +5,8 @@ import { useThemeMode } from "../../context/ThemeContext";
 import { Button } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import ManagerDataService from "../../services/ManagerDataService";
+import AddDoctorModal from "./AddDoctorModal";
+
 
 function DoctorCard({ name, avatar, specialty, status, onPress, theme }) {
   return (
@@ -48,6 +50,8 @@ export default function DoctorListScreen() {
   const [search, setSearch] = useState("");
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
+
 
   useEffect(() => {
     loadDoctors();
@@ -73,6 +77,10 @@ export default function DoctorListScreen() {
     d.name.toLowerCase().includes(search.toLowerCase()) ||
     d.specialty.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleAddSuccess = () => {
+    loadDoctors(); // Reload danh sách sau khi thêm thành công
+  };
 
   if (loading) {
     return (
@@ -109,12 +117,17 @@ export default function DoctorListScreen() {
           size="md"
           variant="solid"
           action="primary"
-          onPress={() => {}}
+          onPress={() => {
+            console.log("Button pressed, setting showAddModal to true");
+            setShowAddModal(true);
+          }}
           style={{ borderRadius: 12 }}
         >
           <Ionicons name="add" size={18} color="#fff" style={{ marginRight: 6 }} />
           <RNText style={{ color: "#fff", fontWeight: "bold", marginLeft: 4 }}>Thêm bác sĩ mới</RNText>
         </Button>
+        
+
       </View>
       {/* Danh sách bác sĩ */}
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 80 }}>
@@ -149,6 +162,15 @@ export default function DoctorListScreen() {
           <RNText style={{ color: "#fff", fontWeight: "bold", fontSize: 16, marginLeft: 4 }}>Về trang Home</RNText>
         </Button>
       </View>
+
+      {/* Add Doctor Modal */}
+      <AddDoctorModal
+        visible={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={handleAddSuccess}
+      />
+
+
     </View>
   );
 } 
