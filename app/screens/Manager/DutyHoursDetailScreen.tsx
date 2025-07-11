@@ -52,7 +52,8 @@ const DutyHoursDetailScreen = () => {
   };
 
   const getDoctorSchedule = (doctorId) => {
-    return schedules.find(s => s.doctorId === doctorId);
+    const schedule = schedules.find(s => s.doctorId === doctorId);
+    return schedule || { doctorId, schedule: [] };
   };
 
   const getTodaySchedule = (doctorId) => {
@@ -86,6 +87,7 @@ const DutyHoursDetailScreen = () => {
         // Update existing schedule
         const daySchedule = doctorSchedule.schedule.find(s => s.day === day);
         if (daySchedule) {
+          if (!daySchedule.shifts) daySchedule.shifts = [];
           daySchedule.shifts.push(shift);
         } else {
           doctorSchedule.schedule.push({
@@ -111,7 +113,7 @@ const DutyHoursDetailScreen = () => {
       const doctorSchedule = getDoctorSchedule(doctorId);
       const daySchedule = doctorSchedule.schedule.find(s => s.day === day);
       
-      if (daySchedule && daySchedule.shifts[shiftIndex]) {
+      if (daySchedule && daySchedule.shifts && daySchedule.shifts[shiftIndex]) {
         daySchedule.shifts[shiftIndex].active = !daySchedule.shifts[shiftIndex].active;
         await managerDataService.updateSchedule(doctorId, doctorSchedule);
         await loadData();
@@ -137,7 +139,7 @@ const DutyHoursDetailScreen = () => {
               const doctorSchedule = getDoctorSchedule(doctorId);
               const daySchedule = doctorSchedule.schedule.find(s => s.day === day);
               
-              if (daySchedule) {
+              if (daySchedule && daySchedule.shifts) {
                 daySchedule.shifts.splice(shiftIndex, 1);
                 await managerDataService.updateSchedule(doctorId, doctorSchedule);
                 await loadData();
@@ -384,7 +386,7 @@ const DutyHoursDetailScreen = () => {
               return (
                 <View key={day} style={[styles.dayCard, { backgroundColor: theme.colors.surface }]}>
                   <Text style={[styles.dayTitle, { color: theme.colors.text }]}>{day}</Text>
-                  {daySchedule && daySchedule.shifts.length > 0 ? (
+                  {daySchedule && daySchedule.shifts && daySchedule.shifts.length > 0 ? (
                     daySchedule.shifts.map((shift, index) => (
                       <View key={index} style={styles.shiftRow}>
                         <View style={[

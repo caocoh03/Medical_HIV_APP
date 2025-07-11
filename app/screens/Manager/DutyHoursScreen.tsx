@@ -57,10 +57,11 @@ const DutyHoursScreen = () => {
         
         // Get all active shifts for the week for demo purposes
         const allActiveShifts = doctorSchedule.schedule.flatMap(daySchedule => 
+          (daySchedule.shifts && daySchedule.shifts.filter(shift => shift.active)) ? 
           daySchedule.shifts.filter(shift => shift.active).map(shift => ({
             ...shift,
             day: daySchedule.day
-          }))
+          })) : []
         );
         
         return {
@@ -68,6 +69,7 @@ const DutyHoursScreen = () => {
           dutyShifts: activeShifts,
           allWeekShifts: allActiveShifts,
           totalHours: activeShifts.reduce((total, shift) => {
+            if (!shift.startTime || !shift.endTime) return total;
             const start = new Date(`2000-01-01 ${shift.startTime}`);
             const end = new Date(`2000-01-01 ${shift.endTime}`);
             return total + (end - start) / (1000 * 60 * 60);
