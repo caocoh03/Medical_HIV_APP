@@ -58,6 +58,7 @@ import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
 import ApprovalRequestsScreen from "../screens/Manager/ApprovalRequestsScreen";
 import DoctorGuideScreen from "../screens/Manager/DoctorGuideScreen";
 import ScheduleGuideScreen from "../screens/Manager/ScheduleGuideScreen";
+import LeavePolicyGuideScreen from "../screens/Manager/LeavePolicyGuideScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -432,6 +433,17 @@ export default function Navigation() {
             options={{
               headerShown: true,
               title: "Quy trình phân ca",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="LeavePolicyGuideScreen"
+            component={LeavePolicyGuideScreen}
+            options={{
+              headerShown: true,
+              title: "Chính sách nghỉ phép",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
               headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
