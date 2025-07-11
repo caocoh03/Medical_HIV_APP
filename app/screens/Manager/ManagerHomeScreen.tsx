@@ -302,7 +302,61 @@ const ManagerHomeScreen: React.FC = () => {
               </View>
               <Ionicons name="chevron-forward" size={16} color={theme.colors.textSecondary} />
             </TouchableOpacity>
-            <EducationMaterialCard icon="calendar-outline" title="Quy trình phân ca" desc="Hướng dẫn phân ca, sắp xếp lịch làm việc." link="#" theme={theme} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ScheduleGuideScreen')}
+              style={{
+                backgroundColor: theme.colors.surface,
+                borderRadius: 12,
+                padding: 12,
+                marginBottom: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+                shadowColor: theme.colors.shadowColor,
+                shadowOpacity: 0.03,
+                shadowRadius: 3,
+                shadowOffset: { width: 0, height: 1 },
+                elevation: 1,
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.colors.primary + "15",
+                  borderRadius: 8,
+                  width: 36,
+                  height: 36,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 12,
+                }}
+              >
+                <Ionicons name="calendar-outline" size={18} color={theme.colors.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <RNText
+                  style={{
+                    fontWeight: "600",
+                    fontSize: 14,
+                    color: theme.colors.text,
+                    marginBottom: 2,
+                  }}
+                >
+                  Quy trình phân ca
+                </RNText>
+                <RNText
+                  style={{
+                    fontSize: 12,
+                    color: theme.colors.textSecondary,
+                    lineHeight: 16,
+                  }}
+                  numberOfLines={2}
+                >
+                  Hướng dẫn phân ca, sắp xếp lịch làm việc.
+                </RNText>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={theme.colors.textSecondary} />
+            </TouchableOpacity>
             <EducationMaterialCard icon="document-text-outline" title="Chính sách nghỉ phép" desc="Quy định về nghỉ phép, phê duyệt đơn." link="#" theme={theme} />
           </View>
 
