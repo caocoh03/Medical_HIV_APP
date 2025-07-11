@@ -48,6 +48,7 @@ import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
 import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
 import DoctorListScreen from "../screens/Manager/DoctorListScreen";
+import DoctorDetailScreen from "../screens/Manager/DoctorDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -312,6 +313,17 @@ export default function Navigation() {
             options={{
               headerShown: true,
               title: "Danh sách bác sĩ",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorDetailScreen"
+            component={DoctorDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Thông tin bác sĩ",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
               headerTitleStyle: { fontWeight: "bold", fontSize: 18 },

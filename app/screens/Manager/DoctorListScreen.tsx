@@ -42,9 +42,12 @@ function DoctorCard({ name, avatar, specialty, status, onPress, theme }) {
 }
 
 const mockDoctors = [
-  { name: "BS. Nguyễn Văn A", avatar: "https://i.imgur.com/1XW7QYk.png", specialty: "Nội tổng quát", status: "active" },
-  { name: "BS. Trần Thị B", avatar: "https://i.imgur.com/1XW7QYk.png", specialty: "Truyền nhiễm", status: "active" },
-  { name: "BS. Lê Văn C", avatar: "https://i.imgur.com/1XW7QYk.png", specialty: "Nhi khoa", status: "inactive" },
+  { name: "BS. Nguyễn Văn A", avatar: require("../../assets/manager_material/doctor1.png"), specialty: "Nội tổng quát", status: "active" },
+  { name: "BS. Trần Thị B", avatar: require("../../assets/manager_material/doctor2.png"), specialty: "Truyền nhiễm", status: "active" },
+  { name: "BS. Lê Văn C", avatar: require("../../assets/manager_material/doctor3.png"), specialty: "Nhi khoa", status: "inactive" },
+  { name: "BS. Phạm Thị D", avatar: require("../../assets/manager_material/doctor4.png"), specialty: "Da liễu", status: "active" },
+  { name: "BS. Hoàng Văn E", avatar: require("../../assets/manager_material/doctor5.png"), specialty: "Tim mạch", status: "active" },
+  { name: "BS. Ngô Thị F", avatar: require("../../assets/manager_material/doctor6.png"), specialty: "Thần kinh", status: "inactive" },
 ];
 
 export default function DoctorListScreen() {
@@ -106,7 +109,7 @@ export default function DoctorListScreen() {
               avatar={doc.avatar}
               specialty={doc.specialty}
               status={doc.status}
-              onPress={() => {}}
+              onPress={() => navigation.navigate("DoctorDetailScreen", { doctor: doc })}
               theme={theme}
             />
           ))
