@@ -46,6 +46,15 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
+import DoctorListScreen from "../screens/Manager/DoctorListScreen";
+import DoctorDetailScreen from "../screens/Manager/DoctorDetailScreen";
+import CertificatesScreen from "../screens/Manager/CertificatesScreen";
+import DoctorCertDetailScreen from "../screens/Manager/DoctorCertDetailScreen";
+import ScheduleScreen from "../screens/Manager/ScheduleScreen";
+import DoctorScheduleDetailScreen from "../screens/Manager/DoctorScheduleDetailScreen";
+import DutyHoursScreen from "../screens/Manager/DutyHoursScreen";
+import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -286,12 +295,119 @@ export default function Navigation() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
+      ) : user.role === "manager" ? (
+        <Stack.Navigator
+          id={undefined}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen
+            name="ManagerHomeScreen"
+            component={ManagerHomeScreen}
+            options={{
+              headerShown: true,
+              title: `Quản lý ${user?.name || ""}`,
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorListScreen"
+            component={DoctorListScreen}
+            options={{
+              headerShown: true,
+              title: "Danh sách bác sĩ",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorDetailScreen"
+            component={DoctorDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Thông tin bác sĩ",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="CertificatesScreen"
+            component={CertificatesScreen}
+            options={{
+              headerShown: true,
+              title: "Bằng cấp & Chuyên môn",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorCertDetailScreen"
+            component={DoctorCertDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Quản lý bằng cấp",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="ScheduleScreen"
+            component={ScheduleScreen}
+            options={{
+              headerShown: true,
+              title: "Lịch làm việc",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorScheduleDetailScreen"
+            component={DoctorScheduleDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Quản lý lịch làm việc",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DutyHoursScreen"
+            component={DutyHoursScreen}
+            options={{
+              headerShown: true,
+              title: "Giờ trực hôm nay",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DutyHoursDetailScreen"
+            component={DutyHoursDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Quản lý ca trực",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          {/* Thêm các màn hình quản lý khác ở đây sau */}
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator
           id={undefined}
           screenOptions={{
             headerShown: false,
-
             gestureEnabled: true,
             animation: "slide_from_right",
           }}

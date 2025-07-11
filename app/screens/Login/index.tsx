@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useThemeMode } from "../../context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { doctorSample } from "../../constants/doctorSample";
 
 export default function Login() {
   const { setUser } = useAuth();
