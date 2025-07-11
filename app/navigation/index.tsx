@@ -49,6 +49,8 @@ import UserChatConsultationScreen from "../screens/Features/UserChatConsultation
 import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
 import DoctorListScreen from "../screens/Manager/DoctorListScreen";
 import DoctorDetailScreen from "../screens/Manager/DoctorDetailScreen";
+import CertificatesScreen from "../screens/Manager/CertificatesScreen";
+import DoctorCertDetailScreen from "../screens/Manager/DoctorCertDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -324,6 +326,28 @@ export default function Navigation() {
             options={{
               headerShown: true,
               title: "Thông tin bác sĩ",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="CertificatesScreen"
+            component={CertificatesScreen}
+            options={{
+              headerShown: true,
+              title: "Bằng cấp & Chuyên môn",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorCertDetailScreen"
+            component={DoctorCertDetailScreen}
+            options={{
+              headerShown: true,
+              title: "Quản lý bằng cấp",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
               headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
