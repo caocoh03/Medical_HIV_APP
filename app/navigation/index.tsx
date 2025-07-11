@@ -56,6 +56,7 @@ import DoctorScheduleDetailScreen from "../screens/Manager/DoctorScheduleDetailS
 import DutyHoursScreen from "../screens/Manager/DutyHoursScreen";
 import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
 import ApprovalRequestsScreen from "../screens/Manager/ApprovalRequestsScreen";
+import DoctorGuideScreen from "../screens/Manager/DoctorGuideScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -408,6 +409,17 @@ export default function Navigation() {
             options={{
               headerShown: true,
               title: "Yêu cầu phê duyệt",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+            }}
+          />
+          <Stack.Screen
+            name="DoctorGuideScreen"
+            component={DoctorGuideScreen}
+            options={{
+              headerShown: true,
+              title: "Hướng dẫn nhập hồ sơ bác sĩ",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
               headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
