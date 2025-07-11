@@ -1,11 +1,13 @@
 import * as React from "react";
-import { ScrollView, View, Text as RNText, TouchableOpacity, Image, Alert, ImageBackground } from "react-native";
+import { ScrollView, View, Text as RNText, TouchableOpacity, Image, Alert, ImageBackground, ActivityIndicator } from "react-native";
 import { Box, Heading, Text, HStack, VStack, Button } from "@gluestack-ui/themed";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useThemeMode } from "../../context/ThemeContext";
 import { Linking } from "react-native";
+import ManagerDataService from "../../services/ManagerDataService";
+import { useState, useEffect } from "react";
 
 function HomeQuickButton({ icon, color, label, desc, onPress, theme }) {
   return (
@@ -149,19 +151,58 @@ const ManagerHomeScreen: React.FC = () => {
   const { setUser } = useAuth();
   const navigation = useNavigation();
   const { theme } = useThemeMode();
-  
-  const doctorCount = 10;
-  const patientCount = 120;
-  const appointmentCount = 35;
-  const doctors = [
-    { name: "BS. Nguyễn Văn A", avatar: "https://i.imgur.com/1XW7QYk.png", specialty: "Nội tổng quát", status: "active" },
-    { name: "BS. Trần Thị B", avatar: "https://i.imgur.com/1XW7QYk.png", specialty: "Truyền nhiễm", status: "active" },
-    { name: "BS. Lê Văn C", avatar: "https://i.imgur.com/1XW7QYk.png", specialty: "Nhi khoa", status: "inactive" },
-  ];
+  const [stats, setStats] = useState({ doctorCount: 0, patientCount: 0, appointmentCount: 0 });
+  const [recentDoctors, setRecentDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true);
+      const managerDataService = new ManagerDataService();
+      await managerDataService.initializeManagerData();
+      
+      // Load doctors
+      const doctors = await managerDataService.getDoctors();
+      const activeDoctors = doctors.filter(d => d.available);
+      
+      // Load appointments
+      const appointments = await managerDataService.getAppointments();
+      
+      // Get dashboard stats
+      const statsData = await managerDataService.getDashboardStats();
+      
+      setStats({
+        doctorCount: doctors.length,
+        patientCount: statsData.totalAppointments,
+        appointmentCount: appointments.length
+      });
+      
+      // Get recent doctors (last 3)
+      setRecentDoctors(doctors.slice(0, 3));
+    } catch (error) {
+      console.error("Error loading dashboard data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+        <RNText style={{ marginTop: 16, color: theme.colors.text }}>Đang tải dữ liệu...</RNText>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView contentContainerStyle={{ padding: 0, paddingBottom: 110, flexGrow: 1 }}>
+        {/* Banner ảnh phía trên */}
         <ImageBackground
           source={require("../../assets/manager_material/banner.jpg")}
           style={{ width: "100%", height: 160, borderBottomLeftRadius: 24, borderBottomRightRadius: 24, overflow: "hidden", marginBottom: 10 }}
@@ -187,15 +228,15 @@ const ManagerHomeScreen: React.FC = () => {
           {/* Stat Box */}
           <View style={{ backgroundColor: theme.colors.surface, borderRadius: 14, padding: 16, marginBottom: 18, shadowColor: theme.colors.shadowColor, shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 }}>
             <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 4, color: theme.colors.text }}>📅 Thống kê nhanh</RNText>
-            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang trực: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>6</RNText></RNText>
-            <RNText style={{ color: theme.colors.text }}>Yêu cầu đang chờ duyệt: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>3</RNText></RNText>
-            <RNText style={{ color: theme.colors.text }}>Hồ sơ cần cập nhật: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>1</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Bác sĩ đang trực: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.doctorCount}</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Yêu cầu đang chờ duyệt: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.appointmentCount}</RNText></RNText>
+            <RNText style={{ color: theme.colors.text }}>Hồ sơ cần cập nhật: <RNText style={{ fontWeight: "bold", color: theme.colors.primary }}>{stats.patientCount}</RNText></RNText>
           </View>
           {/* Doctor Overview Section */}
           <RNText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10, color: theme.colors.text }}>Bác sĩ cập nhật gần đây</RNText>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} nestedScrollEnabled={true} style={{ marginBottom: 18 }}>
-            {doctors.map((doc, idx) => (
-              <DoctorCard key={idx} name={doc.name} avatar={doc.avatar} specialty={doc.specialty} status={doc.status} onPress={() => {}} theme={theme} />
+            {recentDoctors.map((doc, idx) => (
+              <DoctorCard key={doc.id || idx} name={doc.name} avatar={doc.image} specialty={doc.specialty} status={doc.available} onPress={() => navigation.navigate("DoctorDetailScreen", { doctor: doc })} theme={theme} />
             ))}
           </ScrollView>
           {/* Education Material Section */}

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1",
+    "patientId": "1",
+    "patientName": "Nguyễn Văn A",
+    "doctorId": "1",
+    "doctorName": "BS. Nguyễn Thanh Tùng",
+    "date": "2025-01-15",
+    "time": "09:00",
+    "status": "pending",
+    "type": "Khám định kỳ",
+    "notes": "Bệnh nhân cần khám định kỳ và xét nghiệm CD4",
+    "createdAt": "2025-01-10T08:00:00Z"
+  },
+  {
+    "id": "2",
+    "patientId": "2",
+    "patientName": "Trần Thị B",
+    "doctorId": "2",
+    "doctorName": "BS. Lê Quang Liêm",
+    "date": "2025-01-16",
+    "time": "14:30",
+    "status": "pending",
+    "type": "Tư vấn",
+    "notes": "Bệnh nhân cần tư vấn về tác dụng phụ thuốc ARV",
+    "createdAt": "2025-01-11T10:30:00Z"
+  },
+  {
+    "id": "3",
+    "patientId": "3",
+    "patientName": "Lê Văn C",
+    "doctorId": "4",
+    "doctorName": "BS. Trần Thị Hương",
+    "date": "2025-01-17",
+    "time": "10:00",
+    "status": "confirmed",
+    "type": "Khám chuyên khoa",
+    "notes": "Bệnh nhân cần khám chuyên khoa HIV/AIDS",
+    "createdAt": "2025-01-12T14:15:00Z"
+  },
+  {
+    "id": "4",
+    "patientId": "4",
+    "patientName": "Phạm Thị D",
+    "doctorId": "5",
+    "doctorName": "BS. Hoàng Văn Minh",
+    "date": "2025-01-18",
+    "time": "08:00",
+    "status": "pending",
+    "type": "Khám tim mạch",
+    "notes": "Bệnh nhân có triệu chứng tăng huyết áp",
+    "createdAt": "2025-01-13T09:45:00Z"
+  },
+  {
+    "id": "5",
+    "patientId": "5",
+    "patientName": "Hoàng Văn E",
+    "doctorId": "6",
+    "doctorName": "BS. Ngô Thị Lan",
+    "date": "2025-01-19",
+    "time": "15:00",
+    "status": "pending",
+    "type": "Khám nhi",
+    "notes": "Trẻ em cần khám nhi và tư vấn dinh dưỡng",
+    "createdAt": "2025-01-14T11:20:00Z"
+  }
+] 

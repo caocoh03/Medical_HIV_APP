@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { View, Text as RNText, ScrollView, TouchableOpacity, TextInput, Image, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text as RNText, ScrollView, TouchableOpacity, TextInput, Image, Alert, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeMode } from "../../context/ThemeContext";
 import { Button } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
+import ManagerDataService from "../../services/ManagerDataService";
 
 function DoctorCard({ name, avatar, specialty, status, onPress, theme }) {
   return (
@@ -32,8 +33,8 @@ function DoctorCard({ name, avatar, specialty, status, onPress, theme }) {
       <View style={{ flex: 1 }}>
         <RNText style={{ fontWeight: "bold", fontSize: 15, color: theme.colors.text }}>{name}</RNText>
         <RNText style={{ fontSize: 13, color: theme.colors.textSecondary }}>{specialty}</RNText>
-        <RNText style={{ fontSize: 12, color: status === "active" ? theme.colors.primary : "#aaa", fontWeight: "bold" }}>
-          {status === "active" ? "Đang hoạt động" : "Nghỉ"}
+        <RNText style={{ fontSize: 12, color: status ? theme.colors.primary : "#aaa", fontWeight: "bold" }}>
+          {status ? "Đang hoạt động" : "Nghỉ"}
         </RNText>
       </View>
       <Ionicons name="chevron-forward" size={20} color={theme.colors.textSecondary} />
@@ -41,26 +42,46 @@ function DoctorCard({ name, avatar, specialty, status, onPress, theme }) {
   );
 }
 
-const mockDoctors = [
-  { name: "BS. Nguyễn Văn A", avatar: require("../../assets/manager_material/doctor1.png"), specialty: "Nội tổng quát", status: "active" },
-  { name: "BS. Trần Thị B", avatar: require("../../assets/manager_material/doctor2.png"), specialty: "Truyền nhiễm", status: "active" },
-  { name: "BS. Lê Văn C", avatar: require("../../assets/manager_material/doctor3.png"), specialty: "Nhi khoa", status: "inactive" },
-  { name: "BS. Phạm Thị D", avatar: require("../../assets/manager_material/doctor4.png"), specialty: "Da liễu", status: "active" },
-  { name: "BS. Hoàng Văn E", avatar: require("../../assets/manager_material/doctor5.png"), specialty: "Tim mạch", status: "active" },
-  { name: "BS. Ngô Thị F", avatar: require("../../assets/manager_material/doctor6.png"), specialty: "Thần kinh", status: "inactive" },
-];
-
 export default function DoctorListScreen() {
   const { theme } = useThemeMode();
   const navigation = useNavigation();
   const [search, setSearch] = useState("");
-  const [doctors, setDoctors] = useState(mockDoctors);
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDoctors();
+  }, []);
+
+  const loadDoctors = async () => {
+    try {
+      setLoading(true);
+      const managerDataService = new ManagerDataService();
+      await managerDataService.initializeManagerData();
+      const doctorsData = await managerDataService.getDoctors();
+      setDoctors(doctorsData);
+    } catch (error) {
+      console.error("Error loading doctors:", error);
+      Alert.alert("Lỗi", "Không thể tải danh sách bác sĩ");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Lọc theo search
   const filteredDoctors = doctors.filter((d) =>
     d.name.toLowerCase().includes(search.toLowerCase()) ||
     d.specialty.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+        <RNText style={{ marginTop: 16, color: theme.colors.text }}>Đang tải danh sách bác sĩ...</RNText>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -99,16 +120,16 @@ export default function DoctorListScreen() {
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 80 }}>
         {filteredDoctors.length === 0 ? (
           <RNText style={{ color: theme.colors.textSecondary, textAlign: "center", marginTop: 40 }}>
-            Không tìm thấy bác sĩ nào.
+            {search ? "Không tìm thấy bác sĩ nào." : "Chưa có bác sĩ nào trong hệ thống."}
           </RNText>
         ) : (
           filteredDoctors.map((doc, idx) => (
             <DoctorCard
-              key={idx}
+              key={doc.id || idx}
               name={doc.name}
-              avatar={doc.avatar}
+              avatar={doc.image}
               specialty={doc.specialty}
-              status={doc.status}
+              status={doc.available}
               onPress={() => navigation.navigate("DoctorDetailScreen", { doctor: doc })}
               theme={theme}
             />

@@ -1,39 +1,77 @@
-import React from "react";
-import { View, Text as RNText, ScrollView, TouchableOpacity, Image, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text as RNText, ScrollView, TouchableOpacity, Image, Alert, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeMode } from "../../context/ThemeContext";
 import { Button } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import ManagerDataService from "../../services/ManagerDataService";
 
 export default function DoctorDetailScreen() {
   const { theme } = useThemeMode();
   const navigation = useNavigation();
   const route = useRoute();
   const { doctor } = route.params || {};
+  const [doctorDetail, setDoctorDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data chi tiết bác sĩ (trong thực tế sẽ lấy từ API)
-  const doctorDetail = {
-    name: doctor?.name || "BS. Nguyễn Văn A",
-    avatar: doctor?.avatar || require("../../assets/manager_material/doctor1.png"),
-    specialty: doctor?.specialty || "Nội tổng quát",
-    status: doctor?.status || "active",
-    email: "nguyenvana@hospital.com",
-    phone: "0901234567",
-    experience: "15 năm",
-    education: "Đại học Y Hà Nội",
-    certificates: [
-      "Chứng chỉ hành nghề y tế",
-      "Chứng chỉ chuyên khoa Nội",
-      "Chứng chỉ cấp cứu tim mạch"
-    ],
-    schedule: [
-      { day: "Thứ 2", time: "08:00 - 12:00" },
-      { day: "Thứ 3", time: "14:00 - 18:00" },
-      { day: "Thứ 5", time: "08:00 - 12:00" },
-      { day: "Thứ 6", time: "14:00 - 18:00" }
-    ],
-    notes: "Bác sĩ có kinh nghiệm điều trị các bệnh nội khoa, đặc biệt là bệnh tim mạch và tiểu đường."
+  useEffect(() => {
+    loadDoctorDetail();
+  }, [doctor]);
+
+  const loadDoctorDetail = async () => {
+    try {
+      setLoading(true);
+      if (doctor?.id) {
+        const managerDataService = new ManagerDataService();
+        await managerDataService.initializeManagerData();
+        const detail = await managerDataService.getDoctorById(doctor.id);
+        setDoctorDetail(detail);
+      } else {
+        // Fallback to passed doctor data
+        setDoctorDetail({
+          ...doctor,
+          email: "doctor@hospital.com",
+          phone: "0901234567",
+          experience: doctor?.experience || "5 năm",
+          education: "Đại học Y Hà Nội",
+          certificates: [
+            "Chứng chỉ hành nghề y tế",
+            "Chứng chỉ chuyên khoa",
+            "Chứng chỉ cấp cứu"
+          ],
+          schedule: [
+            { day: "Thứ 2", time: "08:00 - 12:00" },
+            { day: "Thứ 3", time: "14:00 - 18:00" },
+            { day: "Thứ 5", time: "08:00 - 12:00" },
+            { day: "Thứ 6", time: "14:00 - 18:00" }
+          ],
+          notes: doctor?.description || "Bác sĩ có kinh nghiệm điều trị chuyên môn."
+        });
+      }
+    } catch (error) {
+      console.error("Error loading doctor detail:", error);
+      Alert.alert("Lỗi", "Không thể tải thông tin bác sĩ");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+        <RNText style={{ marginTop: 16, color: theme.colors.text }}>Đang tải thông tin bác sĩ...</RNText>
+      </View>
+    );
+  }
+
+  if (!doctorDetail) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: "center", alignItems: "center" }}>
+        <RNText style={{ color: theme.colors.text }}>Không tìm thấy thông tin bác sĩ</RNText>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -41,7 +79,7 @@ export default function DoctorDetailScreen() {
         {/* Header với ảnh bác sĩ */}
         <View style={{ alignItems: "center", padding: 20, backgroundColor: theme.colors.surface, borderBottomWidth: 1, borderColor: theme.colors.border }}>
           <Image
-            source={doctorDetail.avatar}
+            source={{ uri: doctorDetail.image }}
             style={{ width: 120, height: 120, borderRadius: 60, marginBottom: 16 }}
           />
           <RNText style={{ fontSize: 24, fontWeight: "bold", color: theme.colors.text, marginBottom: 4 }}>
@@ -55,15 +93,15 @@ export default function DoctorDetailScreen() {
               width: 12, 
               height: 12, 
               borderRadius: 6, 
-              backgroundColor: doctorDetail.status === "active" ? theme.colors.primary : "#aaa",
+              backgroundColor: doctorDetail.available ? theme.colors.primary : "#aaa",
               marginRight: 6 
             }} />
             <RNText style={{ 
               fontSize: 14, 
-              color: doctorDetail.status === "active" ? theme.colors.primary : "#aaa",
+              color: doctorDetail.available ? theme.colors.primary : "#aaa",
               fontWeight: "bold" 
             }}>
-              {doctorDetail.status === "active" ? "Đang hoạt động" : "Nghỉ"}
+              {doctorDetail.available ? "Đang hoạt động" : "Nghỉ"}
             </RNText>
           </View>
         </View>
