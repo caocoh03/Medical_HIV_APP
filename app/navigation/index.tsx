@@ -60,6 +60,16 @@ import DoctorGuideScreen from "../screens/Manager/DoctorGuideScreen";
 import ScheduleGuideScreen from "../screens/Manager/ScheduleGuideScreen";
 import LeavePolicyGuideScreen from "../screens/Manager/LeavePolicyGuideScreen";
 
+// Import Staff screens
+import StaffDashboard from "../screens/Staff";
+import UserManagement from "../screens/Staff/UserManagement";
+import UserDetails from "../screens/Staff/UserDetails";
+import ConsultationHistory from "../screens/Staff/ConsultationHistory";
+import ConsultationDetail from "../screens/Staff/ConsultationDetail";
+import TreatmentHistory from "../screens/Staff/TreatmentHistory";
+import TreatmentDetail from "../screens/Staff/TreatmentDetail";
+import StaffNotifications from "../screens/Staff/StaffNotifications";
+
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
 
@@ -101,6 +111,16 @@ export type RootStackParamList = {
   PrescriptionPayment: { prescriptionId: number };
   PaymentSuccess: { prescription: any; paymentMethod: string };
   PrescriptionDetail: { prescriptionId: number };
+
+  // Staff screens
+  StaffDashboard: undefined;
+  UserManagement: undefined;
+  UserDetails: { userId: string };
+  ConsultationHistory: undefined;
+  ConsultationDetail: { consultationId: string };
+  TreatmentHistory: undefined;
+  TreatmentDetail: { treatmentId: string };
+  StaffNotifications: undefined;
 };
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -299,7 +319,7 @@ export default function Navigation() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
-      ) : user.role === "manager" ? (
+      ) : user.role === "staff" ? (
         <Stack.Navigator
           id={undefined}
           screenOptions={{
@@ -307,149 +327,59 @@ export default function Navigation() {
           }}
         >
           <Stack.Screen
-            name="ManagerHomeScreen"
-            component={ManagerHomeScreen}
+            name="StaffDashboard"
+            component={StaffDashboard}
             options={{
-              headerShown: true,
-              title: `Quản lý ${user?.name || ""}`,
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+              headerShown: false,
+              title: `Nhân viên ${user?.name || ""}`,
             }}
           />
           <Stack.Screen
-            name="DoctorListScreen"
-            component={DoctorListScreen}
-            options={{
-              headerShown: true,
-              title: "Danh sách bác sĩ",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="UserManagement"
+            component={UserManagement}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="DoctorDetailScreen"
-            component={DoctorDetailScreen}
-            options={{
-              headerShown: true,
-              title: "Thông tin bác sĩ",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="UserDetails"
+            component={UserDetails}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="CertificatesScreen"
-            component={CertificatesScreen}
-            options={{
-              headerShown: true,
-              title: "Bằng cấp & Chuyên môn",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="ConsultationHistory"
+            component={ConsultationHistory}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="DoctorCertDetailScreen"
-            component={DoctorCertDetailScreen}
-            options={{
-              headerShown: true,
-              title: "Quản lý bằng cấp",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="ConsultationDetail"
+            component={ConsultationDetail}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="ScheduleScreen"
-            component={ScheduleScreen}
-            options={{
-              headerShown: true,
-              title: "Lịch làm việc",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="TreatmentHistory"
+            component={TreatmentHistory}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="DoctorScheduleDetailScreen"
-            component={DoctorScheduleDetailScreen}
-            options={{
-              headerShown: true,
-              title: "Quản lý lịch làm việc",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="TreatmentDetail"
+            component={TreatmentDetail}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="DutyHoursScreen"
-            component={DutyHoursScreen}
-            options={{
-              headerShown: true,
-              title: "Giờ trực hôm nay",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
+            name="StaffNotifications"
+            component={StaffNotifications}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="DutyHoursDetailScreen"
-            component={DutyHoursDetailScreen}
+            name="Settings"
+            component={Settings}
             options={{
               headerShown: true,
-              title: "Quản lý ca trực",
+              title: "Cài đặt",
               headerStyle: { backgroundColor: theme.colors.surface },
               headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
             }}
           />
-          <Stack.Screen
-            name="ApprovalRequestsScreen"
-            component={ApprovalRequestsScreen}
-            options={{
-              headerShown: true,
-              title: "Yêu cầu phê duyệt",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
-          />
-          <Stack.Screen
-            name="DoctorGuideScreen"
-            component={DoctorGuideScreen}
-            options={{
-              headerShown: true,
-              title: "Hướng dẫn nhập hồ sơ bác sĩ",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
-          />
-          <Stack.Screen
-            name="ScheduleGuideScreen"
-            component={ScheduleGuideScreen}
-            options={{
-              headerShown: true,
-              title: "Quy trình phân ca",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
-          />
-          <Stack.Screen
-            name="LeavePolicyGuideScreen"
-            component={LeavePolicyGuideScreen}
-            options={{
-              headerShown: true,
-              title: "Chính sách nghỉ phép",
-              headerStyle: { backgroundColor: theme.colors.surface },
-              headerTintColor: theme.colors.primary,
-              headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
-            }}
-          />
-          {/* Thêm các màn hình quản lý khác ở đây sau */}
         </Stack.Navigator>
       ) : (
         <Stack.Navigator

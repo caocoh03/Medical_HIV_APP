@@ -1,0 +1,60 @@
+{
+  "1": {
+    "id": "1",
+    "userId": "user123",
+    "userName": "Nguyễn Văn A",
+    "doctorId": "doc456",
+    "doctorName": "BS. Trần Thị B",
+    "date": "15/07/2023",
+    "time": "10:30 AM",
+    "status": "completed",
+    "reason": "Tư vấn về phác đồ điều trị HIV mới và tác dụng phụ có thể gặp phải.",
+    "notes": "Bệnh nhân lo lắng về tác dụng phụ của thuốc. Đã giải thích chi tiết và đề xuất theo dõi chặt chẽ trong 2 tuần đầu."
+  },
+  "2": {
+    "id": "2",
+    "userId": "user124",
+    "userName": "Lê Thị C",
+    "doctorId": "doc457",
+    "doctorName": "BS. Phạm Văn D",
+    "date": "18/07/2023",
+    "time": "14:00 PM",
+    "status": "pending",
+    "reason": "Tư vấn về chế độ dinh dưỡng cho người nhiễm HIV và tương tác thuốc."
+  },
+  "3": {
+    "id": "3",
+    "userId": "user125",
+    "userName": "Trần Văn E",
+    "doctorId": "doc458",
+    "doctorName": "BS. Nguyễn Thị F",
+    "date": "20/07/2023",
+    "time": "09:15 AM",
+    "status": "cancelled",
+    "reason": "Tư vấn về kết quả xét nghiệm CD4 và tải lượng virus.",
+    "notes": "Bệnh nhân hủy buổi hẹn do có việc đột xuất. Đã hẹn lại vào tuần sau."
+  },
+  "4": {
+    "id": "4",
+    "userId": "user126",
+    "userName": "Phạm Thị G",
+    "doctorId": "doc459",
+    "doctorName": "BS. Hoàng Văn H",
+    "date": "22/07/2023",
+    "time": "16:30 PM",
+    "status": "completed",
+    "reason": "Tư vấn về biện pháp phòng ngừa lây nhiễm và chăm sóc sức khỏe.",
+    "notes": "Bệnh nhân tuân thủ tốt phác đồ điều trị. Cần tăng cường chế độ dinh dưỡng."
+  },
+  "5": {
+    "id": "5",
+    "userId": "user127",
+    "userName": "Hoàng Văn I",
+    "doctorId": "doc460",
+    "doctorName": "BS. Lê Thị K",
+    "date": "25/07/2023",
+    "time": "11:00 AM",
+    "status": "pending",
+    "reason": "Tư vấn về tác dụng phụ của thuốc và cách khắc phục."
+  }
+} 
