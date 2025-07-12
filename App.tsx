@@ -7,6 +7,7 @@ import { DataProvider } from "./app/context/DataContext";
 import { ThemeProvider } from "./app/context/ThemeContext";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const toastConfig = {
@@ -62,6 +63,7 @@ export default function App() {
       <GluestackUIProvider config={config}>
         <AuthProvider>
           <DataProvider>
+            <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
             <Navigation />
             <Toast config={toastConfig} />
           </DataProvider>

@@ -46,6 +46,19 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
+import DoctorListScreen from "../screens/Manager/DoctorListScreen";
+import DoctorDetailScreen from "../screens/Manager/DoctorDetailScreen";
+import CertificatesScreen from "../screens/Manager/CertificatesScreen";
+import DoctorCertDetailScreen from "../screens/Manager/DoctorCertDetailScreen";
+import ScheduleScreen from "../screens/Manager/ScheduleScreen";
+import DoctorScheduleDetailScreen from "../screens/Manager/DoctorScheduleDetailScreen";
+import DutyHoursScreen from "../screens/Manager/DutyHoursScreen";
+import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
+import ApprovalRequestsScreen from "../screens/Manager/ApprovalRequestsScreen";
+import DoctorGuideScreen from "../screens/Manager/DoctorGuideScreen";
+import ScheduleGuideScreen from "../screens/Manager/ScheduleGuideScreen";
+import LeavePolicyGuideScreen from "../screens/Manager/LeavePolicyGuideScreen";
 
 // Import Staff screens
 import StaffDashboard from "../screens/Staff";
@@ -373,7 +386,6 @@ export default function Navigation() {
           id={undefined}
           screenOptions={{
             headerShown: false,
-
             gestureEnabled: true,
             animation: "slide_from_right",
           }}
