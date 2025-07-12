@@ -18,6 +18,7 @@ export const DataProvider = ({ children }) => {
   const [treatments, setTreatments] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [arvRegimens, setArvRegimens] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export const DataProvider = ({ children }) => {
         treatmentsData,
         appointmentsData,
         doctorsData,
+        arvRegimensData,
       ] = await Promise.all([
         DataService.getConsultations(),
         DataService.getPrescriptions(),
@@ -52,6 +54,7 @@ export const DataProvider = ({ children }) => {
         DataService.getTreatments(),
         DataService.getAppointments(),
         DataService.getDoctors(),
+        DataService.getArvRegimens(),
       ]);
 
       setConsultations(consultationsData);
@@ -60,6 +63,7 @@ export const DataProvider = ({ children }) => {
       setTreatments(treatmentsData);
       setAppointments(appointmentsData);
       setDoctors(doctorsData);
+      setArvRegimens(arvRegimensData);
     } catch (error) {
       console.error("Error refreshing data:", error);
     }
@@ -330,6 +334,7 @@ export const DataProvider = ({ children }) => {
     treatments,
     appointments,
     doctors,
+    arvRegimens,
     loading,
 
     // Methods
@@ -360,6 +365,14 @@ export const DataProvider = ({ children }) => {
     getAppointmentsByPatient,
     getAppointmentsByDoctor,
     cancelAppointment,
+
+    // ARV Regimen methods
+    getArvRegimens: () => arvRegimens,
+    getArvRegimenById: (id: string) => DataService.getArvRegimenById(id),
+    getArvRegimensByCategory: (category: string) =>
+      DataService.getArvRegimensByCategory(category),
+    addCustomArvRegimen: (regimen: any) =>
+      DataService.addCustomArvRegimen(regimen),
 
     // New methods
     addPrescriptionMessage,

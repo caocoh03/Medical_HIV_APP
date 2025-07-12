@@ -8,6 +8,7 @@ const KEYS = {
   USERS: "users",
   TREATMENTS: "treatments",
   DOCTORS: "doctors",
+  ARV_REGIMENS: "arv_regimens",
 };
 
 class DataService {
@@ -632,6 +633,62 @@ class DataService {
     }
   }
 
+  // ARV Regimens
+  async getArvRegimens() {
+    try {
+      const data = await AsyncStorage.getItem(KEYS.ARV_REGIMENS);
+      if (data) {
+        return JSON.parse(data);
+      } else {
+        // Load from file if not in storage
+        const fileData = require("../assets/data/arv_regimens.json");
+        await AsyncStorage.setItem(KEYS.ARV_REGIMENS, JSON.stringify(fileData));
+        return fileData;
+      }
+    } catch (error) {
+      console.error("Error getting ARV regimens:", error);
+      return [];
+    }
+  }
+
+  async getArvRegimenById(id) {
+    try {
+      const regimens = await this.getArvRegimens();
+      return regimens.find((regimen) => regimen.id === id);
+    } catch (error) {
+      console.error("Error getting ARV regimen by id:", error);
+      return null;
+    }
+  }
+
+  async getArvRegimensByCategory(category) {
+    try {
+      const regimens = await this.getArvRegimens();
+      return regimens.filter((regimen) => regimen.category === category);
+    } catch (error) {
+      console.error("Error getting ARV regimens by category:", error);
+      return [];
+    }
+  }
+
+  async addCustomArvRegimen(regimen) {
+    try {
+      const regimens = await this.getArvRegimens();
+      const newRegimen = {
+        ...regimen,
+        id: Date.now(),
+        category: "custom",
+        createdAt: new Date().toISOString(),
+      };
+      regimens.push(newRegimen);
+      await AsyncStorage.setItem(KEYS.ARV_REGIMENS, JSON.stringify(regimens));
+      return newRegimen;
+    } catch (error) {
+      console.error("Error adding custom ARV regimen:", error);
+      throw error;
+    }
+  }
+
   // Clear all data (for testing)
   async clearAllData() {
     try {
@@ -641,6 +698,7 @@ class DataService {
         KEYS.MEDICINES,
         KEYS.TREATMENTS,
         KEYS.DOCTORS,
+        KEYS.ARV_REGIMENS,
       ]);
     } catch (error) {
       console.error("Error clearing data:", error);

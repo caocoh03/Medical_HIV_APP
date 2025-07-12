@@ -46,6 +46,7 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import DoctorProfileEdit from "../screens/Doctor/DoctorProfileEdit";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -283,6 +284,11 @@ export default function Navigation() {
           <Stack.Screen
             name="PrescriptionDetail"
             component={PrescriptionDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DoctorProfileEdit"
+            component={DoctorProfileEdit}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

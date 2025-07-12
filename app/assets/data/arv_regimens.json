@@ -1,0 +1,179 @@
+[
+  {
+    "id": 1,
+    "name": "Phác đồ 1: TDF/3TC/EFV",
+    "description": "Phác đồ phổ biến cho bệnh nhân mới điều trị",
+    "category": "first_line",
+    "medicines": [
+      {
+        "id": 1,
+        "medicineName": "Tenofovir/Lamivudine/Efavirenz (TDF/3TC/EFV)",
+        "dosage": "300mg/300mg/600mg",
+        "frequency": "1 viên/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống vào buổi tối trước khi đi ngủ, tránh uống cùng thức ăn nhiều chất béo",
+        "price": 350000,
+        "quantity": 30
+      }
+    ],
+    "indications": [
+      "Bệnh nhân mới điều trị HIV",
+      "Không có kháng thuốc",
+      "Chức năng thận bình thường"
+    ],
+    "contraindications": [
+      "Suy thận nặng",
+      "Bệnh gan nặng",
+      "Dị ứng với thành phần thuốc"
+    ],
+    "sideEffects": [
+      "Chóng mặt, buồn ngủ",
+      "Rối loạn giấc ngủ",
+      "Phát ban (hiếm gặp)"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Phác đồ 2: TDF/3TC/DTG",
+    "description": "Phác đồ hiện đại với tính kháng thuốc cao",
+    "category": "first_line",
+    "medicines": [
+      {
+        "id": 2,
+        "medicineName": "Tenofovir/Lamivudine (TDF/3TC)",
+        "dosage": "300mg/300mg",
+        "frequency": "1 viên/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống cùng bữa ăn",
+        "price": 280000,
+        "quantity": 30
+      },
+      {
+        "id": 3,
+        "medicineName": "Dolutegravir (DTG)",
+        "dosage": "50mg",
+        "frequency": "1 viên/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống cùng bữa ăn, cách xa thuốc bổ sung canxi/sắt ít nhất 2 giờ",
+        "price": 420000,
+        "quantity": 30
+      }
+    ],
+    "indications": [
+      "Bệnh nhân mới điều trị HIV",
+      "Bệnh nhân kháng thuốc NNRTI",
+      "Phụ nữ có kế hoạch mang thai"
+    ],
+    "contraindications": ["Suy thận nặng", "Dị ứng với thành phần thuốc"],
+    "sideEffects": ["Buồn nôn nhẹ", "Đau đầu", "Tăng cân (ít gặp)"]
+  },
+  {
+    "id": 3,
+    "name": "Phác đồ 3: AZT/3TC/NVP",
+    "description": "Phác đồ thay thế cho bệnh nhân không dung nạp TDF",
+    "category": "first_line",
+    "medicines": [
+      {
+        "id": 4,
+        "medicineName": "Zidovudine/Lamivudine (AZT/3TC)",
+        "dosage": "300mg/150mg",
+        "frequency": "1 viên x 2 lần/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống cách bữa ăn 30 phút",
+        "price": 240000,
+        "quantity": 60
+      },
+      {
+        "id": 5,
+        "medicineName": "Nevirapine (NVP)",
+        "dosage": "200mg",
+        "frequency": "1 viên x 2 lần/ngày",
+        "duration": "30 ngày",
+        "instructions": "14 ngày đầu uống 1 viên/ngày, sau đó 2 viên/ngày",
+        "price": 180000,
+        "quantity": 60
+      }
+    ],
+    "indications": [
+      "Bệnh nhân không dung nạp TDF",
+      "Suy thận nhẹ-vừa",
+      "Bệnh nhân có bệnh xương"
+    ],
+    "contraindications": [
+      "Thiếu máu nặng",
+      "Bệnh gan nặng",
+      "Số lượng CD4 > 250 (nữ) hoặc > 400 (nam)"
+    ],
+    "sideEffects": ["Thiếu máu", "Buồn nôn, nôn", "Phát ban (có thể nặng)"]
+  },
+  {
+    "id": 4,
+    "name": "Phác đồ 4: TAF/FTC/BIC",
+    "description": "Phác đồ hiện đại cho bệnh nhân có vấn đề về thận/xương",
+    "category": "first_line",
+    "medicines": [
+      {
+        "id": 6,
+        "medicineName": "Tenofovir Alafenamide/Emtricitabine/Bictegravir",
+        "dosage": "25mg/200mg/50mg",
+        "frequency": "1 viên/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống cùng bữa ăn",
+        "price": 890000,
+        "quantity": 30
+      }
+    ],
+    "indications": [
+      "Bệnh nhân có nguy cơ về thận",
+      "Bệnh nhân có bệnh xương",
+      "Bệnh nhân cao tuổi"
+    ],
+    "contraindications": ["Suy gan nặng", "Dị ứng với thành phần thuốc"],
+    "sideEffects": ["Buồn nôn nhẹ", "Đau đầu", "Mệt mỏi"]
+  },
+  {
+    "id": 5,
+    "name": "Phác đồ cứu hộ: DRV/r + RAL + ETR",
+    "description": "Phác đồ cho bệnh nhân đa kháng thuốc",
+    "category": "salvage",
+    "medicines": [
+      {
+        "id": 7,
+        "medicineName": "Darunavir/Ritonavir (DRV/r)",
+        "dosage": "800mg/100mg",
+        "frequency": "1 viên/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống cùng bữa ăn",
+        "price": 650000,
+        "quantity": 30
+      },
+      {
+        "id": 8,
+        "medicineName": "Raltegravir (RAL)",
+        "dosage": "400mg",
+        "frequency": "1 viên x 2 lần/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống có thể cùng hoặc không cùng thức ăn",
+        "price": 580000,
+        "quantity": 60
+      },
+      {
+        "id": 9,
+        "medicineName": "Etravirine (ETR)",
+        "dosage": "200mg",
+        "frequency": "1 viên x 2 lần/ngày",
+        "duration": "30 ngày",
+        "instructions": "Uống sau bữa ăn",
+        "price": 720000,
+        "quantity": 60
+      }
+    ],
+    "indications": [
+      "Bệnh nhân đa kháng thuốc",
+      "Thất bại điều trị nhiều lần",
+      "Kháng thuốc NNRTI và NRTI"
+    ],
+    "contraindications": ["Suy gan nặng", "Tương tác thuốc nghiêm trọng"],
+    "sideEffects": ["Rối loạn tiêu hóa", "Phát ban", "Tăng cholesterol"]
+  }
+]

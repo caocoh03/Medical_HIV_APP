@@ -11,12 +11,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useData } from "../../context/DataContext";
 import { useThemeMode } from "../../context/ThemeContext";
+import ArvRegimenSelector from "../../components/ArvRegimenSelector";
 
 export default function CreatePrescriptionScreen({ navigation, route }) {
   const { consultationId, patientName } = route.params;
   const { medicines, addPrescription, updateConsultation } = useData();
   const { theme } = useThemeMode();
   const [selectedMedicines, setSelectedMedicines] = useState([]);
+  const [selectedArvRegimen, setSelectedArvRegimen] = useState(null);
   const [showMedicineModal, setShowMedicineModal] = useState(false);
   const [instructions, setInstructions] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,15 +52,41 @@ export default function CreatePrescriptionScreen({ navigation, route }) {
     setSelectedMedicines(updated);
   };
 
+  const handleArvRegimenSelect = (regimen) => {
+    setSelectedArvRegimen(regimen);
+
+    // Auto-add regimen medicines to prescription
+    const arvMedicines = regimen.medicines.map((medicine) => ({
+      id: `arv_${medicine.name.toLowerCase().replace(/\s+/g, "_")}`,
+      name: medicine.name,
+      dosage: medicine.dosage,
+      quantity: 1,
+      price: medicine.price || 0,
+      type: "arv",
+      regimenId: regimen.id,
+    }));
+
+    // Remove existing ARV medicines and add new ones
+    const nonArvMedicines = selectedMedicines.filter((m) => m.type !== "arv");
+    setSelectedMedicines([...nonArvMedicines, ...arvMedicines]);
+  };
+
   const calculateTotal = () => {
-    return selectedMedicines.reduce((total, medicine) => {
+    const medicinesTotal = selectedMedicines.reduce((total, medicine) => {
       return total + medicine.price * medicine.quantity;
     }, 0);
+
+    const regimenTotal = selectedArvRegimen ? selectedArvRegimen.price : 0;
+
+    return medicinesTotal + regimenTotal;
   };
 
   const createPrescription = async () => {
-    if (selectedMedicines.length === 0) {
-      Alert.alert("Lỗi", "Vui lòng thêm ít nhất một loại thuốc");
+    if (selectedMedicines.length === 0 && !selectedArvRegimen) {
+      Alert.alert(
+        "Lỗi",
+        "Vui lòng chọn phác đồ ARV hoặc thêm ít nhất một loại thuốc"
+      );
       return;
     }
 
@@ -82,7 +110,18 @@ export default function CreatePrescriptionScreen({ navigation, route }) {
                   quantity: m.quantity,
                   dosage: m.dosage,
                   price: m.price,
+                  type: m.type,
+                  regimenId: m.regimenId,
                 })),
+                arvRegimen: selectedArvRegimen
+                  ? {
+                      id: selectedArvRegimen.id,
+                      name: selectedArvRegimen.name,
+                      category: selectedArvRegimen.category,
+                      price: selectedArvRegimen.price,
+                      duration: selectedArvRegimen.duration,
+                    }
+                  : null,
                 totalAmount: calculateTotal(),
                 status: "pending_payment",
                 instructions,
@@ -155,6 +194,40 @@ export default function CreatePrescriptionScreen({ navigation, route }) {
       </View>
 
       <ScrollView style={{ flex: 1 }}>
+        {/* ARV Regimen Selection */}
+        <View style={{ padding: 20, paddingBottom: 10 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 15 }}>
+            Phác đồ ARV điều trị
+          </Text>
+          <ArvRegimenSelector
+            onRegimenSelect={handleArvRegimenSelect}
+            selectedRegimen={selectedArvRegimen}
+          />
+          {selectedArvRegimen && (
+            <View
+              style={{
+                backgroundColor: "#e8f5e8",
+                padding: 12,
+                borderRadius: 8,
+                marginTop: 10,
+                borderLeftWidth: 4,
+                borderLeftColor: "#28a745",
+              }}
+            >
+              <Text
+                style={{ fontSize: 14, color: "#28a745", fontWeight: "500" }}
+              >
+                ✓ Đã chọn phác đồ: {selectedArvRegimen.name}
+              </Text>
+              <Text style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
+                {selectedArvRegimen.medicines.length} loại thuốc •{" "}
+                {selectedArvRegimen.duration} •
+                {selectedArvRegimen.price.toLocaleString()} VNĐ
+              </Text>
+            </View>
+          )}
+        </View>
+
         {/* Danh sách thuốc đã chọn */}
         <View style={{ padding: 20 }}>
           <View

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,13 @@ import {
   ScrollView,
   Modal,
   TextInput,
+  RefreshControl,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext/AuthContext";
+import { useThemeMode } from "../../context/ThemeContext";
+import { useData } from "../../context/DataContext";
+import AppointmentDetailModal from "../../components/AppointmentDetailModal";
 
 const statusColors = {
   "Chờ xác nhận": "#ffa726",
@@ -84,71 +88,433 @@ const todayAppointments = [
 
 export default function DoctorHome({ navigation }) {
   const { user, setUser } = useAuth();
-  const [selectedRegimen, setSelectedRegimen] = useState(null);
-  const [customNote, setCustomNote] = useState("");
+  const { theme } = useThemeMode();
+  const { appointments, refreshData } = useData();
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [showAppointmentDetail, setShowAppointmentDetail] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [todayAppointments, setTodayAppointments] = useState([]);
+  const [stats, setStats] = useState({
+    todayTotal: 0,
+    pending: 0,
+    confirmed: 0,
+    completed: 0,
+  });
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    loadTodayAppointments();
+  }, [appointments]);
+
+  const loadTodayAppointments = () => {
+    // Filter appointments for today using appointmentDate
+    const todayAppts = appointments.filter(
+      (apt) =>
+        apt.appointmentDate === today ||
+        apt.appointmentDate === new Date().toLocaleDateString("vi-VN")
+    );
+
+    setTodayAppointments(todayAppts);
+
+    // Calculate stats
+    const pending = todayAppts.filter((apt) => apt.status === "pending").length;
+    const confirmed = todayAppts.filter(
+      (apt) => apt.status === "confirmed"
+    ).length;
+    const completed = todayAppts.filter(
+      (apt) => apt.status === "completed"
+    ).length;
+
+    setStats({
+      todayTotal: todayAppts.length,
+      pending,
+      confirmed,
+      completed,
+    });
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refreshData();
+    } catch (error) {
+      console.error("Error refreshing data:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const handleAppointmentPress = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowAppointmentDetail(true);
+  };
+
+  const handleStatusUpdate = (appointmentId, newStatus) => {
+    // Update local state
+    setTodayAppointments((prev) =>
+      prev.map((apt) =>
+        apt.id === appointmentId ? { ...apt, status: newStatus } : apt
+      )
+    );
+    loadTodayAppointments();
+    setShowAppointmentDetail(false);
+  };
+
+  const statusColors = {
+    pending: "#ffa726",
+    confirmed: "#43a047",
+    completed: "#2196f3",
+    cancelled: "#d32f2f",
+  };
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#f6fafd", marginTop: 20 }}
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        marginTop: 20,
+      }}
       contentContainerStyle={{ padding: 20 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     >
-      {/* Header */}
-      <View style={styles.headerRow}>
+      {/* Enhanced Header with Profile */}
+      <TouchableOpacity
+        style={[styles.headerRow, { backgroundColor: theme.colors.surface }]}
+        onPress={() => navigation.navigate("DoctorProfileEdit")}
+      >
         <Image
           source={{
             uri:
               user?.avatar ||
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG_WQbn1-KHIm_S4DLtpLTdBMO8O-Y5dIkLQ&s",
+              "https://uories.com/wp-content/uploads/2020/03/MatchaLatte_www.uories.com_3.jpg",
           }}
           style={styles.avatar}
         />
         <View style={{ marginLeft: 16, flex: 1 }}>
-          <Text style={styles.docName}>{user?.name || "Bác sĩ"}</Text>
-          <Text style={{ color: "#008001", fontWeight: "bold" }}>
-            {user?.role === "doctor" ? "Bác sĩ điều trị" : "Truyền nhiễm"}
+          <Text style={[styles.docName, { color: theme.colors.text }]}>
+            {user?.name || "Bác sĩ"}
           </Text>
-          <Text style={styles.docEmail}>
-            <Ionicons name="mail-outline" size={14} color="#008001" />{" "}
+          <Text style={{ color: theme.colors.primary, fontWeight: "bold" }}>
+            {user?.specialization || "Truyền nhiễm"}
+          </Text>
+          <Text
+            style={[styles.docEmail, { color: theme.colors.textSecondary }]}
+          >
+            <Ionicons
+              name="mail-outline"
+              size={14}
+              color={theme.colors.primary}
+            />{" "}
             {user?.email || "doctor@email.com"}
           </Text>
+          {user?.hospital && (
+            <Text
+              style={[styles.docEmail, { color: theme.colors.textSecondary }]}
+            >
+              <Ionicons
+                name="business-outline"
+                size={14}
+                color={theme.colors.primary}
+              />{" "}
+              {user.hospital}
+            </Text>
+          )}
         </View>
-        <TouchableOpacity
-          style={styles.editBtn}
-          onPress={() => {
-            setUser(null);
+        <View style={styles.editBtn}>
+          <Ionicons
+            name="create-outline"
+            size={20}
+            color={theme.colors.primary}
+          />
+          <Text
+            style={{ color: theme.colors.primary, fontSize: 12, marginTop: 2 }}
+          >
+            Chỉnh sửa
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: 14,
+          paddingVertical: 8,
+          borderRadius: 8,
+          backgroundColor: theme.colors.surface,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.08,
+          shadowRadius: 2,
+          elevation: 2,
+        }}
+        onPress={() => {
+          setUser(null);
+          navigation.replace("/");
+        }}
+      >
+        <Ionicons
+          name="log-out-outline"
+          size={24}
+          color={theme.colors.primary}
+        />
+        <Text
+          style={{
+            color: theme.colors.primary,
+            fontSize: 16,
+            marginLeft: 10,
           }}
         >
-          <Ionicons name="create-outline" size={20} color="#008001" />
-        </TouchableOpacity>
+          Đăng xuất
+        </Text>
+      </TouchableOpacity>
+      {/* Today's Appointments */}
+      <View style={{ marginVertical: 10 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 15,
+          }}
+        >
+          <Ionicons name="calendar" size={20} color={theme.colors.primary} />
+          <Text
+            style={[
+              styles.sectionTitle,
+              { color: theme.colors.text, marginLeft: 8, marginBottom: 0 },
+            ]}
+          >
+            Lịch khám hôm nay
+          </Text>
+          <View
+            style={{
+              backgroundColor: theme.colors.primary,
+              borderRadius: 10,
+              paddingHorizontal: 8,
+              paddingVertical: 2,
+              marginLeft: 8,
+            }}
+          >
+            <Text style={{ color: "#fff", fontSize: 12, fontWeight: "bold" }}>
+              {stats.todayTotal}
+            </Text>
+          </View>
+        </View>
+
+        {todayAppointments.length === 0 ? (
+          <View
+            style={{
+              backgroundColor: theme.colors.surface,
+              padding: 20,
+              borderRadius: 12,
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              name="calendar-outline"
+              size={48}
+              color={theme.colors.textSecondary}
+            />
+            <Text
+              style={{
+                color: theme.colors.textSecondary,
+                fontSize: 16,
+                marginTop: 8,
+                textAlign: "center",
+              }}
+            >
+              Không có lịch hẹn nào hôm nay
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={todayAppointments}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.appointmentCard,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderLeftColor: statusColors[item.status] || "#999",
+                  },
+                ]}
+                onPress={() => handleAppointmentPress(item)}
+                activeOpacity={0.7}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 8,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 20,
+                      backgroundColor: theme.colors.primary + "20",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: 12,
+                    }}
+                  >
+                    <Ionicons
+                      name="person"
+                      size={20}
+                      color={theme.colors.primary}
+                    />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      style={[styles.patientName, { color: theme.colors.text }]}
+                    >
+                      {item.patientName || item.patient}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.timeRow,
+                        { color: theme.colors.textSecondary },
+                      ]}
+                    >
+                      <Ionicons
+                        name="time"
+                        size={14}
+                        color={theme.colors.primary}
+                      />{" "}
+                      {item.timeSlot || item.time} | {item.type || "Khám mới"}
+                    </Text>
+                  </View>
+                  <View
+                    style={[
+                      styles.statusBadge,
+                      { backgroundColor: statusColors[item.status] || "#999" },
+                    ]}
+                  >
+                    <Text
+                      style={{
+                        color: "#fff",
+                        fontWeight: "bold",
+                        fontSize: 10,
+                      }}
+                    >
+                      {item.status === "pending"
+                        ? "Chờ xác nhận"
+                        : item.status === "confirmed"
+                        ? "Đã xác nhận"
+                        : item.status === "completed"
+                        ? "Hoàn thành"
+                        : "Đã hủy"}
+                    </Text>
+                  </View>
+                </View>
+
+                {item.note && (
+                  <Text
+                    style={[
+                      styles.noteRow,
+                      { color: theme.colors.textSecondary },
+                    ]}
+                    numberOfLines={2}
+                  >
+                    <MaterialCommunityIcons
+                      name="note-text-outline"
+                      size={14}
+                      color={theme.colors.primary}
+                    />{" "}
+                    {item.note}
+                  </Text>
+                )}
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: 8,
+                  }}
+                >
+                  <Text
+                    style={{ color: theme.colors.textTertiary, fontSize: 12 }}
+                  >
+                    Chạm để xem chi tiết
+                  </Text>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={16}
+                    color={theme.colors.textSecondary}
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
+            scrollEnabled={false}
+            contentContainerStyle={{ paddingBottom: 10 }}
+          />
+        )}
       </View>
-      {/* Thống kê nhanh */}
-      <View style={styles.quickStats}>
+
+      {/* Enhanced Statistics */}
+      <View
+        style={[styles.quickStats, { backgroundColor: theme.colors.surface }]}
+      >
         <View style={styles.statBox}>
-          <Text style={styles.statNum}>2</Text>
-          <Text style={styles.statLabel}>Lịch hôm nay</Text>
+          <Text style={[styles.statNum, { color: theme.colors.primary }]}>
+            {stats.todayTotal}
+          </Text>
+          <Text
+            style={[styles.statLabel, { color: theme.colors.textSecondary }]}
+          >
+            Lịch hôm nay
+          </Text>
         </View>
         <View style={styles.statBox}>
-          <Text style={styles.statNum}>1</Text>
-          <Text style={styles.statLabel}>Chờ xác nhận</Text>
+          <Text style={[styles.statNum, { color: "#ffa726" }]}>
+            {stats.pending}
+          </Text>
+          <Text
+            style={[styles.statLabel, { color: theme.colors.textSecondary }]}
+          >
+            Chờ xác nhận
+          </Text>
         </View>
         <View style={styles.statBox}>
-          <Text style={styles.statNum}>12</Text>
-          <Text style={styles.statLabel}>Bệnh nhân</Text>
+          <Text style={[styles.statNum, { color: "#43a047" }]}>
+            {stats.confirmed}
+          </Text>
+          <Text
+            style={[styles.statLabel, { color: theme.colors.textSecondary }]}
+          >
+            Đã xác nhận
+          </Text>
+        </View>
+        <View style={styles.statBox}>
+          <Text style={[styles.statNum, { color: "#2196f3" }]}>
+            {stats.completed}
+          </Text>
+          <Text
+            style={[styles.statLabel, { color: theme.colors.textSecondary }]}
+          >
+            Hoàn thành
+          </Text>
         </View>
       </View>
 
-      {/* Nút truy cập yêu cầu tư vấn */}
+      {/* Consultation Access Button */}
       <TouchableOpacity
         style={{
-          backgroundColor: "#008001",
+          backgroundColor: theme.colors.primary,
           paddingVertical: 15,
           paddingHorizontal: 20,
-          borderRadius: 10,
+          borderRadius: 12,
           marginVertical: 20,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          shadowColor: "#000",
+          shadowColor: theme.colors.shadowColor,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.1,
           shadowRadius: 4,
@@ -171,268 +537,526 @@ export default function DoctorHome({ navigation }) {
         </Text>
       </TouchableOpacity>
 
-      {/* Section: Lựa chọn phác đồ ARV */}
-      <View style={styles.regimenSection}>
-        <Text style={styles.sectionTitle}>Phác đồ ARV mẫu</Text>
-        {arvRegimens.map((regimen) => (
-          <TouchableOpacity
-            key={regimen.id}
-            style={styles.regimenCard}
-            onPress={() => {
-              setSelectedRegimen(regimen);
-              setCustomNote(""); // reset note mỗi lần chọn mới
-            }}
-            activeOpacity={0.85}
+      {/* Quick Actions */}
+      <View style={{ marginBottom: 20 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 15,
+          }}
+        >
+          <Ionicons
+            name="bar-chart-outline"
+            size={20}
+            color={theme.colors.primary}
+          />
+          <Text
+            style={[
+              styles.sectionTitle,
+              { color: theme.colors.text, marginLeft: 8, marginBottom: 0 },
+            ]}
           >
-            <Text style={styles.regimenName}>{regimen.name}</Text>
-            <Text style={styles.regimenFor}>Đối tượng: {regimen.for}</Text>
-            <Text numberOfLines={1} style={styles.regimenNotes}>
-              {regimen.notes}
-            </Text>
-            <Text style={styles.detailLink}>Tùy chỉnh/Cá nhân hoá</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+            Thống kê nhanh
+          </Text>
+        </View>
 
-      {/* Lịch hẹn hôm nay */}
-      <Text style={styles.sectionTitle}>Lịch khám hôm nay</Text>
-      <FlatList
-        data={todayAppointments}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.appointmentCard}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons
-                name="person"
-                size={22}
-                color="#008001"
-                style={{ marginRight: 8 }}
-              />
-              <Text style={styles.patientName}>{item.patient}</Text>
-              <View
-                style={[
-                  styles.statusBadge,
-                  { backgroundColor: statusColors[item.status] || "#999" },
-                ]}
-              >
-                <Text
-                  style={{ color: "#fff", fontWeight: "bold", fontSize: 11 }}
-                >
-                  {item.status}
-                </Text>
-              </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
+        >
+          <View
+            style={[
+              styles.quickActionBtn,
+              { backgroundColor: theme.colors.surface },
+            ]}
+          >
+            <View
+              style={[
+                styles.quickActionIcon,
+                { backgroundColor: "#4CAF50" + "20" },
+              ]}
+            >
+              <Ionicons name="medical" size={24} color="#4CAF50" />
             </View>
-            <Text style={styles.timeRow}>
-              <Ionicons name="time" size={15} color="#008001" /> {item.time} |{" "}
-              {item.type}
+            <Text style={[styles.quickActionNumber, { color: "#4CAF50" }]}>
+              45
             </Text>
-            <Text style={styles.noteRow}>
-              <MaterialCommunityIcons
-                name="note-text-outline"
-                size={15}
-                color="#008001"
-              />{" "}
-              {item.note}
+            <Text
+              style={[styles.quickActionText, { color: theme.colors.text }]}
+            >
+              Đơn thuốc tháng này
             </Text>
-            <TouchableOpacity style={styles.detailBtn}>
-              <Text style={{ color: "#008001", fontWeight: "bold" }}>
-                Xem chi tiết
-              </Text>
-            </TouchableOpacity>
           </View>
-        )}
-        scrollEnabled={false}
-        contentContainerStyle={{ paddingBottom: 18 }}
-      />
 
-      <Modal
-        visible={!!selectedRegimen}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setSelectedRegimen(null)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity
-              onPress={() => setSelectedRegimen(null)}
-              style={styles.closeBtn}
+          <View
+            style={[
+              styles.quickActionBtn,
+              { backgroundColor: theme.colors.surface },
+            ]}
+          >
+            <View
+              style={[
+                styles.quickActionIcon,
+                { backgroundColor: "#2196F3" + "20" },
+              ]}
             >
-              <Ionicons name="close" size={28} color="#008001" />
-            </TouchableOpacity>
-            <Text style={styles.modalTitle}>{selectedRegimen?.name}</Text>
-            <Text style={styles.modalSubtitle}>{selectedRegimen?.for}</Text>
-            <Text style={styles.modalNotes}>{selectedRegimen?.notes}</Text>
-            <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
-              Thành phần:
+              <Ionicons name="people" size={24} color="#2196F3" />
+            </View>
+            <Text style={[styles.quickActionNumber, { color: "#2196F3" }]}>
+              127
             </Text>
-            {selectedRegimen?.drugs.map((drug, idx) => (
-              <View key={idx} style={styles.drugRow}>
-                <Text style={{ flex: 1 }}>{drug.name}</Text>
-                <Text style={{ color: "#008001", fontWeight: "bold" }}>
-                  {drug.dose}
-                </Text>
-              </View>
-            ))}
-            <Text style={[styles.sectionTitle, { marginTop: 12 }]}>
-              Ghi chú riêng cho bệnh nhân:
-            </Text>
-            <TextInput
-              style={styles.noteInput}
-              placeholder="Thêm ghi chú đặc biệt..."
-              value={customNote}
-              onChangeText={setCustomNote}
-              multiline
-            />
-            <TouchableOpacity
-              style={styles.saveBtn}
-              onPress={() => {
-                // TODO: Gọi API lưu, hoặc chỉ đóng modal (demo)
-                setSelectedRegimen(null);
-              }}
+            <Text
+              style={[styles.quickActionText, { color: theme.colors.text }]}
             >
-              <Text style={{ color: "#fff", fontWeight: "bold" }}>
-                Áp dụng cho bệnh nhân
-              </Text>
-            </TouchableOpacity>
+              Bệnh nhân đang theo dõi
+            </Text>
+          </View>
+
+          <View
+            style={[
+              styles.quickActionBtn,
+              { backgroundColor: theme.colors.surface },
+            ]}
+          >
+            <View
+              style={[
+                styles.quickActionIcon,
+                { backgroundColor: "#FF9800" + "20" },
+              ]}
+            >
+              <Ionicons name="document-text" size={24} color="#FF9800" />
+            </View>
+            <Text style={[styles.quickActionNumber, { color: "#FF9800" }]}>
+              23
+            </Text>
+            <Text
+              style={[styles.quickActionText, { color: theme.colors.text }]}
+            >
+              Hồ sơ cập nhật tuần này
+            </Text>
+          </View>
+
+          <View
+            style={[
+              styles.quickActionBtn,
+              { backgroundColor: theme.colors.surface },
+            ]}
+          >
+            <View
+              style={[
+                styles.quickActionIcon,
+                { backgroundColor: "#9C27B0" + "20" },
+              ]}
+            >
+              <Ionicons name="trending-up" size={24} color="#9C27B0" />
+            </View>
+            <Text style={[styles.quickActionNumber, { color: "#9C27B0" }]}>
+              96%
+            </Text>
+            <Text
+              style={[styles.quickActionText, { color: theme.colors.text }]}
+            >
+              Tỷ lệ tuân thủ điều trị
+            </Text>
           </View>
         </View>
-      </Modal>
+      </View>
+
+      {/* Recent Activities */}
+      <View style={{ marginBottom: 20 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 15,
+          }}
+        >
+          <Ionicons name="time" size={20} color={theme.colors.primary} />
+          <Text
+            style={[
+              styles.sectionTitle,
+              { color: theme.colors.text, marginLeft: 8, marginBottom: 0 },
+            ]}
+          >
+            Hoạt động gần đây
+          </Text>
+        </View>
+
+        <View
+          style={[
+            styles.activityContainer,
+            { backgroundColor: theme.colors.surface },
+          ]}
+        >
+          <View
+            style={[
+              styles.activityItem,
+              { borderBottomColor: theme.colors.border },
+            ]}
+          >
+            <View
+              style={[
+                styles.activityIcon,
+                { backgroundColor: "#4CAF50" + "20" },
+              ]}
+            >
+              <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
+            </View>
+            <View style={{ flex: 1, marginLeft: 12 }}>
+              <Text style={[styles.activityText, { color: theme.colors.text }]}>
+                Hoàn thành khám cho BN Nguyễn Văn An
+              </Text>
+              <Text
+                style={[
+                  styles.activityTime,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                2 giờ trước
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={[
+              styles.activityItem,
+              { borderBottomColor: theme.colors.border },
+            ]}
+          >
+            <View
+              style={[
+                styles.activityIcon,
+                { backgroundColor: "#2196F3" + "20" },
+              ]}
+            >
+              <Ionicons name="document-text" size={16} color="#2196F3" />
+            </View>
+            <View style={{ flex: 1, marginLeft: 12 }}>
+              <Text style={[styles.activityText, { color: theme.colors.text }]}>
+                Cập nhật đơn thuốc ARV cho BN Trần Thị Mai
+              </Text>
+              <Text
+                style={[
+                  styles.activityTime,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                1 ngày trước
+              </Text>
+            </View>
+          </View>
+
+          <View style={[styles.activityItem, { borderBottomWidth: 0 }]}>
+            <View
+              style={[
+                styles.activityIcon,
+                { backgroundColor: "#FF9800" + "20" },
+              ]}
+            >
+              <Ionicons name="chatbubble" size={16} color="#FF9800" />
+            </View>
+            <View style={{ flex: 1, marginLeft: 12 }}>
+              <Text style={[styles.activityText, { color: theme.colors.text }]}>
+                Tư vấn trực tuyến cho BN Lê Văn Bình
+              </Text>
+              <Text
+                style={[
+                  styles.activityTime,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                2 ngày trước
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Patient Status Overview */}
+      <View style={{ marginBottom: 20 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 15,
+          }}
+        >
+          <Ionicons name="analytics" size={20} color={theme.colors.primary} />
+          <Text
+            style={[
+              styles.sectionTitle,
+              { color: theme.colors.text, marginLeft: 8, marginBottom: 0 },
+            ]}
+          >
+            Tổng quan bệnh nhân
+          </Text>
+        </View>
+
+        <View
+          style={[
+            styles.overviewContainer,
+            { backgroundColor: theme.colors.surface },
+          ]}
+        >
+          <View style={styles.overviewRow}>
+            <View style={styles.overviewItem}>
+              <Text style={[styles.overviewNumber, { color: "#4CAF50" }]}>
+                127
+              </Text>
+              <Text
+                style={[
+                  styles.overviewLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                Đang điều trị
+              </Text>
+            </View>
+            <View style={styles.overviewItem}>
+              <Text style={[styles.overviewNumber, { color: "#2196F3" }]}>
+                23
+              </Text>
+              <Text
+                style={[
+                  styles.overviewLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                Mới nhập viện
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.overviewRow}>
+            <View style={styles.overviewItem}>
+              <Text style={[styles.overviewNumber, { color: "#FF9800" }]}>
+                12
+              </Text>
+              <Text
+                style={[
+                  styles.overviewLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                Cần theo dõi
+              </Text>
+            </View>
+            <View style={styles.overviewItem}>
+              <Text style={[styles.overviewNumber, { color: "#9C27B0" }]}>
+                8
+              </Text>
+              <Text
+                style={[
+                  styles.overviewLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                Tái khám tuần này
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Appointment Detail Modal */}
+      <AppointmentDetailModal
+        visible={showAppointmentDetail}
+        appointment={selectedAppointment}
+        onClose={() => setShowAppointmentDetail(false)}
+        onStatusUpdate={handleStatusUpdate}
+      />
+
       {/* Có thể bổ sung nút xem toàn bộ, lọc... */}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerRow: { flexDirection: "row", alignItems: "center", marginBottom: 18 },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    padding: 16,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   avatar: {
     width: 70,
     height: 70,
-    borderRadius: 36,
-    backgroundColor: "#e0e0e0",
+    borderRadius: 35,
+    backgroundColor: "green",
   },
-  docName: { fontWeight: "bold", fontSize: 19, color: "#008001" },
-  docEmail: { fontSize: 13, color: "#777", marginTop: 2 },
-  editBtn: { padding: 8, backgroundColor: "#e5f5ee", borderRadius: 8 },
-  quickStats: { flexDirection: "row", marginBottom: 22 },
-  statBox: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#e7f7ee",
-    marginHorizontal: 6,
-    borderRadius: 10,
-    padding: 13,
-  },
-  statNum: { fontWeight: "bold", fontSize: 18, color: "#008001" },
-  statLabel: { color: "#008001", fontSize: 12 },
-  sectionTitle: {
+  docName: {
+    fontSize: 18,
     fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 9,
-    color: "#008001",
+    marginBottom: 4,
   },
-  appointmentCard: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 13,
-    marginBottom: 12,
-    elevation: 1,
-    shadowColor: "#000",
-    shadowOpacity: 0.07,
-    shadowRadius: 2,
-    shadowOffset: { width: 0, height: 1 },
-  },
-  patientName: {
-    fontWeight: "bold",
-    fontSize: 15,
-    color: "#222",
-    marginRight: 10,
-  },
-  statusBadge: {
-    marginLeft: "auto",
-    borderRadius: 8,
-    paddingVertical: 2,
-    paddingHorizontal: 9,
-  },
-  timeRow: { color: "#444", fontSize: 13, marginVertical: 1, marginLeft: 3 },
-  noteRow: {
-    color: "#555",
+  docEmail: {
     fontSize: 13,
-    fontStyle: "italic",
-    marginBottom: 3,
-    marginLeft: 3,
+    marginTop: 2,
   },
-  detailBtn: {
-    alignSelf: "flex-end",
-    marginTop: 6,
-    backgroundColor: "#e7f7ee",
-    borderRadius: 7,
-    paddingHorizontal: 13,
-    paddingVertical: 5,
+  editBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
 
-  regimenSection: { marginBottom: 22 },
-  regimenCard: {
-    backgroundColor: "#e7f7ee",
-    borderRadius: 10,
+  quickStats: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
     padding: 16,
-    marginBottom: 13,
-    elevation: 1,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  regimenName: { fontWeight: "bold", color: "#008001", fontSize: 17 },
-  regimenFor: { color: "#222", fontSize: 13, marginVertical: 3 },
-  regimenNotes: { color: "#555", fontSize: 12, marginBottom: 8 },
-  detailLink: { color: "#008001", fontSize: 13, fontWeight: "bold" },
-
-  modalOverlay: {
+  statBox: {
+    alignItems: "center",
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.28)",
+  },
+  statNum: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  statLabel: {
+    fontSize: 12,
+    marginTop: 4,
+  },
+
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+
+  quickActionBtn: {
+    width: "48%",
+    padding: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  quickActionIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  quickActionNumber: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  quickActionText: {
+    fontSize: 14,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+
+  activityContainer: {
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  activityItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+  },
+  activityIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
   },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 18,
-    padding: 22,
-    width: "92%",
-    maxHeight: "85%",
-  },
-  closeBtn: { position: "absolute", right: 12, top: 12, zIndex: 9 },
-  modalTitle: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#008001",
-    marginBottom: 6,
-    textAlign: "center",
-  },
-  modalSubtitle: {
-    color: "#444",
-    fontSize: 15,
-    textAlign: "center",
-    marginBottom: 6,
-  },
-  modalNotes: {
-    color: "#666",
-    fontSize: 13,
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  drugRow: { flexDirection: "row", marginBottom: 6 },
-  noteInput: {
-    borderWidth: 1,
-    borderColor: "#c1dfc9",
-    backgroundColor: "#f5fdf7",
-    borderRadius: 8,
-    marginTop: 7,
-    padding: 9,
-    minHeight: 38,
+  activityText: {
     fontSize: 14,
-    color: "#111",
+    fontWeight: "500",
+    marginBottom: 2,
   },
-  saveBtn: {
-    backgroundColor: "#008001",
+  activityTime: {
+    fontSize: 12,
+  },
+
+  overviewContainer: {
     borderRadius: 12,
-    marginTop: 18,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  overviewRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  overviewItem: {
     alignItems: "center",
-    paddingVertical: 12,
+    flex: 1,
+  },
+  overviewNumber: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  overviewLabel: {
+    fontSize: 13,
+    textAlign: "center",
+  },
+
+  appointmentCard: {
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  patientName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  timeRow: {
+    fontSize: 13,
+    marginTop: 4,
+  },
+  noteRow: {
+    fontSize: 13,
+    marginTop: 6,
+  },
+  statusBadge: {
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
 });
