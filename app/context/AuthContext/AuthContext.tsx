@@ -8,6 +8,7 @@ const AuthContext = createContext<
       user: any;
       setUser: React.Dispatch<React.SetStateAction<any>>;
       updateUserProfile: (updates: any) => Promise<void>;
+      logout: () => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -60,12 +61,23 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Logout function to clear user data
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem(USER_STORAGE_KEY);
+      setUser(null);
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser: setUserWithStorage,
         updateUserProfile,
+        logout,
       }}
     >
       {children}
