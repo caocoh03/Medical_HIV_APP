@@ -15,6 +15,7 @@ import { useData } from "../../../context/DataContext";
 import { useAuth } from "../../../context/AuthContext/AuthContext";
 import { useThemeMode } from "../../../context/ThemeContext";
 import PrescriptionMessage from "../../../components/Chat/PrescriptionMessage";
+import AIAssistant from "../../../components/AIChat/AIAssistant";
 
 export default function UserChatConsultation({ route, navigation }) {
   const { consultationId, doctorName, topic } = route.params;
@@ -113,6 +114,10 @@ export default function UserChatConsultation({ route, navigation }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAISuggestion = (suggestion) => {
+    setInputMessage(suggestion);
   };
 
   const renderMessage = ({ item }) => {
@@ -425,6 +430,13 @@ export default function UserChatConsultation({ route, navigation }) {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* AI Assistant */}
+      <AIAssistant
+        onSendAISuggestion={handleAISuggestion}
+        consultationId={consultationId.toString()}
+        userType="patient"
+      />
     </KeyboardAvoidingView>
   );
 }

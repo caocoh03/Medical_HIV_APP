@@ -46,6 +46,7 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import AIChatScreen from "../components/AIChat/AIChatScreen";
 import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
 import DoctorListScreen from "../screens/Manager/DoctorListScreen";
 import DoctorDetailScreen from "../screens/Manager/DoctorDetailScreen";
@@ -111,6 +112,9 @@ export type RootStackParamList = {
   PrescriptionPayment: { prescriptionId: number };
   PaymentSuccess: { prescription: any; paymentMethod: string };
   PrescriptionDetail: { prescriptionId: number };
+  
+  // AI Chat screens
+  AIChat: { consultationId?: string; patientInfo?: any };
 
   // Staff screens
   StaffDashboard: undefined;
@@ -318,6 +322,11 @@ export default function Navigation() {
             component={PrescriptionDetailScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="AIChat"
+            component={AIChatScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       ) : user.role === "staff" ? (
         <Stack.Navigator
@@ -499,6 +508,11 @@ export default function Navigation() {
           <Stack.Screen
             name="PrescriptionDetail"
             component={PrescriptionDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AIChat"
+            component={AIChatScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
