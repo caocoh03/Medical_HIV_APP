@@ -1,0 +1,67 @@
+{
+  "1": {
+    "id": "1",
+    "userId": "user123",
+    "userName": "Nguyễn Văn A",
+    "doctorId": "doc456",
+    "doctorName": "Trần Thị B",
+    "date": "15/07/2023",
+    "medication": "Lamivudine/Tenofovir/Dolutegravir (TLD)",
+    "instructions": "Uống 1 viên mỗi ngày vào buổi tối sau bữa ăn. Tránh uống cùng thuốc có chứa magie, nhôm hoặc canxi.",
+    "status": "ongoing",
+    "dosage": "1 viên/ngày",
+    "duration": "3 tháng"
+  },
+  "2": {
+    "id": "2",
+    "userId": "user124",
+    "userName": "Lê Thị C",
+    "doctorId": "doc457",
+    "doctorName": "Phạm Văn D",
+    "date": "18/07/2023",
+    "medication": "Tenofovir/Emtricitabine/Efavirenz (TEE)",
+    "instructions": "Uống 1 viên mỗi ngày trước khi đi ngủ. Không uống cùng thức ăn nhiều chất béo.",
+    "status": "completed",
+    "dosage": "1 viên/ngày",
+    "duration": "6 tháng"
+  },
+  "3": {
+    "id": "3",
+    "userId": "user125",
+    "userName": "Trần Văn E",
+    "doctorId": "doc458",
+    "doctorName": "Nguyễn Thị F",
+    "date": "20/07/2023",
+    "medication": "Zidovudine/Lamivudine (ZL) + Lopinavir/Ritonavir",
+    "instructions": "Uống ZL 1 viên, ngày 2 lần (sáng và tối). Uống Lopinavir/Ritonavir 2 viên, ngày 2 lần cùng thức ăn.",
+    "status": "cancelled",
+    "dosage": "ZL: 2 viên/ngày, Lopinavir/Ritonavir: 4 viên/ngày",
+    "duration": "3 tháng"
+  },
+  "4": {
+    "id": "4",
+    "userId": "user126",
+    "userName": "Phạm Thị G",
+    "doctorId": "doc459",
+    "doctorName": "Hoàng Văn H",
+    "date": "22/07/2023",
+    "medication": "Dolutegravir + Tenofovir/Lamivudine",
+    "instructions": "Uống Dolutegravir 1 viên buổi sáng và Tenofovir/Lamivudine 1 viên buổi tối, sau bữa ăn.",
+    "status": "ongoing",
+    "dosage": "2 viên/ngày",
+    "duration": "6 tháng"
+  },
+  "5": {
+    "id": "5",
+    "userId": "user127",
+    "userName": "Hoàng Văn I",
+    "doctorId": "doc460",
+    "doctorName": "Lê Thị K",
+    "date": "25/07/2023",
+    "medication": "Abacavir/Lamivudine + Efavirenz",
+    "instructions": "Uống Abacavir/Lamivudine 1 viên buổi sáng và Efavirenz 1 viên buổi tối trước khi đi ngủ.",
+    "status": "ongoing",
+    "dosage": "2 viên/ngày",
+    "duration": "3 tháng"
+  }
+} 

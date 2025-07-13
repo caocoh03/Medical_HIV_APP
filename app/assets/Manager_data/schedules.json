@@ -1,0 +1,134 @@
+[
+  {
+    "id": "1",
+    "doctorId": "1",
+    "doctorName": "BS. Nguyễn Thanh Tùng",
+    "weekDay": "monday",
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "isActive": true,
+    "maxPatients": 8,
+    "notes": "Khám HIV/AIDS buổi sáng"
+  },
+  {
+    "id": "2",
+    "doctorId": "1",
+    "doctorName": "BS. Nguyễn Thanh Tùng",
+    "weekDay": "tuesday",
+    "startTime": "14:00",
+    "endTime": "18:00",
+    "isActive": true,
+    "maxPatients": 8,
+    "notes": "Khám HIV/AIDS buổi chiều"
+  },
+  {
+    "id": "3",
+    "doctorId": "1",
+    "doctorName": "BS. Nguyễn Thanh Tùng",
+    "weekDay": "thursday",
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "isActive": true,
+    "maxPatients": 8,
+    "notes": "Khám HIV/AIDS buổi sáng"
+  },
+  {
+    "id": "4",
+    "doctorId": "1",
+    "doctorName": "BS. Nguyễn Thanh Tùng",
+    "weekDay": "friday",
+    "startTime": "14:00",
+    "endTime": "18:00",
+    "isActive": true,
+    "maxPatients": 8,
+    "notes": "Khám HIV/AIDS buổi chiều"
+  },
+  {
+    "id": "5",
+    "doctorId": "2",
+    "doctorName": "BS. Lê Quang Liêm",
+    "weekDay": "monday",
+    "startTime": "14:00",
+    "endTime": "18:00",
+    "isActive": true,
+    "maxPatients": 6,
+    "notes": "Khám nhiễm khuẩn buổi chiều"
+  },
+  {
+    "id": "6",
+    "doctorId": "2",
+    "doctorName": "BS. Lê Quang Liêm",
+    "weekDay": "tuesday",
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "isActive": true,
+    "maxPatients": 6,
+    "notes": "Khám nhiễm khuẩn buổi sáng"
+  },
+  {
+    "id": "7",
+    "doctorId": "2",
+    "doctorName": "BS. Lê Quang Liêm",
+    "weekDay": "wednesday",
+    "startTime": "14:00",
+    "endTime": "18:00",
+    "isActive": true,
+    "maxPatients": 6,
+    "notes": "Khám nhiễm khuẩn buổi chiều"
+  },
+  {
+    "id": "8",
+    "doctorId": "2",
+    "doctorName": "BS. Lê Quang Liêm",
+    "weekDay": "saturday",
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "isActive": true,
+    "maxPatients": 6,
+    "notes": "Khám nhiễm khuẩn buổi sáng"
+  },
+  {
+    "id": "9",
+    "doctorId": "4",
+    "doctorName": "BS. Trần Thị Hương",
+    "weekDay": "monday",
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "isActive": true,
+    "maxPatients": 10,
+    "notes": "Khám HIV/AIDS cho phụ nữ"
+  },
+  {
+    "id": "10",
+    "doctorId": "4",
+    "doctorName": "BS. Trần Thị Hương",
+    "weekDay": "wednesday",
+    "startTime": "14:00",
+    "endTime": "18:00",
+    "isActive": true,
+    "maxPatients": 10,
+    "notes": "Khám HIV/AIDS cho phụ nữ"
+  },
+  {
+    "id": "11",
+    "doctorId": "4",
+    "doctorName": "BS. Trần Thị Hương",
+    "weekDay": "friday",
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "isActive": true,
+    "maxPatients": 10,
+    "notes": "Khám HIV/AIDS cho phụ nữ"
+  },
+  {
+    "id": "12",
+    "doctorId": "4",
+    "doctorName": "BS. Trần Thị Hương",
+    "weekDay": "saturday",
+    "startTime": "14:00",
+    "endTime": "18:00",
+    "isActive": true,
+    "maxPatients": 10,
+    "notes": "Khám HIV/AIDS cho phụ nữ"
+  }
+] 

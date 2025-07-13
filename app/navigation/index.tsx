@@ -47,6 +47,29 @@ import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
 import AIChatScreen from "../components/AIChat/AIChatScreen";
+import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
+import DoctorListScreen from "../screens/Manager/DoctorListScreen";
+import DoctorDetailScreen from "../screens/Manager/DoctorDetailScreen";
+import CertificatesScreen from "../screens/Manager/CertificatesScreen";
+import DoctorCertDetailScreen from "../screens/Manager/DoctorCertDetailScreen";
+import ScheduleScreen from "../screens/Manager/ScheduleScreen";
+import DoctorScheduleDetailScreen from "../screens/Manager/DoctorScheduleDetailScreen";
+import DutyHoursScreen from "../screens/Manager/DutyHoursScreen";
+import DutyHoursDetailScreen from "../screens/Manager/DutyHoursDetailScreen";
+import ApprovalRequestsScreen from "../screens/Manager/ApprovalRequestsScreen";
+import DoctorGuideScreen from "../screens/Manager/DoctorGuideScreen";
+import ScheduleGuideScreen from "../screens/Manager/ScheduleGuideScreen";
+import LeavePolicyGuideScreen from "../screens/Manager/LeavePolicyGuideScreen";
+
+// Import Staff screens
+import StaffDashboard from "../screens/Staff";
+import UserManagement from "../screens/Staff/UserManagement";
+import UserDetails from "../screens/Staff/UserDetails";
+import ConsultationHistory from "../screens/Staff/ConsultationHistory";
+import ConsultationDetail from "../screens/Staff/ConsultationDetail";
+import TreatmentHistory from "../screens/Staff/TreatmentHistory";
+import TreatmentDetail from "../screens/Staff/TreatmentDetail";
+import StaffNotifications from "../screens/Staff/StaffNotifications";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -92,6 +115,16 @@ export type RootStackParamList = {
   
   // AI Chat screens
   AIChat: { consultationId?: string; patientInfo?: any };
+
+  // Staff screens
+  StaffDashboard: undefined;
+  UserManagement: undefined;
+  UserDetails: { userId: string };
+  ConsultationHistory: undefined;
+  ConsultationDetail: { consultationId: string };
+  TreatmentHistory: undefined;
+  TreatmentDetail: { treatmentId: string };
+  StaffNotifications: undefined;
 };
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -295,12 +328,73 @@ export default function Navigation() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
+      ) : user.role === "staff" ? (
+        <Stack.Navigator
+          id={undefined}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen
+            name="StaffDashboard"
+            component={StaffDashboard}
+            options={{
+              headerShown: false,
+              title: `Nhân viên ${user?.name || ""}`,
+            }}
+          />
+          <Stack.Screen
+            name="UserManagement"
+            component={UserManagement}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UserDetails"
+            component={UserDetails}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ConsultationHistory"
+            component={ConsultationHistory}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ConsultationDetail"
+            component={ConsultationDetail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="TreatmentHistory"
+            component={TreatmentHistory}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="TreatmentDetail"
+            component={TreatmentDetail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="StaffNotifications"
+            component={StaffNotifications}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={{
+              headerShown: true,
+              title: "Cài đặt",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator
           id={undefined}
           screenOptions={{
             headerShown: false,
-
             gestureEnabled: true,
             animation: "slide_from_right",
           }}

@@ -78,6 +78,8 @@ export default function Register() {
             avatar:
               role === "doctor"
                 ? "https://i.imgur.com/doctor-avatar.png"
+                : role === "manager"
+                ? "https://i.imgur.com/manager-avatar.png"
                 : "https://i.imgur.com/1XW7QYk.png",
           }),
         }
@@ -253,6 +255,42 @@ export default function Register() {
                   ]}
                 >
                   Bác sĩ
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.roleButton,
+                  {
+                    backgroundColor:
+                      role === "manager"
+                        ? theme.colors.primary
+                        : theme.colors.surface,
+                    borderColor:
+                      role === "manager"
+                        ? theme.colors.primary
+                        : theme.colors.border,
+                  },
+                ]}
+                onPress={() => setRole("manager")}
+              >
+                <Ionicons
+                  name="briefcase"
+                  size={20}
+                  color={
+                    role === "manager" ? "#fff" : theme.colors.textSecondary
+                  }
+                  style={{ marginBottom: 4 }}
+                />
+                <Text
+                  style={[
+                    styles.roleButtonText,
+                    {
+                      color:
+                        role === "manager" ? "#fff" : theme.colors.textSecondary,
+                    },
+                  ]}
+                >
+                  Quản lý
                 </Text>
               </TouchableOpacity>
             </View>
