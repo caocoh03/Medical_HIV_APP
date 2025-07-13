@@ -46,6 +46,7 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import AIChatScreen from "../components/AIChat/AIChatScreen";
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -88,6 +89,9 @@ export type RootStackParamList = {
   PrescriptionPayment: { prescriptionId: number };
   PaymentSuccess: { prescription: any; paymentMethod: string };
   PrescriptionDetail: { prescriptionId: number };
+  
+  // AI Chat screens
+  AIChat: { consultationId?: string; patientInfo?: any };
 };
 
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -285,6 +289,11 @@ export default function Navigation() {
             component={PrescriptionDetailScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="AIChat"
+            component={AIChatScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator
@@ -405,6 +414,11 @@ export default function Navigation() {
           <Stack.Screen
             name="PrescriptionDetail"
             component={PrescriptionDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AIChat"
+            component={AIChatScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
