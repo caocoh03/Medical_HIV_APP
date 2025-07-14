@@ -171,6 +171,15 @@ export default function Login() {
           >
             👤 Demo Bệnh nhân: user/123
           </Text>
+          <Text
+            style={{
+              color: theme.colors.textSecondary,
+              fontSize: 13,
+              textAlign: "center",
+            }}
+          >
+            👨‍💼 Demo Quản lý: admin/123
+          </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("Register" as never)}
           >

@@ -390,6 +390,93 @@ export default function Navigation() {
             }}
           />
         </Stack.Navigator>
+      ) : user.role === "manager" ? (
+        <Stack.Navigator
+          id={undefined}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen
+            name="ManagerHomeScreen"
+            component={ManagerHomeScreen}
+            options={{
+              headerShown: false,
+              title: `Quản lý ${user?.name || ""}`,
+            }}
+          />
+          <Stack.Screen
+            name="DoctorListScreen"
+            component={DoctorListScreen}
+            options={{ headerShown: true, title: "Danh sách bác sĩ" }}
+          />
+          <Stack.Screen
+            name="DoctorDetailScreen"
+            component={DoctorDetailScreen}
+            options={{ headerShown: true, title: "Chi tiết bác sĩ" }}
+          />
+          <Stack.Screen
+            name="CertificatesScreen"
+            component={CertificatesScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DoctorCertDetailScreen"
+            component={DoctorCertDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ScheduleScreen"
+            component={ScheduleScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DoctorScheduleDetailScreen"
+            component={DoctorScheduleDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DutyHoursScreen"
+            component={DutyHoursScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DutyHoursDetailScreen"
+            component={DutyHoursDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ApprovalRequestsScreen"
+            component={ApprovalRequestsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DoctorGuideScreen"
+            component={DoctorGuideScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ScheduleGuideScreen"
+            component={ScheduleGuideScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="LeavePolicyGuideScreen"
+            component={LeavePolicyGuideScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={{
+              headerShown: true,
+              title: "Cài đặt",
+              headerStyle: { backgroundColor: theme.colors.surface },
+              headerTintColor: theme.colors.primary,
+              headerTitleStyle: { fontWeight: "bold", fontSize: 22 },
+            }}
+          />
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator
           id={undefined}
