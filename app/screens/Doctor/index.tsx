@@ -253,7 +253,6 @@ export default function DoctorHome({ navigation }) {
         }}
         onPress={() => {
           setUser(null);
-          navigation.replace("/");
         }}
       >
         <Ionicons
