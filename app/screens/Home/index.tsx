@@ -145,6 +145,14 @@ export default function Home() {
             onPress={() => navigation.navigate("PrescriptionList")}
             theme={theme}
           />
+          <HomeQuickButton
+            icon="chatbubble-ellipses"
+            color="#E17055"
+            label="Trợ lý AI"
+            desc="Tư vấn HIV/AIDS với AI"
+            onPress={() => navigation.navigate("AIChat")}
+            theme={theme}
+          />
         </View>
         {/* Lịch nhắc tái khám */}
         <View

@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useThemeMode } from "../../context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { doctorSample } from "../../constants/doctorSample";
 
 export default function Login() {
   const { setUser } = useAuth();
@@ -150,6 +152,34 @@ export default function Login() {
               Đăng nhập
             </Text>
           </TouchableOpacity>
+          <Text
+            style={{
+              color: theme.colors.textSecondary,
+              marginTop: 8,
+              fontSize: 13,
+              textAlign: "center",
+            }}
+          >
+            🧑‍⚕️ Demo Bác sĩ: doctor/456
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.textSecondary,
+              fontSize: 13,
+              textAlign: "center",
+            }}
+          >
+            👤 Demo Bệnh nhân: user/123
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.textSecondary,
+              fontSize: 13,
+              textAlign: "center",
+            }}
+          >
+            👨‍💼 Demo Quản lý: admin/123
+          </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("Register" as never)}
           >

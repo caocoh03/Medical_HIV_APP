@@ -1,0 +1,152 @@
+[
+  {
+    "id": "1",
+    "name": "BS. Nguyễn Thanh Tùng",
+    "specialty": "Bác sĩ HIV/AIDS",
+    "experience": "10 năm kinh nghiệm",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/men/11.jpg",
+    "description": "Chuyên gia hàng đầu về HIV/AIDS với 10 năm kinh nghiệm điều trị",
+    "email": "nguyenthanhtung@hospital.com",
+    "phone": "0901234567",
+    "education": "Đại học Y Hà Nội",
+    "certificates": [
+      "Chứng chỉ hành nghề y tế",
+      "Chứng chỉ chuyên khoa HIV/AIDS",
+      "Chứng chỉ cấp cứu tim mạch",
+      "Chứng chỉ điều trị ARV"
+    ],
+    "schedule": [
+      { "day": "Thứ 2", "time": "08:00 - 12:00" },
+      { "day": "Thứ 3", "time": "14:00 - 18:00" },
+      { "day": "Thứ 5", "time": "08:00 - 12:00" },
+      { "day": "Thứ 6", "time": "14:00 - 18:00" }
+    ],
+    "notes": "Bác sĩ có kinh nghiệm điều trị các bệnh HIV/AIDS, đặc biệt là phác đồ ARV và quản lý tác dụng phụ."
+  },
+  {
+    "id": "2",
+    "name": "BS. Lê Quang Liêm",
+    "specialty": "Bác sĩ Nhiễm khuẩn",
+    "experience": "8 năm kinh nghiệm",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/men/12.jpg",
+    "description": "Bác sĩ nhiễm khuẩn với kinh nghiệm phong phú trong điều trị HIV",
+    "email": "lequangliem@hospital.com",
+    "phone": "0901234568",
+    "education": "Đại học Y Dược TP.HCM",
+    "certificates": [
+      "Chứng chỉ hành nghề y tế",
+      "Chứng chỉ chuyên khoa Nhiễm khuẩn",
+      "Chứng chỉ điều trị kháng sinh",
+      "Chứng chỉ cấp cứu nhiễm khuẩn"
+    ],
+    "schedule": [
+      { "day": "Thứ 2", "time": "14:00 - 18:00" },
+      { "day": "Thứ 3", "time": "08:00 - 12:00" },
+      { "day": "Thứ 4", "time": "14:00 - 18:00" },
+      { "day": "Thứ 7", "time": "08:00 - 12:00" }
+    ],
+    "notes": "Chuyên gia điều trị các bệnh nhiễm khuẩn, đặc biệt là các bệnh nhiễm trùng cơ hội ở bệnh nhân HIV."
+  },
+  {
+    "id": "3",
+    "name": "BS. Phùng Thanh Độ",
+    "specialty": "Bác sĩ Da liễu",
+    "experience": "12 năm kinh nghiệm",
+    "available": false,
+    "image": "https://randomuser.me/api/portraits/men/13.jpg",
+    "description": "Chuyên khoa da liễu, điều trị các biến chứng da do HIV",
+    "email": "phungthanhdo@hospital.com",
+    "phone": "0901234569",
+    "education": "Đại học Y Hà Nội",
+    "certificates": [
+      "Chứng chỉ hành nghề y tế",
+      "Chứng chỉ chuyên khoa Da liễu",
+      "Chứng chỉ điều trị bệnh da HIV",
+      "Chứng chỉ phẫu thuật da liễu"
+    ],
+    "schedule": [
+      { "day": "Thứ 3", "time": "08:00 - 12:00" },
+      { "day": "Thứ 5", "time": "14:00 - 18:00" },
+      { "day": "Thứ 6", "time": "08:00 - 12:00" }
+    ],
+    "notes": "Bác sĩ chuyên điều trị các bệnh da liễu, đặc biệt là các biến chứng da ở bệnh nhân HIV/AIDS."
+  },
+  {
+    "id": "4",
+    "name": "BS. Trần Thị Hương",
+    "specialty": "Bác sĩ HIV/AIDS",
+    "experience": "15 năm kinh nghiệm",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/women/11.jpg",
+    "description": "Bác sĩ kỳ cựu chuyên điều trị HIV/AIDS cho phụ nữ và trẻ em",
+    "email": "tranthihuong@hospital.com",
+    "phone": "0901234570",
+    "education": "Đại học Y Dược TP.HCM",
+    "certificates": [
+      "Chứng chỉ hành nghề y tế",
+      "Chứng chỉ chuyên khoa HIV/AIDS",
+      "Chứng chỉ điều trị HIV cho phụ nữ",
+      "Chứng chỉ điều trị HIV cho trẻ em",
+      "Chứng chỉ tư vấn sức khỏe sinh sản"
+    ],
+    "schedule": [
+      { "day": "Thứ 2", "time": "08:00 - 12:00" },
+      { "day": "Thứ 4", "time": "14:00 - 18:00" },
+      { "day": "Thứ 6", "time": "08:00 - 12:00" },
+      { "day": "Thứ 7", "time": "14:00 - 18:00" }
+    ],
+    "notes": "Chuyên gia điều trị HIV/AIDS cho phụ nữ và trẻ em, có kinh nghiệm trong tư vấn sức khỏe sinh sản."
+  },
+  {
+    "id": "5",
+    "name": "BS. Hoàng Văn Minh",
+    "specialty": "Bác sĩ Tim mạch",
+    "experience": "9 năm kinh nghiệm",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/men/14.jpg",
+    "description": "Bác sĩ tim mạch chuyên điều trị các biến chứng tim mạch ở bệnh nhân HIV",
+    "email": "hoangvanminh@hospital.com",
+    "phone": "0901234571",
+    "education": "Đại học Y Hà Nội",
+    "certificates": [
+      "Chứng chỉ hành nghề y tế",
+      "Chứng chỉ chuyên khoa Tim mạch",
+      "Chứng chỉ siêu âm tim",
+      "Chứng chỉ điện tâm đồ",
+      "Chứng chỉ điều trị tăng huyết áp"
+    ],
+    "schedule": [
+      { "day": "Thứ 2", "time": "14:00 - 18:00" },
+      { "day": "Thứ 3", "time": "08:00 - 12:00" },
+      { "day": "Thứ 5", "time": "14:00 - 18:00" }
+    ],
+    "notes": "Chuyên gia tim mạch, đặc biệt là điều trị các biến chứng tim mạch ở bệnh nhân HIV/AIDS."
+  },
+  {
+    "id": "6",
+    "name": "BS. Ngô Thị Lan",
+    "specialty": "Bác sĩ Nhi khoa",
+    "experience": "11 năm kinh nghiệm",
+    "available": true,
+    "image": "https://randomuser.me/api/portraits/women/12.jpg",
+    "description": "Bác sĩ nhi khoa chuyên điều trị HIV cho trẻ em",
+    "email": "ngothilan@hospital.com",
+    "phone": "0901234572",
+    "education": "Đại học Y Dược TP.HCM",
+    "certificates": [
+      "Chứng chỉ hành nghề y tế",
+      "Chứng chỉ chuyên khoa Nhi",
+      "Chứng chỉ điều trị HIV cho trẻ em",
+      "Chứng chỉ dinh dưỡng nhi khoa",
+      "Chứng chỉ tiêm chủng"
+    ],
+    "schedule": [
+      { "day": "Thứ 2", "time": "08:00 - 12:00" },
+      { "day": "Thứ 4", "time": "08:00 - 12:00" },
+      { "day": "Thứ 6", "time": "14:00 - 18:00" }
+    ],
+    "notes": "Chuyên gia nhi khoa, đặc biệt là điều trị HIV cho trẻ em và tư vấn dinh dưỡng."
+  }
+] 
