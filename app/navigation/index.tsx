@@ -46,6 +46,7 @@ import PrescriptionListScreen from "../screens/Features/PrescriptionList";
 import PrescriptionDetailScreen from "../screens/Features/PrescriptionDetail";
 import UserConsultationsScreen from "../screens/Features/UserConsultations";
 import UserChatConsultationScreen from "../screens/Features/UserChatConsultation";
+import DoctorProfileEdit from "../screens/Doctor/DoctorProfileEdit";
 import AIChatScreen from "../components/AIChat/AIChatScreen";
 import ManagerHomeScreen from "../screens/Manager/ManagerHomeScreen";
 import DoctorListScreen from "../screens/Manager/DoctorListScreen";
@@ -70,6 +71,7 @@ import ConsultationDetail from "../screens/Staff/ConsultationDetail";
 import TreatmentHistory from "../screens/Staff/TreatmentHistory";
 import TreatmentDetail from "../screens/Staff/TreatmentDetail";
 import StaffNotifications from "../screens/Staff/StaffNotifications";
+
 
 const Tab = createBottomTabNavigator();
 const TAB_WIDTH = (Dimensions.get("window").width - 32) / 2;
@@ -320,6 +322,11 @@ export default function Navigation() {
           <Stack.Screen
             name="PrescriptionDetail"
             component={PrescriptionDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DoctorProfileEdit"
+            component={DoctorProfileEdit}
             options={{ headerShown: false }}
           />
           <Stack.Screen
